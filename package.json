@@ -13,11 +13,18 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["email", "social", "osint", "gravatar"],
+  "keywords": [
+    "email",
+    "social",
+    "osint",
+    "gravatar"
+  ],
   "author": "",
   "license": "ISC",
   "type": "module",
-  "engines": { "node": ">=18.0.0" },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "devDependencies": {
     "@types/node": "^24.3.0",
     "eslint": "^9.33.0",
