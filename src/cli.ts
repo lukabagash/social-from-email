@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { enrichEmail } from "./index.js";
+import { enrichEmail } from "./index";
 
 const email = process.argv[2];
 if (!email) {
@@ -8,10 +8,5 @@ if (!email) {
 }
 
 enrichEmail(email)
-  .then((res) => {
-    console.log(JSON.stringify(res, null, 2));
-  })
-  .catch((err) => {
-    console.error(err.message || String(err));
-    process.exit(1);
-  });
+  .then(r => console.log(JSON.stringify(r, null, 2)))
+  .catch(e => { console.error(e.message || String(e)); process.exit(1); });
