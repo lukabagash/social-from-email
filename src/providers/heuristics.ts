@@ -1,44 +1,60 @@
 import type { Provider, SocialProfile } from "../types";
-import { candidateHandlesFromEmail, urlLooksAlive } from "../utils";
+import { candidateHandlesFromEmail } from "../utils";
+import { verifyTwitter, verifyInstagram, verifyFacebook, verifyLinkedIn } from "../networks";
 
 /**
- * Heuristic provider: guess usernames from the email local-part and probe profile URLs.
- * Confidence is low; return only if the URL looks alive.
+ * Heuristic provider: generate candidate handles, then verify using public pages/APIs.
+ * - No auth, no password-reset, no sign-up probes.
+ * - Returns only positive signals; ambiguous checks are skipped.
  */
 export const HeuristicsProvider: Provider = {
   name: "heuristics",
 
   async findByEmail(email) {
     const handles = candidateHandlesFromEmail(email);
-    const networks = [
-      { key: "twitter", make: (h: string) => `https://x.com/${h}` },
-      { key: "instagram", make: (h: string) => `https://www.instagram.com/${h}/` },
-      { key: "facebook", make: (h: string) => `https://www.facebook.com/${h}` },
-      { key: "linkedin", make: (h: string) => `https://www.linkedin.com/in/${h}/` }
-    ] as const;
-
     const found: Record<string, SocialProfile> = {};
 
-    for (const net of networks) {
-      // If we already found something (from Gravatar later), skip here.
-      if (found[net.key]) continue;
+    const networks = [
+      {
+        key: "twitter",
+        maker: (h: string) => `https://x.com/${h}`,
+        verify: verifyTwitter
+      },
+      {
+        key: "instagram",
+        maker: (h: string) => `https://www.instagram.com/${h}/`,
+        verify: verifyInstagram
+      },
+      {
+        key: "facebook",
+        maker: (h: string) => `https://www.facebook.com/${h}`,
+        verify: verifyFacebook
+      },
+      {
+        key: "linkedin",
+        maker: (h: string) => `https://www.linkedin.com/in/${h}/`,
+        verify: verifyLinkedIn
+      }
+    ] as const;
 
+    for (const net of networks) {
       for (const h of handles) {
-        const url = net.make(h);
-        const alive = await urlLooksAlive(url);
-        if (alive) {
+        const exists = await net.verify(h);
+        if (exists === true) {
           found[net.key] = {
-            network: net.key,
+            network: net.key as any,
             username: h,
-            url,
+            url: net.maker(h),
             exists: true,
-            confidence: "low",
+            confidence: net.key === "twitter" ? "medium" : "low",
             method: "inferred"
           };
-          break; // stop trying handles for this network
+          break;
         }
+        // false => keep trying other handles; null => unknown, also try next handle
       }
     }
+
     return found;
   }
 };
