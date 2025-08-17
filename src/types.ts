@@ -22,5 +22,5 @@ export interface EnrichmentResult {
 
 export interface Provider {
   name: string;
-  findByEmail(email: string): Promise<Partial<Record<Network, SocialProfile>>>;
+  findByEmail(email: string, options?: { firstName?: string; lastName?: string }): Promise<Partial<Record<Network, SocialProfile>>>;
 }
