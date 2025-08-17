@@ -10,7 +10,7 @@ import { verifyTwitter, verifyInstagram, verifyFacebook, verifyLinkedIn } from "
 export const HeuristicsProvider: Provider = {
   name: "heuristics",
 
-  async findByEmail(email) {
+  async findByEmail(email, options) {
     const handles = candidateHandlesFromEmail(email);
     const found: Record<string, SocialProfile> = {};
 
@@ -26,16 +26,26 @@ export const HeuristicsProvider: Provider = {
         verify: verifyInstagram
       },
       {
-        key: "facebook",
-        maker: (h: string) => `https://www.facebook.com/${h}`,
-        verify: verifyFacebook
-      },
-      {
         key: "linkedin",
         maker: (h: string) => `https://www.linkedin.com/in/${h}/`,
         verify: verifyLinkedIn
       }
     ] as const;
+
+    // Handle Facebook separately since it requires different parameters
+    if (options?.firstName && options?.lastName) {
+      const facebookExists = await verifyFacebook(options.firstName, options.lastName, email);
+      if (facebookExists === true) {
+        found["facebook"] = {
+          network: "facebook",
+          username: null, // Facebook doesn't return a username from this method
+          url: null, // No specific profile URL available
+          exists: true,
+          confidence: "medium", // Higher confidence since we verified with actual name
+          method: "search"
+        };
+      }
+    }
 
     for (const net of networks) {
       for (const h of handles) {
