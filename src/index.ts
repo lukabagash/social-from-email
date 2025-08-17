@@ -5,6 +5,8 @@ import { HeuristicsProvider } from "./providers/heuristics";
 export interface Options {
   providers?: Provider[];
   timeoutMs?: number;
+  firstName?: string;
+  lastName?: string;
 }
 
 export async function enrichEmail(email: string, opts: Options = {}): Promise<EnrichmentResult> {
@@ -21,7 +23,7 @@ export async function enrichEmail(email: string, opts: Options = {}): Promise<En
 
   for (const p of providers) {
     attempted.push(p.name);
-    const part = await p.findByEmail(email);
+    const part = await p.findByEmail(email, opts);
 
     for (const [k, v] of Object.entries(part)) {
       const net = k as keyof typeof profiles;
