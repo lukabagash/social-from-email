@@ -18,7 +18,7 @@ const SOCIAL_MAP = new Map<string, SocialProfile["network"]>([
 export const GravatarProvider: Provider = {
   name: "gravatar",
 
-  async findByEmail(email) {
+  async findByEmail(email, options) {
     const hash = md5Lower(email);
     const headers = { "User-Agent": toUserAgent(), "Accept": "application/json" };
 
