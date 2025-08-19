@@ -160,7 +160,7 @@ function printAnalysisResult(result: PersonAnalysisResult) {
   }
 }
 
-async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false): Promise<PersonAnalysisResult> {
+async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false, priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'): Promise<PersonAnalysisResult> {
   const googleScraper = new GoogleSearchScraper();
   const webScraper = new GeneralWebScraper();
   
@@ -174,14 +174,28 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     // Perform Google search with queryCount limit
     console.log(`🔍 Searching Google for: ${person.firstName} ${person.lastName} (${person.email})`);
     
-    // Generate comprehensive search queries using SiteDiscoveryEngine
-    const siteDiscovery = new SiteDiscoveryEngine();
-    const allQueries = SiteDiscoveryEngine.generateSearchQueries(person.firstName, person.lastName, person.email);
+    // Generate optimized search queries based on priority
+    let allQueries: string[];
+    
+    if (priority === 'social-first' && queryCount && queryCount <= 15) {
+      // Use prioritized queries for fast social media discovery
+      allQueries = SiteDiscoveryEngine.generatePrioritizedQueries(person.firstName, person.lastName, person.email, 'social-first');
+      console.log(`🎯 Using SOCIAL-FIRST optimization (${queryCount} queries)`);
+    } else if (priority === 'professional' && queryCount && queryCount <= 20) {
+      // Use professional-focused queries
+      allQueries = SiteDiscoveryEngine.generatePrioritizedQueries(person.firstName, person.lastName, person.email, 'professional');
+      console.log(`💼 Using PROFESSIONAL optimization (${queryCount} queries)`);
+    } else {
+      // Use comprehensive search (default for high query counts)
+      allQueries = SiteDiscoveryEngine.generateSearchQueries(person.firstName, person.lastName, person.email);
+      console.log(`🌐 Using COMPREHENSIVE search (all ${allQueries.length} queries)`);
+    }
     
     // Limit queries if queryCount is specified
     const queriesToExecute = queryCount ? allQueries.slice(0, queryCount) : allQueries;
     
     console.log(`🎯 Generated ${allQueries.length} total queries, executing ${queriesToExecute.length}...`);
+    console.log(`📋 Search Priority: ${priority.toUpperCase()}`);
     
     const allSearchResults: GoogleSearchResult[] = [];
     
@@ -267,16 +281,20 @@ async function main() {
   // Require all three parameters
   if (args.length < 3) {
     console.error("❌ Error: All three fields are required!");
-    console.error("\n📋 Usage: node dist/cli-enhanced-person-analysis.js <firstName> <lastName> <email> [queryCount] [--detailed]");
-    console.error("📋 Example: node dist/cli-enhanced-person-analysis.js Jed Burdick jed@votaryfilms.com 75 --detailed");
+    console.error("\n📋 Usage: node dist/cli-enhanced-person-analysis.js <firstName> <lastName> <email> [queryCount] [--detailed] [--priority=MODE]");
+    console.error("📋 Example: node dist/cli-enhanced-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first");
     console.error("\n📝 Description:");
-    console.error("   Enhanced tool with advanced clustering that searches Google for a person, scrapes all found websites,");
-    console.error("   analyzes the data using HDBSCAN clustering to identify distinct persons, and provides detailed insights.");
+    console.error("   Enhanced tool with optimized query ordering that searches Google for a person, scrapes found websites,");
+    console.error("   analyzes the data using advanced clustering to identify distinct persons, and provides detailed insights.");
     console.error("   • firstName: Person's first name (required)");
     console.error("   • lastName: Person's last name (required)");
     console.error("   • email: Person's email address (required, must be valid format)");
     console.error("   • queryCount: Number of search queries to execute (optional, default: all generated queries)");
     console.error("   • --detailed: Enhanced search with more comprehensive analysis (optional)");
+    console.error("   • --priority=MODE: Search optimization mode (optional)");
+    console.error("     - social-first: Prioritize social media platforms (LinkedIn, Twitter, etc.) - DEFAULT");
+    console.error("     - professional: Focus on professional/business platforms");
+    console.error("     - comprehensive: Use all available search patterns");
     process.exit(1);
   }
 
@@ -284,15 +302,25 @@ async function main() {
   const lastName = cleanInput(args[1]);
   const email = cleanInput(args[2]);
   
-  // Parse optional queryCount
+  // Parse optional parameters
   let queryCount: number | undefined;
   let detailed = false;
+  let priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first';
   
-  // Check for queryCount (4th argument) and --detailed flag
+  // Check for queryCount, --detailed flag, and --priority flag
   for (let i = 3; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--detailed') {
       detailed = true;
+    } else if (arg.startsWith('--priority=')) {
+      const priorityValue = arg.split('=')[1] as 'social-first' | 'professional' | 'comprehensive';
+      if (['social-first', 'professional', 'comprehensive'].includes(priorityValue)) {
+        priority = priorityValue;
+      } else {
+        console.error(`❌ Invalid priority mode: ${priorityValue}`);
+        console.error("   Valid options: social-first, professional, comprehensive");
+        process.exit(1);
+      }
     } else if (!isNaN(Number(arg)) && !queryCount) {
       queryCount = parseInt(arg, 10);
     }
@@ -321,17 +349,24 @@ async function main() {
     email
   };
 
-  console.log(`🎯 PERSON IDENTITY ANALYSIS`);
+  console.log(`🎯 OPTIMIZED PERSON IDENTITY ANALYSIS`);
   console.log(`${'='.repeat(80)}`);
   console.log(`👤 Target: ${person.firstName} ${person.lastName}`);
   console.log(`📧 Email: ${person.email}`);
   console.log(`🔍 Mode: ${detailed ? 'Detailed Analysis' : 'Standard Analysis'}`);
+  console.log(`🎲 Search Priority: ${priority.toUpperCase()}`);
+  if (queryCount) {
+    console.log(`🔢 Query Count: ${queryCount} (custom limit)`);
+  } else {
+    console.log(`🔢 Query Count: All generated queries (no limit)`);
+  }
+  console.log(`🚀 Optimization: ${priority === 'social-first' ? 'Social Media First 🔗' : priority === 'professional' ? 'Professional Focus 💼' : 'Comprehensive Search 🌐'}`);
   console.log(`⚠️  Note: LinkedIn pages will be excluded from scraping as requested`);
   console.log(`${'='.repeat(80)}\n`);
 
   try {
     const startTime = Date.now();
-    const result = await searchAndAnalyzePerson(person, queryCount, detailed);
+    const result = await searchAndAnalyzePerson(person, queryCount, detailed, priority);
     const totalTime = Date.now() - startTime;
     
     // Print comprehensive analysis
