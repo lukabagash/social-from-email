@@ -2,7 +2,7 @@ import { GoogleSearchResult } from '../google-search/scraper';
 import { ScrapedData } from '../web-scraper/general-scraper';
 import { SiteDiscoveryEngine } from '../site-discovery/site-finder';
 import { AdvancedInfoExtractor, ExtractedKeywords } from '../advanced-nlp/keyword-extractor';
-import { AdvancedKMeansClusterer, AdvancedPersonCluster } from '../advanced-clustering/kmeans-clusterer';
+import { AdvancedPersonClusterer, ClusteringResult } from '../advanced-clustering/advanced-clusterer';
 
 export interface PersonEvidence {
   name?: string;
@@ -43,7 +43,7 @@ export interface PersonAnalysisResult {
     email: string;
   };
   identifiedPersons: PersonCluster[];
-  advancedClusters?: AdvancedPersonCluster[]; // Enhanced clustering results
+  advancedClustering?: ClusteringResult; // Enhanced clustering results
   siteDiscovery: {
     discoveredSites: string[];
     searchedPlatforms: string[];
@@ -66,7 +66,7 @@ export interface PersonAnalysisResult {
     mainPersonConfidence: number;
     reasonsForMultiplePeople: string[];
     recommendedActions: string[];
-    clusteringMethod: 'basic' | 'advanced_kmeans';
+    clusteringMethod: 'basic' | 'advanced_clustering';
     advancedInsights?: {
       strongestEvidenceTypes: string[];
       crossPlatformConsistency: number; // 0-1
@@ -81,14 +81,12 @@ export class PersonAnalyzer {
   private targetLastName: string;
   private targetEmail: string;
   private advancedInfoExtractor: AdvancedInfoExtractor;
-  private advancedClusterer: AdvancedKMeansClusterer;
 
   constructor(firstName: string, lastName: string, email: string) {
     this.targetFirstName = firstName.toLowerCase();
     this.targetLastName = lastName.toLowerCase();
     this.targetEmail = email.toLowerCase();
     this.advancedInfoExtractor = new AdvancedInfoExtractor();
-    this.advancedClusterer = new AdvancedKMeansClusterer(firstName, lastName, email);
   }
 
   // Main analysis method
@@ -104,7 +102,7 @@ export class PersonAnalyzer {
     const extractedKeywords = this.extractAdvancedKeywords(searchResults, scrapedData);
     const keywordAnalysis = this.analyzeKeywords(extractedKeywords);
     
-    // Step 3: Perform both basic and advanced clustering
+    // Step 3: Perform basic clustering
     console.log('🤖 Performing clustering analysis...');
     
     // Basic clustering (original method)
@@ -112,25 +110,8 @@ export class PersonAnalyzer {
     const personClusters = this.clusterEvidenceIntoPersions(allEvidence);
     const rankedClusters = this.calculateConfidenceScores(personClusters);
     
-    // Advanced K-means clustering
-    let advancedClusters: AdvancedPersonCluster[] | undefined;
-    let clusteringMethod: 'basic' | 'advanced_kmeans' = 'basic';
-    
-    try {
-      advancedClusters = this.advancedClusterer.performAdvancedClustering(
-        searchResults,
-        scrapedData,
-        extractedKeywords
-      );
-      clusteringMethod = 'advanced_kmeans';
-      console.log('✅ Advanced K-means clustering completed successfully');
-    } catch (error) {
-      console.log('⚠️  Advanced clustering failed, using basic clustering');
-      console.log(`Error: ${error}`);
-    }
-    
-    // Step 4: Generate analysis with advanced insights
-    const analysis = this.generateAdvancedAnalysis(rankedClusters, advancedClusters, clusteringMethod);
+    // Step 4: Generate analysis
+    const analysis = this.generateAdvancedAnalysis(rankedClusters, undefined, 'basic');
     
     // Step 5: Create summary
     const summary = this.createSummary(searchResults, rankedClusters);
@@ -142,7 +123,6 @@ export class PersonAnalyzer {
         email: this.targetEmail
       },
       identifiedPersons: rankedClusters,
-      advancedClusters,
       siteDiscovery,
       keywordAnalysis,
       summary,
@@ -615,10 +595,10 @@ export class PersonAnalyzer {
 
   private generateAdvancedAnalysis(
     basicClusters: PersonCluster[], 
-    advancedClusters?: AdvancedPersonCluster[],
-    clusteringMethod: 'basic' | 'advanced_kmeans' = 'basic'
+    advancedClusters: undefined,
+    clusteringMethod: 'basic' | 'advanced_clustering' = 'basic'
   ): PersonAnalysisResult['analysis'] {
-    const clusters = advancedClusters || basicClusters;
+    const clusters = basicClusters;
     const highConfidenceClusters = clusters.filter(c => c.confidence > 70);
     const mediumConfidenceClusters = clusters.filter(c => c.confidence >= 40 && c.confidence <= 70);
     
@@ -662,31 +642,12 @@ export class PersonAnalyzer {
       recommendedActions.push('Some identities have single sources - gather more evidence');
     }
     
-    // Advanced insights for K-means clustering
-    let advancedInsights: PersonAnalysisResult['analysis']['advancedInsights'];
-    
-    if (clusteringMethod === 'advanced_kmeans' && advancedClusters) {
-      // Calculate advanced insights
-      const strongestEvidenceTypes = this.findStrongestEvidenceTypes(advancedClusters);
-      const crossPlatformConsistency = this.calculateCrossPlatformConsistency(advancedClusters);
-      const temporalConsistency = this.calculateTemporalConsistency(advancedClusters);
-      const professionalCoherence = this.calculateProfessionalCoherence(advancedClusters);
-      
-      advancedInsights = {
-        strongestEvidenceTypes,
-        crossPlatformConsistency,
-        temporalConsistency,
-        professionalCoherence
-      };
-    }
-    
     return {
       likelyIsSamePerson,
       mainPersonConfidence,
       reasonsForMultiplePeople,
       recommendedActions,
-      clusteringMethod,
-      advancedInsights
+      clusteringMethod
     };
   }
 
@@ -710,64 +671,6 @@ export class PersonAnalyzer {
       lowConfidencePersons: clusters.filter(c => c.confidence < 40).length,
       topDomains
     };
-  }
-
-  // Helper methods for advanced insights
-  private findStrongestEvidenceTypes(clusters: AdvancedPersonCluster[]): string[] {
-    const evidenceStrength: { [key: string]: number } = {
-      'email': 0,
-      'phone': 0,
-      'name': 0,
-      'social_profiles': 0,
-      'company': 0,
-      'title': 0
-    };
-    
-    clusters.forEach(cluster => {
-      if (cluster.personEvidence.email) evidenceStrength.email += cluster.confidence;
-      if (cluster.personEvidence.phone) evidenceStrength.phone += cluster.confidence;
-      if (cluster.personEvidence.name) evidenceStrength.name += cluster.confidence;
-      if (cluster.personEvidence.socialProfiles?.length) evidenceStrength.social_profiles += cluster.confidence;
-      if (cluster.personEvidence.company) evidenceStrength.company += cluster.confidence;
-      if (cluster.personEvidence.title) evidenceStrength.title += cluster.confidence;
-    });
-    
-    return Object.entries(evidenceStrength)
-      .sort(([,a], [,b]) => b - a)
-      .slice(0, 3)
-      .map(([type]) => type);
-  }
-
-  private calculateCrossPlatformConsistency(clusters: AdvancedPersonCluster[]): number {
-    if (clusters.length === 0) return 0;
-    
-    const mainCluster = clusters[0];
-    const uniqueDomains = new Set(mainCluster.sources.map(s => s.domain)).size;
-    const totalSources = mainCluster.sources.length;
-    
-    // Higher diversity of sources indicates better cross-platform consistency
-    return Math.min(uniqueDomains / Math.max(totalSources, 1), 1.0);
-  }
-
-  private calculateTemporalConsistency(clusters: AdvancedPersonCluster[]): number {
-    // Simplified temporal consistency calculation
-    // In a real implementation, you'd analyze timestamps and content freshness
-    return clusters.length > 0 ? clusters[0].advancedEvidence.temporalRelevance : 0;
-  }
-
-  private calculateProfessionalCoherence(clusters: AdvancedPersonCluster[]): number {
-    if (clusters.length === 0) return 0;
-    
-    const mainCluster = clusters[0];
-    let coherenceScore = 0;
-    
-    // Check if professional information is consistent
-    if (mainCluster.personEvidence.title) coherenceScore += 0.3;
-    if (mainCluster.personEvidence.company) coherenceScore += 0.3;
-    if (mainCluster.personEvidence.skills && mainCluster.personEvidence.skills.length > 0) coherenceScore += 0.2;
-    if (mainCluster.advancedEvidence.keywords.industries.length > 0) coherenceScore += 0.2;
-    
-    return Math.min(coherenceScore, 1.0);
   }
 
   // Helper methods for text analysis
