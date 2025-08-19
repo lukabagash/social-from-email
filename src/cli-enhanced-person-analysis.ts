@@ -136,7 +136,42 @@ function printAnalysisResult(result: PersonAnalysisResult) {
       console.log(`   ${idx + 1}. ${action}`);
     });
   }
-  
+
+  // Enhanced Biographical Insights (if available)
+  if (result.summary && result.summary.biographicalInsights) {
+    console.log(`\n🧬 BIOGRAPHICAL INSIGHTS`);
+    console.log(`${'─'.repeat(80)}`);
+    const bio = result.summary.biographicalInsights;
+    
+    if (bio.careerStage && bio.careerStage !== 'unknown') {
+      console.log(`🎯 Career Stage: ${bio.careerStage}`);
+    }
+    if (bio.professionalSeniority && bio.professionalSeniority !== 'unknown') {
+      console.log(`📊 Professional Level: ${bio.professionalSeniority}`);
+    }
+    if (bio.industryExpertise && bio.industryExpertise.length > 0) {
+      console.log(`🏭 Industry Expertise: ${bio.industryExpertise.join(', ')}`);
+    }
+    if (bio.thoughtLeadership && bio.thoughtLeadership !== 'none') {
+      console.log(`💭 Thought Leadership: ${bio.thoughtLeadership}`);
+    }
+    if (bio.keySkills && bio.keySkills.length > 0) {
+      console.log(`🛠️  Key Skills: ${bio.keySkills.join(', ')}`);
+    }
+    if (bio.educationLevel && bio.educationLevel !== 'unknown') {
+      console.log(`🎓 Education Level: ${bio.educationLevel}`);
+    }
+    if (bio.digitalSavviness && bio.digitalSavviness !== 'unknown') {
+      console.log(`💻 Digital Savviness: ${bio.digitalSavviness}`);
+    }
+    if (bio.socialPresence && bio.socialPresence > 0) {
+      console.log(`🌐 Social Profiles Found: ${bio.socialPresence}`);
+    }
+    if (bio.biographicalConfidence) {
+      console.log(`📈 Biographical Confidence: ${(bio.biographicalConfidence * 100).toFixed(1)}%`);
+    }
+  }
+
   // Advanced Clustering Insights (if available)
   if (result.advancedClustering) {
     console.log(`\n${'='.repeat(80)}`);
