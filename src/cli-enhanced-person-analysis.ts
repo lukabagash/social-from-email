@@ -3,6 +3,7 @@ import { GoogleSearchScraper, type GoogleSearchResult } from "./google-search/sc
 import { GeneralWebScraper, type ScrapedData } from "./web-scraper/general-scraper";
 import { PersonAnalyzer, type PersonAnalysisResult, type PersonCluster } from "./person-analysis/enhanced-analyzer";
 import { SiteDiscoveryEngine } from "./site-discovery/site-finder";
+import { AdvancedPersonClusterer, type ClusteringResult } from "./advanced-clustering/advanced-clusterer";
 
 interface PersonSearchInput {
   firstName: string;
@@ -90,7 +91,7 @@ function printPersonCluster(cluster: PersonCluster, index: number) {
 
 function printAnalysisResult(result: PersonAnalysisResult) {
   console.log(`\n${'='.repeat(80)}`);
-  console.log(`🔍 ENHANCED PERSON ANALYSIS RESULTS`);
+  console.log(`🔍 PERSON ANALYSIS RESULTS`);
   console.log(`${'='.repeat(80)}`);
   
   console.log(`📊 Summary:`);
@@ -99,27 +100,6 @@ function printAnalysisResult(result: PersonAnalysisResult) {
   console.log(`   🟢 High Confidence (>70%): ${result.summary.highConfidencePersons}`);
   console.log(`   🟡 Medium Confidence (40-70%): ${result.summary.mediumConfidencePersons}`);
   console.log(`   🔴 Low Confidence (<40%): ${result.summary.lowConfidencePersons}`);
-  console.log(`   🤖 Clustering Method: ${result.analysis.clusteringMethod.toUpperCase()}`);
-  
-  // Site Discovery Results
-  console.log(`\n🌐 Site Discovery:`);
-  console.log(`   Platforms Searched: ${result.siteDiscovery.searchedPlatforms.slice(0, 10).join(', ')}${result.siteDiscovery.searchedPlatforms.length > 10 ? '...' : ''}`);
-  console.log(`   Unique Sites Found: ${result.siteDiscovery.discoveredSites.length}`);
-  
-  if (result.siteDiscovery.linkedinSnippet) {
-    console.log(`   📋 LinkedIn Preview: "${result.siteDiscovery.linkedinSnippet.substring(0, 120)}..."`);
-  }
-  
-  // Keyword Analysis
-  if (result.keywordAnalysis.topKeywords.length > 0) {
-    console.log(`\n🔤 Top Keywords Identified:`);
-    console.log(`   ${result.keywordAnalysis.topKeywords.slice(0, 10).join(', ')}`);
-  }
-  
-  if (result.keywordAnalysis.identifiedTopics.length > 0) {
-    console.log(`\n📋 Key Topics:`);
-    console.log(`   ${result.keywordAnalysis.identifiedTopics.slice(0, 8).join(', ')}`);
-  }
   
   if (result.summary.topDomains.length > 0) {
     console.log(`\n🌐 Top Source Domains:`);
@@ -132,19 +112,6 @@ function printAnalysisResult(result: PersonAnalysisResult) {
   result.identifiedPersons.forEach((person, index) => {
     printPersonCluster(person, index);
   });
-  
-  // Advanced Insights (if available)
-  if (result.analysis.clusteringMethod === 'advanced_kmeans' && result.analysis.advancedInsights) {
-    console.log(`\n${'='.repeat(80)}`);
-    console.log(`🤖 ADVANCED K-MEANS INSIGHTS`);
-    console.log(`${'='.repeat(80)}`);
-    
-    const insights = result.analysis.advancedInsights;
-    console.log(`🎯 Strongest Evidence Types: ${insights.strongestEvidenceTypes.join(', ')}`);
-    console.log(`🌐 Cross-Platform Consistency: ${Math.round(insights.crossPlatformConsistency * 100)}%`);
-    console.log(`⏰ Temporal Consistency: ${Math.round(insights.temporalConsistency * 100)}%`);
-    console.log(`💼 Professional Coherence: ${Math.round(insights.professionalCoherence * 100)}%`);
-  }
   
   // Analysis insights
   console.log(`\n${'='.repeat(80)}`);
@@ -169,9 +136,31 @@ function printAnalysisResult(result: PersonAnalysisResult) {
       console.log(`   ${idx + 1}. ${action}`);
     });
   }
+  
+  // Advanced Clustering Insights (if available)
+  if (result.advancedClustering) {
+    console.log(`\n${'='.repeat(80)}`);
+    console.log(`🤖 ADVANCED CLUSTERING INSIGHTS`);
+    console.log(`${'='.repeat(80)}`);
+    
+    const clustering = result.advancedClustering;
+    console.log(`📊 Clusters Found: ${clustering.clusterCount}`);
+    console.log(`🔬 Algorithm Used: ${clustering.algorithm}`);
+    console.log(`🎯 Average Confidence: ${Math.round(clustering.confidenceScores.reduce((a, b) => a + b, 0) / clustering.confidenceScores.length * 100)}%`);
+    
+    if (clustering.silhouetteScore !== undefined) {
+      console.log(`� Silhouette Score: ${clustering.silhouetteScore.toFixed(3)}`);
+    }
+    
+    if (clustering.outliers.length > 0) {
+      console.log(`⚠️ Outliers Detected: ${clustering.outliers.length} data points`);
+    }
+    
+    console.log(`📋 Cluster Labels: [${clustering.clusterLabels.slice(0, 10).join(', ')}${clustering.clusterLabels.length > 10 ? '...' : ''}]`);
+  }
 }
 
-async function searchAndAnalyzePerson(person: PersonSearchInput, detailed: boolean = false): Promise<PersonAnalysisResult> {
+async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false): Promise<PersonAnalysisResult> {
   const googleScraper = new GoogleSearchScraper();
   const webScraper = new GeneralWebScraper();
   
@@ -180,49 +169,57 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, detailed: boole
     await googleScraper.setup();
     await webScraper.setup();
     
-    console.log("🚀 Advanced scrapers initialized...\n");
+    console.log("🚀 Scrapers initialized...\n");
     
-    // Enhanced Google search with site discovery
-    console.log(`🔍 Performing enhanced search for: ${person.firstName} ${person.lastName} (${person.email})`);
-    console.log('🌐 Discovering relevant sites and generating comprehensive search queries...');
+    // Perform Google search with queryCount limit
+    console.log(`🔍 Searching Google for: ${person.firstName} ${person.lastName} (${person.email})`);
     
-    // Generate enhanced search queries using site discovery
-    const enhancedQueries = SiteDiscoveryEngine.generateSearchQueries(
-      person.firstName, 
-      person.lastName, 
-      person.email
-    );
+    // Generate comprehensive search queries using SiteDiscoveryEngine
+    const siteDiscovery = new SiteDiscoveryEngine();
+    const allQueries = SiteDiscoveryEngine.generateSearchQueries(person.firstName, person.lastName, person.email);
     
-    console.log(`📋 Generated ${enhancedQueries.length} enhanced search queries`);
+    // Limit queries if queryCount is specified
+    const queriesToExecute = queryCount ? allQueries.slice(0, queryCount) : allQueries;
     
-    let allSearchResults: GoogleSearchResult[] = [];
-    const maxQueries = detailed ? 15 : 10;
+    console.log(`🎯 Generated ${allQueries.length} total queries, executing ${queriesToExecute.length}...`);
     
-    for (let i = 0; i < Math.min(enhancedQueries.length, maxQueries); i++) {
-      const query = enhancedQueries[i];
-      console.log(`   ${i + 1}/${Math.min(enhancedQueries.length, maxQueries)}: Searching "${query}"`);
+    const allSearchResults: GoogleSearchResult[] = [];
+    
+    for (let i = 0; i < queriesToExecute.length; i++) {
+      const query = queriesToExecute[i];
+      console.log(`   ${i + 1}/${queriesToExecute.length}: ${query}`);
       
       try {
         const results = await googleScraper.searchGoogle(query, { 
-          maxResults: detailed ? 8 : 5,
+          maxResults: detailed ? 5 : 3,
           includeSnippets: true 
         });
         allSearchResults.push(...results);
+        
+        // Add delay between searches to avoid rate limiting
+        if (i < queriesToExecute.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 1500));
+        }
       } catch (error) {
-        console.log(`   ⚠️  Query failed: ${query}`);
+        console.error(`   ❌ Error in query ${i + 1}: ${error instanceof Error ? error.message : 'Unknown error'}`);
       }
     }
     
-    // Remove duplicates
-    const uniqueResults = allSearchResults.filter((result, index, arr) => 
-      arr.findIndex(r => r.url === result.url) === index
+    // Remove duplicates based on URL
+    const searchResults = allSearchResults.filter((result, index, self) => 
+      index === self.findIndex(r => r.url === result.url)
     );
     
-    console.log(`✅ Found ${uniqueResults.length} unique search results across all queries`);
+    if (searchResults.length === 0) {
+      console.log("❌ No search results found");
+      throw new Error("No search results found");
+    }
     
-    // Show search results with enhanced descriptions
-    console.log(`\n📊 Enhanced Search Results with Descriptions:`);
-    uniqueResults.slice(0, 15).forEach((result, index) => {
+    console.log(`✅ Found ${searchResults.length} search results`);
+    
+    // Show search results with snippets
+    console.log(`\n📊 Search Results with Descriptions:`);
+    searchResults.forEach((result, index) => {
       console.log(`${index + 1}. ${result.title}`);
       console.log(`   🌐 ${result.url}`);
       console.log(`   🏷️  Domain: ${result.domain}`);
@@ -232,28 +229,29 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, detailed: boole
       console.log();
     });
     
-    // Filter out LinkedIn URLs for scraping but keep snippets
-    const urlsToScrape = uniqueResults
+    // Filter out LinkedIn URLs for scraping (as requested)
+    const urlsToScrape = searchResults
       .filter(result => !result.domain.includes('linkedin.com'))
       .map(result => result.url);
     
-    console.log(`\n🕷️  Starting enhanced web scraping of ${urlsToScrape.length} websites (excluding LinkedIn)...`);
+    console.log(`\n🕷️  Starting web scraping of ${urlsToScrape.length} websites (excluding LinkedIn)...`);
     console.log(`${'='.repeat(80)}`);
     
-    // Enhanced scraping with better content extraction
+    // Scrape all websites (excluding LinkedIn)
     const scrapedData = await webScraper.scrapeMultipleWebsites(urlsToScrape, {
-      timeout: 20000,
-      extractImages: false,
+      timeout: 15000,
+      extractImages: false, // Skip images for faster scraping
       extractLinks: true,
-      maxContentLength: 8000 // Increased for better keyword extraction
+      maxContentLength: 5000
     });
     
-    console.log(`✅ Enhanced scraping completed! Successfully scraped ${scrapedData.length}/${urlsToScrape.length} websites.`);
+    console.log(`✅ Scraping completed! Successfully scraped ${scrapedData.length}/${urlsToScrape.length} websites.`);
     
-    // Create enhanced person analyzer and perform advanced analysis
-    console.log('\n🤖 Performing Advanced Person Analysis with K-means Clustering...');
+    // Create person analyzer with enhanced clustering capabilities
     const analyzer = new PersonAnalyzer(person.firstName, person.lastName, person.email);
-    const analysisResult = analyzer.analyzePersons(uniqueResults, scrapedData);
+    
+    // Perform enhanced analysis
+    const analysisResult = analyzer.analyzePersons(searchResults, scrapedData);
     
     return analysisResult;
     
@@ -269,27 +267,36 @@ async function main() {
   // Require all three parameters
   if (args.length < 3) {
     console.error("❌ Error: All three fields are required!");
-    console.error("\n📋 Usage: node dist/cli-enhanced-person-analysis.js <firstName> <lastName> <email> [--detailed]");
-    console.error("📋 Example: node dist/cli-enhanced-person-analysis.js Jed Burdick jed@votaryfilms.com --detailed");
+    console.error("\n📋 Usage: node dist/cli-enhanced-person-analysis.js <firstName> <lastName> <email> [queryCount] [--detailed]");
+    console.error("📋 Example: node dist/cli-enhanced-person-analysis.js Jed Burdick jed@votaryfilms.com 75 --detailed");
     console.error("\n📝 Description:");
-    console.error("   This enhanced tool performs comprehensive person identification using:");
-    console.error("   • Advanced site discovery across 40+ platforms");
-    console.error("   • Sophisticated keyword extraction and NLP analysis");
-    console.error("   • K-means clustering for better person identification");
-    console.error("   • LinkedIn snippet capture (without scraping)");
-    console.error("   • Cross-platform consistency analysis");
-    console.error("\n🔧 Parameters:");
+    console.error("   Enhanced tool with advanced clustering that searches Google for a person, scrapes all found websites,");
+    console.error("   analyzes the data using HDBSCAN clustering to identify distinct persons, and provides detailed insights.");
     console.error("   • firstName: Person's first name (required)");
     console.error("   • lastName: Person's last name (required)");
     console.error("   • email: Person's email address (required, must be valid format)");
-    console.error("   • --detailed: Enhanced search with more queries and deeper analysis (optional)");
+    console.error("   • queryCount: Number of search queries to execute (optional, default: all generated queries)");
+    console.error("   • --detailed: Enhanced search with more comprehensive analysis (optional)");
     process.exit(1);
   }
 
   const firstName = cleanInput(args[0]);
   const lastName = cleanInput(args[1]);
   const email = cleanInput(args[2]);
-  const detailed = args.includes('--detailed');
+  
+  // Parse optional queryCount
+  let queryCount: number | undefined;
+  let detailed = false;
+  
+  // Check for queryCount (4th argument) and --detailed flag
+  for (let i = 3; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === '--detailed') {
+      detailed = true;
+    } else if (!isNaN(Number(arg)) && !queryCount) {
+      queryCount = parseInt(arg, 10);
+    }
+  }
 
   // Validate inputs
   if (!firstName || firstName.length < 2) {
@@ -314,28 +321,27 @@ async function main() {
     email
   };
 
-  console.log(`🎯 ENHANCED PERSON IDENTITY ANALYSIS`);
+  console.log(`🎯 PERSON IDENTITY ANALYSIS`);
   console.log(`${'='.repeat(80)}`);
   console.log(`👤 Target: ${person.firstName} ${person.lastName}`);
   console.log(`📧 Email: ${person.email}`);
-  console.log(`🔍 Mode: ${detailed ? 'Detailed Enhanced Analysis' : 'Standard Enhanced Analysis'}`);
-  console.log(`🤖 Features: Site Discovery + NLP Keywords + K-means Clustering`);
-  console.log(`⚠️  Note: LinkedIn pages will be excluded from scraping (snippets captured)`);
+  console.log(`🔍 Mode: ${detailed ? 'Detailed Analysis' : 'Standard Analysis'}`);
+  console.log(`⚠️  Note: LinkedIn pages will be excluded from scraping as requested`);
   console.log(`${'='.repeat(80)}\n`);
 
   try {
     const startTime = Date.now();
-    const result = await searchAndAnalyzePerson(person, detailed);
+    const result = await searchAndAnalyzePerson(person, queryCount, detailed);
     const totalTime = Date.now() - startTime;
     
-    // Print comprehensive enhanced analysis
+    // Print comprehensive analysis
     printAnalysisResult(result);
     
     console.log(`\n⏱️  Total execution time: ${(totalTime / 1000).toFixed(2)} seconds`);
-    console.log(`🎉 Enhanced person analysis completed successfully!`);
+    console.log(`🔚 Person analysis completed successfully!`);
     
   } catch (error) {
-    console.error("\n❌ Error during enhanced person analysis:", error);
+    console.error("\n❌ Error during person analysis:", error);
     process.exit(1);
   }
 }
