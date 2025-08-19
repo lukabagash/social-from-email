@@ -14,13 +14,20 @@
   },
   "bin": {
     "social-from-email": "./dist/cli.cjs",
-    "google-search": "./dist/cli-search.cjs"
+    "google-search": "./dist/cli-search.cjs",
+    "google-search-linkedin": "./dist/cli-search-with-linkedin.cjs",
+    "search-and-scrape": "./dist/cli-search-and-scrape.cjs",
+    "export-to-json": "./dist/cli-export-json.cjs",
+    "person-analysis": "./dist/cli-person-analysis.cjs",
+    "enhanced-person-analysis": "./dist/cli-enhanced-person-analysis.cjs"
   },
   "scripts": {
-    "build": "tsup src/index.ts src/cli.ts src/cli-search.ts --dts --format esm,cjs",
-    "dev": "tsup src/index.ts src/cli.ts src/cli-search.ts --dts --format esm,cjs --watch",
+    "build": "tsup src/index.ts src/cli.ts src/cli-search.ts src/cli-search-with-linkedin.ts src/cli-search-and-scrape.ts src/cli-export-json.ts src/cli-person-analysis.ts src/cli-enhanced-person-analysis.ts src/test-linkedin.ts src/test-cookie.ts --dts --format esm,cjs",
+    "dev": "tsup src/index.ts src/cli.ts src/cli-search.ts src/cli-search-with-linkedin.ts src/cli-search-and-scrape.ts src/cli-export-json.ts src/cli-person-analysis.ts src/cli-enhanced-person-analysis.ts src/test-linkedin.ts src/test-cookie.ts --dts --format esm,cjs --watch",
     "test": "vitest",
     "test:run": "vitest run",
+    "test:linkedin": "node dist/test-linkedin.cjs",
+    "test:cookie": "node dist/test-cookie.cjs",
     "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
@@ -45,8 +52,17 @@
   },
   "dependencies": {
     "@types/puppeteer": "^7.0.4",
+    "all-the-cities": "^3.1.0",
+    "compromise": "^14.14.4",
     "dotenv": "^17.2.1",
+    "i18n-iso-countries": "^7.14.0",
+    "keyword-extractor": "^0.0.28",
+    "ml-kmeans": "^6.0.0",
+    "moment-timezone": "^0.6.0",
+    "natural": "^8.1.0",
     "puppeteer": "^24.16.2",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "tree-kill": "^1.2.2"
   }
 }
