@@ -8,6 +8,7 @@ const lastName = process.argv[4];
 if (!email) {
   console.error("Usage: social-from-email <email> [firstName] [lastName]");
   console.error("Example: social-from-email luka.yep@gmail.com Luka Bagashvili");
+  console.error("For Google search: use google-search <firstName> <lastName> [email]");
   process.exit(1);
 }
 
