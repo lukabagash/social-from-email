@@ -2,7 +2,7 @@ import { GoogleSearchResult } from '../google-search/scraper';
 import { ScrapedData } from '../web-scraper/general-scraper';
 import { SiteDiscoveryEngine } from '../site-discovery/site-finder';
 import { AdvancedInfoExtractor, ExtractedKeywords } from '../advanced-nlp/keyword-extractor';
-import { AdvancedKMeansClusterer, AdvancedPersonCluster } from '../advanced-clustering/kmeans-clusterer';
+import { AdvancedPersonClusterer, ClusteringResult } from '../advanced-clustering/advanced-clusterer';
 
 export interface PersonEvidence {
   name?: string;
@@ -37,43 +37,16 @@ export interface PersonCluster {
 }
 
 export interface PersonAnalysisResult {
-  inputPerson: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
+  searchMetadata: SearchMetadata;
+  evidenceCount: number;
   identifiedPersons: PersonCluster[];
-  advancedClusters?: AdvancedPersonCluster[]; // Enhanced clustering results
-  siteDiscovery: {
-    discoveredSites: string[];
-    searchedPlatforms: string[];
-    linkedinSnippet?: string; // LinkedIn description from Google search
-  };
-  keywordAnalysis: {
-    extractedKeywords: ExtractedKeywords[];
-    topKeywords: string[];
-    identifiedTopics: string[];
-  };
-  summary: {
-    totalSources: number;
-    highConfidencePersons: number; // confidence > 70
-    mediumConfidencePersons: number; // confidence 40-70
-    lowConfidencePersons: number; // confidence < 40
-    topDomains: Array<{ domain: string; count: number }>;
-  };
-  analysis: {
-    likelyIsSamePerson: boolean;
-    mainPersonConfidence: number;
-    reasonsForMultiplePeople: string[];
-    recommendedActions: string[];
-    clusteringMethod: 'basic' | 'advanced_kmeans';
-    advancedInsights?: {
-      strongestEvidenceTypes: string[];
-      crossPlatformConsistency: number; // 0-1
-      temporalConsistency: number; // 0-1
-      professionalCoherence: number; // 0-1
-    };
-  };
+  advancedClusters?: ClusteringResult; // Enhanced clustering results
+  overallScore: number;
+  confidenceLevel: string;
+  primaryIdentity?: PersonIdentity;
+  secondaryIdentities?: PersonIdentity[];
+  warnings: string[];
+  analysisDuration: number;
 }
 
 export class PersonAnalyzer {
