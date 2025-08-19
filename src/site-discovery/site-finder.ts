@@ -555,6 +555,71 @@ export class SiteDiscoveryEngine {
     }
   }
 
+  /**
+   * Generate prioritized search queries with different priority levels
+   * @param firstName - Person's first name
+   * @param lastName - Person's last name  
+   * @param email - Person's email address
+   * @param priority - Priority level: 'social-first' (default), 'professional', 'comprehensive'
+   * @returns Array of search queries optimized for the specified priority
+   */
+  public static generatePrioritizedQueries(
+    firstName: string, 
+    lastName: string, 
+    email: string, 
+    priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'
+  ): string[] {
+    const emailDomain = email.split('@')[1];
+    const emailLocalPart = email.split('@')[0];
+    
+    switch (priority) {
+      case 'social-first':
+        return [
+          // Immediate social media wins
+          `"${firstName} ${lastName}"`,
+          `"${firstName} ${lastName}" site:linkedin.com`,
+          `"${firstName} ${lastName}" site:twitter.com`,
+          `"${firstName} ${lastName}" site:facebook.com`,
+          `"${firstName} ${lastName}" site:instagram.com`,
+          `"${firstName} ${lastName}" site:github.com`,
+          `"${firstName} ${lastName}" profile`,
+          `"${firstName} ${lastName}" contact`,
+          // Username patterns (high success)
+          `"${firstName.toLowerCase()}.${lastName.toLowerCase()}"`,
+          `"${firstName.toLowerCase()}_${lastName.toLowerCase()}"`,
+          `"${emailLocalPart}"`,
+          // Professional basics
+          `"${firstName} ${lastName}" work`,
+          `"${firstName} ${lastName}" company`,
+          `"${firstName} ${lastName}" developer`,
+          `"${firstName} ${lastName}" CEO`,
+        ];
+        
+      case 'professional':
+        return [
+          // Professional focus
+          `"${firstName} ${lastName}"`,
+          `"${firstName} ${lastName}" site:linkedin.com`,
+          `"${firstName} ${lastName}" site:crunchbase.com`,
+          `"${firstName} ${lastName}" site:github.com`,
+          `"${firstName} ${lastName}" resume`,
+          `"${firstName} ${lastName}" CV`,
+          `"${firstName} ${lastName}" portfolio`,
+          `"${firstName} ${lastName}" company`,
+          `"${firstName} ${lastName}" founder`,
+          `"${firstName} ${lastName}" CEO`,
+          `"${firstName} ${lastName}" director`,
+          `"${firstName} ${lastName}" experience`,
+          `"${firstName} ${lastName}" "${emailDomain.replace('.com', '').replace('.org', '')}"`,
+          `"${email}"`,
+        ];
+        
+      case 'comprehensive':
+      default:
+        return SiteDiscoveryEngine.generateSearchQueries(firstName, lastName, email);
+    }
+  }
+
   public static generateSearchQueries(firstName: string, lastName: string, email: string): string[] {
     const sites = SiteDiscoveryEngine.getSearchSites('all');
     
@@ -707,20 +772,101 @@ export class SiteDiscoveryEngine {
       `"${firstName} ${lastName}" works`,
     ];
 
-    // Combine all query types with comprehensive coverage
+    // OPTIMIZED QUERY ORDER FOR SOCIAL MEDIA DISCOVERY
+    
+    // Get high-priority social media sites for prioritized searches
+    const socialMediaSites = ['linkedin.com', 'twitter.com', 'facebook.com', 'instagram.com', 'youtube.com', 'github.com', 'medium.com'];
+    const professionalSites = ['linkedin.com', 'github.com', 'crunchbase.com', 'angel.co', 'apollo.io'];
+    
+    // 1. HIGH PRIORITY: Direct social media searches (most likely to find profiles)
+    const priorityQueries = [
+      // Basic name search
+      `"${firstName} ${lastName}"`,
+      // Direct social media site searches  
+      ...socialMediaSites.map(site => `"${firstName} ${lastName}" site:${site}`),
+      // Name + contact/profile keywords
+      `"${firstName} ${lastName}" profile`,
+      `"${firstName} ${lastName}" contact`,
+      `"${firstName} ${lastName}" bio`,
+    ];
+
+    // 2. MEDIUM PRIORITY: Name + targeted keywords for quick wins
+    const targetedQueries = [
+      // Professional terms
+      `"${firstName} ${lastName}" work`,
+      `"${firstName} ${lastName}" company`,
+      `"${firstName} ${lastName}" CEO`,
+      `"${firstName} ${lastName}" founder`,
+      `"${firstName} ${lastName}" developer`,
+      `"${firstName} ${lastName}" director`,
+      // Portfolio/professional presence
+      `"${firstName} ${lastName}" portfolio`,
+      `"${firstName} ${lastName}" resume`,
+      `"${firstName} ${lastName}" CV`,
+      // Username patterns (high success rate)
+      `"${firstName.toLowerCase()}.${lastName.toLowerCase()}"`,
+      `"${firstName.toLowerCase()}_${lastName.toLowerCase()}"`,
+      `"${firstName.toLowerCase()}-${lastName.toLowerCase()}"`,
+      `"${emailLocalPart}"`,
+    ];
+
+    // 3. EMAIL-BASED searches (good for finding contact pages and profiles)
+    const emailTargetedQueries = [
+      `"${firstName} ${lastName}" "${email}"`,
+      `"${email}"`,
+      `"${email}" profile`,
+      `"${email}" contact`,
+      // Professional sites with email
+      ...professionalSites.map(site => `"${email}" site:${site}`),
+    ];
+
+    // 4. DOMAIN-SPECIFIC searches (organization context)
+    const domainContextQueries = [
+      `"${firstName} ${lastName}" "${emailDomain.replace('.com', '').replace('.org', '').replace('.net', '')}"`,
+      `"${firstName} ${lastName}" "@${emailDomain}"`,
+      `"${firstName} ${lastName}" company "${emailDomain}"`,
+    ];
+
+    // 5. COMPREHENSIVE SITE searches (broader coverage)
+    const comprehensiveSiteQueries = [
+      // Remove already searched social media sites from this list
+      ...sites.filter(site => !socialMediaSites.includes(site) && !professionalSites.includes(site))
+              .map(site => `"${firstName} ${lastName}" site:${site}`),
+    ];
+
+    // 6. SPECIALIZED searches (lower priority but comprehensive)
+    const specializedQueries = [
+      // Professional qualifications
+      ...professionalQueries,
+      // Media and news mentions  
+      ...newsQueries.slice(0, 5), // Limit to top 5 most important
+      // Academic (if relevant)
+      ...academicQueries.slice(0, 4), // Limit to top 4
+      // Business context
+      ...businessQueries.slice(0, 5), // Limit to top 5
+    ];
+
+    // 7. DEEP SEARCH queries (lowest priority)
+    const deepSearchQueries = [
+      // Remaining base queries
+      ...baseQueries.filter(q => !priorityQueries.includes(q) && !targetedQueries.includes(q)),
+      // Remaining email queries  
+      ...emailBasedQueries.filter(q => !emailTargetedQueries.includes(q)),
+      // File type searches
+      ...fileTypeQueries.slice(0, 3), // Limit to most important file types
+      // Location queries
+      ...locationQueries.slice(0, 3), // Limit to most relevant
+    ];
+
+    // OPTIMIZED RETURN ORDER: Social Media First → Professional → Comprehensive
     return [
-      ...baseQueries,                    // Original 15 queries
-      ...emailBasedQueries,             // Email-focused searches
-      ...siteSpecificNameQueries,       // Name searches on specific sites
-      ...siteSpecificEmailQueries,      // Email searches on specific sites
-      ...domainQueries,                 // Domain-related searches
-      ...usernameQueries,               // Username pattern searches
-      ...professionalQueries,           // Professional qualifications
-      ...newsQueries,                   // Media mentions
-      ...academicQueries,               // Academic/research
-      ...businessQueries,               // Business/entrepreneurship
-      ...fileTypeQueries,               // Document searches
-      ...locationQueries                // Location-based searches
+      ...priorityQueries,           // 🎯 TIER 1: Direct social media + basic name (highest success rate)
+      ...targetedQueries,           // 💼 TIER 2: Professional keywords + usernames (good success rate)  
+      ...emailTargetedQueries,      // 📧 TIER 3: Email-based searches (targeted contact finding)
+      ...domainContextQueries,      // 🏢 TIER 4: Organization context (company affiliation)
+      ...comprehensiveSiteQueries,  // 🌐 TIER 5: Broader site coverage (comprehensive but slower)
+      ...specializedQueries,        // 🔬 TIER 6: Specialized searches (academic, news, business)
+      ...deepSearchQueries          // 🕳️ TIER 7: Deep search (catch-all, lowest priority)
     ];
   }
 }
