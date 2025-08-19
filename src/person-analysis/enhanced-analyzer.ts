@@ -2,6 +2,7 @@ import { GoogleSearchResult } from '../google-search/scraper';
 import { ScrapedData } from '../web-scraper/general-scraper';
 import { SiteDiscoveryEngine } from '../site-discovery/site-finder';
 import { AdvancedInfoExtractor, ExtractedKeywords } from '../advanced-nlp/keyword-extractor';
+import { EnhancedKeywordExtractor, PersonBio } from '../advanced-nlp/enhanced-keyword-extractor';
 import { AdvancedPersonClusterer, ClusteringResult } from '../advanced-clustering/advanced-clusterer';
 
 export interface PersonEvidence {
@@ -20,6 +21,7 @@ export interface PersonEvidence {
   affiliations?: string[];
   skills?: string[];
   education?: string[];
+  achievements?: string[];
 }
 
 export interface PersonCluster {
@@ -34,6 +36,18 @@ export interface PersonCluster {
     relevanceScore: number;
   }>;
   potentialVariations: string[]; // Different name variations found
+  metadata?: {
+    biographicalInsights?: {
+      careerStage: string;
+      industryExpertise: string[];
+      thoughtLeadership: string;
+      digitalSavviness: string;
+      professionalSeniority: string;
+      educationLevel: string;
+      geographicMobility: string;
+    };
+    [key: string]: any;
+  };
 }
 
 export interface PersonAnalysisResult {
@@ -81,12 +95,14 @@ export class PersonAnalyzer {
   private targetLastName: string;
   private targetEmail: string;
   private advancedInfoExtractor: AdvancedInfoExtractor;
+  private enhancedKeywordExtractor: EnhancedKeywordExtractor;
 
   constructor(firstName: string, lastName: string, email: string) {
     this.targetFirstName = firstName.toLowerCase();
     this.targetLastName = lastName.toLowerCase();
     this.targetEmail = email.toLowerCase();
     this.advancedInfoExtractor = new AdvancedInfoExtractor();
+    this.enhancedKeywordExtractor = new EnhancedKeywordExtractor();
   }
 
   // Main analysis method
@@ -102,19 +118,33 @@ export class PersonAnalyzer {
     const extractedKeywords = this.extractAdvancedKeywords(searchResults, scrapedData);
     const keywordAnalysis = this.analyzeKeywords(extractedKeywords);
     
-    // Step 3: Perform basic clustering
-    console.log('🤖 Performing clustering analysis...');
+    // Step 2.5: Enhanced Biographical Profiling
+    console.log('🧠 Extracting enhanced biographical profiles...');
+    const personalBios = this.extractPersonalBios(searchResults, scrapedData);
+    const consolidatedBio = this.enhancedKeywordExtractor.analyzePersonBioComprehensively(personalBios);
     
-    // Basic clustering (original method)
+    // Step 3: Perform enhanced clustering using biographical dimensions
+    console.log('🤖 Performing enhanced clustering with biographical dimensions...');
+    
+    // Enhanced clustering using biographical data as dimensions
     const allEvidence = this.extractEvidenceFromSources(searchResults, scrapedData);
-    const personClusters = this.clusterEvidenceIntoPersions(allEvidence);
-    const rankedClusters = this.calculateConfidenceScores(personClusters);
     
-    // Step 4: Generate analysis
-    const analysis = this.generateAdvancedAnalysis(rankedClusters, undefined, 'basic');
+    // Convert allEvidence to enhanced format
+    const enhancedEvidenceInput = allEvidence.map(item => ({
+      evidence: item.evidence,
+      source: item.source.url,
+      sourceType: (item.source.domain.includes('linkedin') || item.source.domain.includes('facebook') ? 'scraped' : 'search') as 'search' | 'scraped'
+    }));
     
-    // Step 5: Create summary
-    const summary = this.createSummary(searchResults, rankedClusters);
+    const enhancedEvidence = this.enrichEvidenceWithBiographicalData(enhancedEvidenceInput, personalBios);
+    const personClusters = this.clusterEvidenceWithBiographicalDimensions(enhancedEvidence, consolidatedBio);
+    const rankedClusters = this.calculateEnhancedConfidenceScores(personClusters, consolidatedBio);
+    
+    // Step 4: Generate enhanced analysis with biographical insights
+    const analysis = this.generateAdvancedAnalysis(rankedClusters, undefined, 'advanced_clustering');
+    
+    // Step 5: Create enhanced summary with bio insights
+    const summary = this.createEnhancedSummary(searchResults, rankedClusters, consolidatedBio);
 
     return {
       inputPerson: {
@@ -929,5 +959,249 @@ export class PersonAnalyzer {
     if (evidence.education && evidence.education.length > 0) contributions.push('education');
     
     return contributions;
+  }
+
+  // Enhanced biographical profiling methods
+  private extractPersonalBios(searchResults: GoogleSearchResult[], scrapedData: ScrapedData[]): PersonBio[] {
+    const bios: PersonBio[] = [];
+    
+    console.log(`  📑 Extracting biographical data from ${searchResults.length + scrapedData.length} sources...`);
+    
+    // Extract from search results
+    for (const result of searchResults) {
+      const bio = this.enhancedKeywordExtractor.extractPersonBio(
+        result.title,
+        result.snippet,
+        '', // Search results don't have full content
+        result.url,
+        this.targetFirstName,
+        this.targetLastName,
+        this.targetEmail
+      );
+      bios.push(bio);
+    }
+    
+    // Extract from scraped data (more detailed)
+    for (const scraped of scrapedData) {
+      const contentText = this.extractTextFromScrapedContent(scraped.content);
+      const bio = this.enhancedKeywordExtractor.extractPersonBio(
+        scraped.title,
+        scraped.metadata.description || '',
+        contentText,
+        scraped.url,
+        this.targetFirstName,
+        this.targetLastName,
+        this.targetEmail
+      );
+      bios.push(bio);
+    }
+    
+    console.log(`  ✅ Extracted ${bios.length} biographical profiles`);
+    return bios;
+  }
+
+  private extractTextFromScrapedContent(content: any): string {
+    // Extract text from the structured content object
+    let text = '';
+    
+    if (content.headings) {
+      text += Object.values(content.headings).flat().join(' ') + ' ';
+    }
+    
+    if (content.paragraphs) {
+      text += content.paragraphs.join(' ') + ' ';
+    }
+    
+    if (content.links) {
+      text += content.links.map((link: any) => link.text).join(' ') + ' ';
+    }
+    
+    return text.trim();
+  }
+
+  private enrichEvidenceWithBiographicalData(
+    evidenceList: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped' }>, 
+    personalBios: PersonBio[]
+  ): Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio }> {
+    console.log('  🔗 Enriching evidence with biographical dimensions...');
+    
+    return evidenceList.map((item, index) => {
+      const correspondingBio = personalBios[index] || personalBios[0]; // Fallback to first bio
+      return {
+        ...item,
+        bio: correspondingBio
+      };
+    });
+  }
+
+  private clusterEvidenceWithBiographicalDimensions(
+    enrichedEvidence: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio }>,
+    consolidatedBio: any
+  ): PersonCluster[] {
+    console.log('  🧮 Clustering with biographical dimensions...');
+    
+    // Convert to format expected by existing clustering method
+    const basicEvidence = enrichedEvidence.map(item => ({
+      evidence: item.evidence,
+      source: { url: item.source },
+      relevanceScore: 80 // Default relevance score for biographical enhanced evidence
+    }));
+    
+    const basicClusters = this.clusterEvidenceIntoPersions(basicEvidence);
+    
+    // Enhance clusters with biographical data
+    const enhancedClusters = basicClusters.map(cluster => {
+      // Find the most relevant bio for this cluster
+      const relevantBios = enrichedEvidence
+        .filter(item => this.shouldAddToCluster(item.evidence, cluster))
+        .map(item => item.bio)
+        .filter(bio => bio !== undefined);
+      
+      if (relevantBios.length > 0) {
+        const bio = relevantBios[0]!;
+        
+        // Enhance cluster with biographical insights
+        cluster.personEvidence = this.enhanceEvidenceWithBiographicalData(cluster.personEvidence, bio);
+        
+        // Add biographical metadata
+        cluster.metadata = {
+          ...cluster.metadata,
+          biographicalInsights: {
+            careerStage: bio.insights.careerStage,
+            industryExpertise: bio.insights.industryExpertise,
+            thoughtLeadership: bio.insights.thoughtLeadership,
+            digitalSavviness: bio.insights.digitalSavviness,
+            professionalSeniority: bio.professional.seniority || 'unknown',
+            educationLevel: bio.education.degrees.length > 0 ? bio.education.degrees[0].level : 'unknown',
+            geographicMobility: bio.insights.geographicMobility
+          }
+        };
+      }
+      
+      return cluster;
+    });
+    
+    return enhancedClusters;
+  }
+
+  private enhanceEvidenceWithBiographicalData(evidence: PersonEvidence, bio: PersonBio): PersonEvidence {
+    // Enhance existing evidence with biographical data
+    const enhanced = { ...evidence };
+    
+    // Enhance skills with bio skills
+    if (bio.professional.skills.length > 0) {
+      enhanced.skills = enhanced.skills || [];
+      bio.professional.skills.forEach(skill => {
+        if (!enhanced.skills!.includes(skill.name)) {
+          enhanced.skills!.push(skill.name);
+        }
+      });
+    }
+    
+    // Enhance education with bio education
+    if (bio.education.degrees.length > 0) {
+      enhanced.education = enhanced.education || [];
+      bio.education.degrees.forEach(degree => {
+        const educationEntry = `${degree.level} in ${degree.field} from ${degree.institution}`;
+        if (!enhanced.education!.includes(educationEntry)) {
+          enhanced.education!.push(educationEntry);
+        }
+      });
+    }
+    
+    // Enhance location with bio location
+    if (bio.locations.current && !enhanced.location) {
+      enhanced.location = `${bio.locations.current.city}, ${bio.locations.current.country}`;
+    }
+    
+    // Enhance with bio achievements
+    if (bio.professional.achievements.length > 0) {
+      enhanced.achievements = enhanced.achievements || [];
+      bio.professional.achievements.forEach(achievement => {
+        if (!enhanced.achievements!.includes(achievement)) {
+          enhanced.achievements!.push(achievement);
+        }
+      });
+    }
+    
+    return enhanced;
+  }
+
+  private calculateEnhancedConfidenceScores(clusters: PersonCluster[], consolidatedBio: any): PersonCluster[] {
+    console.log('  📊 Calculating enhanced confidence scores...');
+    
+    // Start with basic confidence calculation
+    const basicScored = this.calculateConfidenceScores(clusters);
+    
+    // Enhance with biographical confidence factors
+    return basicScored.map(cluster => {
+      let biographicalBonus = 0;
+      
+      // Bonus for biographical consistency
+      if (cluster.metadata?.biographicalInsights) {
+        const insights = cluster.metadata.biographicalInsights;
+        
+        // Career stage consistency bonus
+        if (insights.careerStage && insights.careerStage !== 'unknown') {
+          biographicalBonus += 5;
+        }
+        
+        // Professional seniority consistency bonus
+        if (insights.professionalSeniority && insights.professionalSeniority !== 'unknown') {
+          biographicalBonus += 5;
+        }
+        
+        // Industry expertise bonus
+        if (insights.industryExpertise && insights.industryExpertise.length > 0) {
+          biographicalBonus += 3;
+        }
+        
+        // Education level bonus
+        if (insights.educationLevel && insights.educationLevel !== 'unknown') {
+          biographicalBonus += 3;
+        }
+        
+        // Thought leadership bonus
+        if (insights.thoughtLeadership && insights.thoughtLeadership !== 'none') {
+          biographicalBonus += 4;
+        }
+      }
+      
+      // Apply biographical bonus (max 20 points)
+      cluster.confidence = Math.min(cluster.confidence + Math.min(biographicalBonus, 20), 100);
+      
+      return cluster;
+    });
+  }
+
+  private createEnhancedSummary(searchResults: GoogleSearchResult[], clusters: PersonCluster[], consolidatedBio: any): any {
+    console.log('  📋 Creating enhanced summary with biographical insights...');
+    
+    // Start with basic summary
+    const basicSummary = this.createSummary(searchResults, clusters);
+    
+    // Add biographical insights
+    const biographicalSummary = {
+      careerStage: consolidatedBio.consolidatedBio.insights.careerStage,
+      professionalSeniority: consolidatedBio.consolidatedBio.professional.seniority,
+      industryExpertise: consolidatedBio.consolidatedBio.insights.industryExpertise,
+      educationLevel: consolidatedBio.consolidatedBio.education.degrees.length > 0 
+        ? consolidatedBio.consolidatedBio.education.degrees[0].level 
+        : 'unknown',
+      thoughtLeadership: consolidatedBio.consolidatedBio.insights.thoughtLeadership,
+      digitalSavviness: consolidatedBio.consolidatedBio.insights.digitalSavviness,
+      geographicMobility: consolidatedBio.consolidatedBio.insights.geographicMobility,
+      keySkills: consolidatedBio.consolidatedBio.professional.skills.slice(0, 5).map((s: any) => s.name),
+      achievementsCount: consolidatedBio.consolidatedBio.professional.achievements.length,
+      educationInstitutions: consolidatedBio.consolidatedBio.education.institutions.length,
+      socialPresence: consolidatedBio.consolidatedBio.digitalFootprint.socialProfiles.length,
+      biographicalConfidence: consolidatedBio.confidence
+    };
+    
+    return {
+      ...basicSummary,
+      biographicalInsights: biographicalSummary,
+      enhancementMethod: 'advanced_biographical_profiling'
+    };
   }
 }
