@@ -4,18 +4,44 @@ import { GoogleSearchScraper, type GoogleSearchResult } from "./google-search/sc
 async function main() {
   const args = process.argv.slice(2);
   
-  if (args.length < 2) {
-    console.error("Usage: node dist/cli-search.js <firstName> <lastName> [email] [--detailed]");
-    console.error("Example: node dist/cli-search.js Luka Bagashvili bagash_l2@denison.edu --detailed");
+  if (args.length < 3) {
+    console.error("❌ Error: All three fields are required!");
+    console.error("\n📋 Usage: node dist/cli-search.js <firstName> <lastName> <email> [--detailed]");
+    console.error("📋 Example: node dist/cli-search.js John Doe john.doe@example.com --detailed");
+    console.error("\n📝 Description:");
+    console.error("   This tool performs Google searches for a person using their name and email.");
+    console.error("   • firstName: Person's first name (required)");
+    console.error("   • lastName: Person's last name (required)");
+    console.error("   • email: Person's email address (required)");
+    console.error("   • --detailed: Use multiple search variations for more comprehensive results");
     process.exit(1);
   }
 
-  const firstName = args[0];
-  const lastName = args[1];
-  const email = args[2] && !args[2].startsWith('--') ? args[2] : undefined;
+  const firstName = args[0].trim();
+  const lastName = args[1].trim();
+  const email = args[2].trim();
   const detailed = args.includes('--detailed');
 
-  console.log(`🔍 Google Search for: ${firstName} ${lastName}${email ? ` (${email})` : ''}`);
+  // Validate inputs
+  if (!firstName || firstName.length < 2) {
+    console.error("❌ Error: First name must be at least 2 characters long");
+    process.exit(1);
+  }
+
+  if (!lastName || lastName.length < 2) {
+    console.error("❌ Error: Last name must be at least 2 characters long");
+    process.exit(1);
+  }
+
+  // Basic email validation
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    console.error("❌ Error: Please provide a valid email address");
+    console.error("   Example: john.doe@example.com");
+    process.exit(1);
+  }
+
+  console.log(`🔍 Google Search for: ${firstName} ${lastName} (${email})`);
   console.log("=".repeat(80));
 
   const scraper = new GoogleSearchScraper();
