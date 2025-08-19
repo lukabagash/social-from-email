@@ -1,10 +1,16 @@
-import { PersonEvidence, PersonCluster } from '../person-analysis/analyzer';
+import { PersonEvidence, PersonCluster } from '../person-analysis/enhanced-analyzer';
 import { GoogleSearchResult } from '../google-search/scraper';
 import { ScrapedData } from '../web-scraper/general-scraper';
 import { ExtractedKeywords } from '../advanced-nlp/keyword-extractor';
 
-// Import K-means clustering library
-const KMeans = require('ml-kmeans');
+// Import K-means clustering library with proper error handling
+let KMeans: any;
+try {
+  KMeans = require('ml-kmeans');
+} catch (error) {
+  console.warn('⚠️  ml-kmeans package not available, clustering will use fallback method');
+  KMeans = null;
+}
 
 export interface AdvancedPersonCluster extends PersonCluster {
   // Enhanced clustering data
@@ -262,6 +268,21 @@ export class AdvancedKMeansClusterer {
 
   private performKMeansClustering(featureVectors: any[], k: number): any {
     try {
+      if (!KMeans) {
+        console.warn('K-means library not available, falling back to simple clustering');
+        return this.fallbackClustering(featureVectors, k);
+      }
+      
+      if (featureVectors.length === 0) {
+        console.warn('No feature vectors provided for clustering');
+        return this.fallbackClustering(featureVectors, k);
+      }
+      
+      if (k > featureVectors.length) {
+        console.warn(`K (${k}) is greater than number of vectors (${featureVectors.length}), using simple clustering`);
+        return this.fallbackClustering(featureVectors, k);
+      }
+      
       return KMeans(featureVectors.map(v => v.vector), k, {
         initialization: 'kmeans++',
         maxIterations: 300,
