@@ -885,6 +885,174 @@ export class EnhancedKeywordExtractor {
       'Confirm current role through company website'
     ];
   }
+
+  // Consolidate biographical data from multiple sources
+  public consolidateBiographicalData(bios: PersonBio[]): {
+    consolidatedBio: PersonBio;
+    confidence: number;
+    inconsistencies: string[];
+    recommendations: string[];
+  } {
+    if (bios.length === 0) {
+      return {
+        consolidatedBio: this.createEmptyPersonBio(),
+        confidence: 0,
+        inconsistencies: [],
+        recommendations: ['No biographical data available']
+      };
+    }
+
+    const consolidatedBio = this.mergePersonBios(bios);
+    const confidence = this.calculateConsolidationConfidence(bios);
+    const inconsistencies = this.findBioInconsistencies(bios);
+    const recommendations = this.generateBioRecommendations(bios, inconsistencies);
+
+    return {
+      consolidatedBio,
+      confidence,
+      inconsistencies,
+      recommendations
+    };
+  }
+
+  private createEmptyPersonBio(): PersonBio {
+    return {
+      names: [],
+      emails: [],
+      phones: [],
+      professional: {
+        previousRoles: [],
+        skills: [],
+        industries: [],
+        specializations: [],
+        achievements: [],
+        certifications: []
+      },
+      education: {
+        degrees: [],
+        institutions: [],
+        courses: [],
+        certifications: [],
+        academicAchievements: []
+      },
+      locations: {
+        previous: [],
+        workLocations: [],
+        travelHistory: []
+      },
+      personal: {
+        interests: [],
+        hobbies: [],
+        values: [],
+        personalityTraits: [],
+        languages: [],
+        familyReferences: [],
+        personalAchievements: []
+      },
+      digitalFootprint: {
+        socialProfiles: [],
+        websites: [],
+        publications: [],
+        mentions: [],
+        digitalReputationScore: 0.5
+      },
+      timeline: {
+        events: [],
+        careerProgression: [],
+        educationTimeline: []
+      },
+      insights: {
+        careerStage: 'early_career',
+        industryExpertise: [],
+        geographicMobility: 'local',
+        digitalSavviness: 'medium',
+        networkingActivity: 'medium',
+        thoughtLeadership: 'none',
+        entrepreneurialIndicators: [],
+        leadershipIndicators: [],
+        innovationIndicators: [],
+        communityInvolvement: []
+      }
+    };
+  }
+
+  private mergePersonBios(bios: PersonBio[]): PersonBio {
+    const merged = this.createEmptyPersonBio();
+    
+    // Merge data from all bios, prioritizing the most confident sources
+    bios.forEach(bio => {
+      // Merge names
+      bio.names.forEach(name => {
+        const existing = merged.names.find(n => n.full === name.full);
+        if (!existing || name.confidence > existing.confidence) {
+          merged.names = merged.names.filter(n => n.full !== name.full);
+          merged.names.push(name);
+        }
+      });
+
+      // Merge professional info
+      if (bio.professional.currentRole && 
+          (!merged.professional.currentRole || 
+           bio.professional.currentRole.confidence > merged.professional.currentRole.confidence)) {
+        merged.professional.currentRole = bio.professional.currentRole;
+      }
+
+      // Merge skills
+      bio.professional.skills.forEach(skill => {
+        const existing = merged.professional.skills.find(s => s.name === skill.name);
+        if (!existing) {
+          merged.professional.skills.push(skill);
+        }
+      });
+
+      // Merge other professional data
+      merged.professional.industries = [...new Set([...merged.professional.industries, ...bio.professional.industries])];
+      merged.professional.achievements = [...new Set([...merged.professional.achievements, ...bio.professional.achievements])];
+
+      // Merge education
+      bio.education.degrees.forEach(degree => {
+        const existing = merged.education.degrees.find(d => 
+          d.institution === degree.institution && d.field === degree.field
+        );
+        if (!existing) {
+          merged.education.degrees.push(degree);
+        }
+      });
+
+      // Merge locations
+      if (bio.locations.current && !merged.locations.current) {
+        merged.locations.current = bio.locations.current;
+      }
+
+      // Merge insights (take the most advanced)
+      if (bio.insights.careerStage !== 'early_career') {
+        merged.insights.careerStage = bio.insights.careerStage;
+      }
+      if (bio.insights.thoughtLeadership !== 'none') {
+        merged.insights.thoughtLeadership = bio.insights.thoughtLeadership;
+      }
+      merged.insights.industryExpertise = [...new Set([...merged.insights.industryExpertise, ...bio.insights.industryExpertise])];
+    });
+
+    return merged;
+  }
+
+  private calculateConsolidationConfidence(bios: PersonBio[]): number {
+    if (bios.length === 0) return 0;
+    if (bios.length === 1) return 0.7;
+    
+    // Higher confidence with more consistent sources
+    const averageDataPoints = bios.reduce((sum, bio) => {
+      let points = 0;
+      if (bio.names.length > 0) points++;
+      if (bio.professional.currentRole) points++;
+      if (bio.education.degrees.length > 0) points++;
+      if (bio.locations.current) points++;
+      return sum + points;
+    }, 0) / bios.length;
+
+    return Math.min(0.5 + (averageDataPoints / 4) * 0.4, 0.9);
+  }
 }
 
 export default EnhancedKeywordExtractor;
