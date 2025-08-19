@@ -12,23 +12,41 @@
       "require": "./dist/index.cjs"
     }
   },
-  "bin": { "social-from-email": "./dist/cli.cjs" },
+  "bin": {
+    "social-from-email": "./dist/cli.cjs",
+    "google-search": "./dist/cli-search.cjs"
+  },
   "scripts": {
-    "build": "tsup src/index.ts src/cli.ts --dts --format esm,cjs",
-    "dev": "tsup src/index.ts src/cli.ts --dts --format esm,cjs --watch",
+    "build": "tsup src/index.ts src/cli.ts src/cli-search.ts --dts --format esm,cjs",
+    "dev": "tsup src/index.ts src/cli.ts src/cli-search.ts --dts --format esm,cjs --watch",
     "test": "vitest",
     "test:run": "vitest run",
     "prepublishOnly": "npm run build && npm test"
   },
-  "keywords": ["email", "social", "osint", "gravatar"],
+  "keywords": [
+    "email",
+    "social",
+    "osint",
+    "gravatar"
+  ],
   "license": "ISC",
-  "engines": { "node": ">=18.0.0" },
-  "files": ["dist"],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/node": "^24.3.0",
     "eslint": "^9.33.0",
     "tsup": "^8.5.0",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@types/puppeteer": "^7.0.4",
+    "dotenv": "^17.2.1",
+    "puppeteer": "^24.16.2",
+    "tree-kill": "^1.2.2"
   }
 }
