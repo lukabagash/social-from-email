@@ -14,6 +14,7 @@ export interface SearchOptions {
   maxResults?: number;
   includeSnippets?: boolean;
   timeout?: number;
+  queryLimit?: number;  // Limit number of queries to execute
 }
 
 export class GoogleSearchScraper {
@@ -224,16 +225,20 @@ export class GoogleSearchScraper {
 
     console.log(`🔍 Running ${searches.length} search variations...`);
 
-    for (let i = 0; i < searches.length; i++) {
-      const query = searches[i];
-      console.log(`   ${i + 1}/${searches.length}: ${query}`);
+    // Limit queries if queryLimit is specified
+    const queriesToExecute = options.queryLimit ? searches.slice(0, options.queryLimit) : searches;
+    console.log(`📊 Executing ${queriesToExecute.length}/${searches.length} queries...`);
+
+    for (let i = 0; i < queriesToExecute.length; i++) {
+      const query = queriesToExecute[i];
+      console.log(`   ${i + 1}/${queriesToExecute.length}: ${query}`);
       
       try {
         const results = await this.searchGoogle(query, { ...options, maxResults: 3 });
         allResults.push(...results);
         
         // Add delay between searches to avoid rate limiting
-        if (i < searches.length - 1) {
+        if (i < queriesToExecute.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 2000));
         }
       } catch (error) {
