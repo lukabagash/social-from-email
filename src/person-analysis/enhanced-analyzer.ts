@@ -74,6 +74,21 @@ export interface PersonAnalysisResult {
     mediumConfidencePersons: number; // confidence 40-70
     lowConfidencePersons: number; // confidence < 40
     topDomains: Array<{ domain: string; count: number }>;
+    biographicalInsights?: {
+      careerStage?: string;
+      professionalSeniority?: string;
+      industryExpertise?: string[];
+      educationLevel?: string;
+      thoughtLeadership?: string;
+      digitalSavviness?: string;
+      geographicMobility?: string;
+      keySkills?: string[];
+      achievementsCount?: number;
+      educationInstitutions?: number;
+      socialPresence?: number;
+      biographicalConfidence?: number;
+    };
+    enhancementMethod?: string;
   };
   analysis: {
     likelyIsSamePerson: boolean;
@@ -133,7 +148,8 @@ export class PersonAnalyzer {
     const enhancedEvidenceInput = allEvidence.map(item => ({
       evidence: item.evidence,
       source: item.source.url,
-      sourceType: (item.source.domain.includes('linkedin') || item.source.domain.includes('facebook') ? 'scraped' : 'search') as 'search' | 'scraped'
+      sourceType: (item.source.domain.includes('linkedin') || item.source.domain.includes('facebook') ? 'scraped' : 'search') as 'search' | 'scraped',
+      originalSource: item.source // Keep original source data
     }));
     
     const enhancedEvidence = this.enrichEvidenceWithBiographicalData(enhancedEvidenceInput, personalBios);
@@ -1020,9 +1036,9 @@ export class PersonAnalyzer {
   }
 
   private enrichEvidenceWithBiographicalData(
-    evidenceList: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped' }>, 
+    evidenceList: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; originalSource?: any }>, 
     personalBios: PersonBio[]
-  ): Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio }> {
+  ): Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio; originalSource?: any }> {
     console.log('  🔗 Enriching evidence with biographical dimensions...');
     
     return evidenceList.map((item, index) => {
@@ -1035,15 +1051,20 @@ export class PersonAnalyzer {
   }
 
   private clusterEvidenceWithBiographicalDimensions(
-    enrichedEvidence: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio }>,
+    enrichedEvidence: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio; originalSource?: any }>,
     consolidatedBio: any
   ): PersonCluster[] {
     console.log('  🧮 Clustering with biographical dimensions...');
     
-    // Convert to format expected by existing clustering method
+    // Convert to format expected by existing clustering method while preserving source info
     const basicEvidence = enrichedEvidence.map(item => ({
       evidence: item.evidence,
-      source: { url: item.source },
+      source: item.originalSource || {
+        url: item.source,
+        title: 'Unknown Title',
+        snippet: '',
+        domain: new URL(item.source).hostname
+      },
       relevanceScore: 80 // Default relevance score for biographical enhanced evidence
     }));
     
