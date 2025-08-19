@@ -84,59 +84,76 @@ export class GeneralWebScraper {
   };
 
   async setup() {
-    this.browser = await puppeteer.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-accelerated-2d-canvas',
-        '--disable-gpu',
-        '--disable-web-security',
-        '--allow-running-insecure-content',
-        '--disable-blink-features=AutomationControlled',
-        '--disable-features=VizDisplayCompositor,site-per-process',
-        '--enable-features=NetworkService',
-        '--disable-background-timer-throttling',
-        '--disable-backgrounding-occluded-windows',
-        '--disable-renderer-backgrounding',
-        '--disable-extensions',
-        '--disable-plugins',
-        '--mute-audio',
-        '--disable-background-networking',
-        '--disable-breakpad',
-        '--disable-client-side-phishing-detection',
-        '--disable-component-update',
-        '--disable-default-apps',
-        '--disable-domain-reliability',
-        '--disable-features=AudioServiceOutOfProcess',
-        '--disable-hang-monitor',
-        '--disable-ipc-flooding-protection',
-        '--disable-notifications',
-        '--disable-offer-store-unmasked-wallet-cards',
-        '--disable-popup-blocking',
-        '--disable-print-preview',
-        '--disable-prompt-on-repost',
-        '--disable-speech-api',
-        '--disable-sync',
-        '--hide-scrollbars',
-        '--ignore-gpu-blacklist',
-        '--metrics-recording-only',
-        '--no-default-browser-check',
-        '--no-first-run',
-        '--no-pings',
-        '--no-zygote',
-        '--password-store=basic',
-        '--use-gl=swiftshader',
-        '--use-mock-keychain'
-      ]
-    });
+    try {
+      this.browser = await puppeteer.launch({
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-accelerated-2d-canvas',
+          '--disable-gpu',
+          '--disable-web-security',
+          '--allow-running-insecure-content',
+          '--disable-blink-features=AutomationControlled',
+          '--disable-features=VizDisplayCompositor',
+          '--enable-features=NetworkService',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+          '--disable-extensions',
+          '--disable-plugins',
+          '--mute-audio',
+          '--disable-background-networking',
+          '--disable-breakpad',
+          '--disable-client-side-phishing-detection',
+          '--disable-component-update',
+          '--disable-default-apps',
+          '--disable-domain-reliability',
+          '--disable-features=AudioServiceOutOfProcess',
+          '--disable-hang-monitor',
+          '--disable-ipc-flooding-protection',
+          '--disable-notifications',
+          '--disable-offer-store-unmasked-wallet-cards',
+          '--disable-popup-blocking',
+          '--disable-print-preview',
+          '--disable-prompt-on-repost',
+          '--disable-speech-api',
+          '--disable-sync',
+          '--hide-scrollbars',
+          '--ignore-gpu-blacklist',
+          '--metrics-recording-only',
+          '--no-default-browser-check',
+          '--no-first-run',
+          '--no-pings',
+          '--no-zygote',
+          '--password-store=basic',
+          '--use-gl=swiftshader',
+          '--use-mock-keychain',
+          '--disable-dev-shm-usage',
+          '--single-process',
+          '--no-first-run'
+        ],
+        timeout: 30000,
+        protocolTimeout: 30000
+      });
+      console.log('🚀 Browser launched successfully');
+    } catch (error) {
+      console.error('❌ Failed to launch browser:', error);
+      throw error;
+    }
   }
 
   async close() {
     if (this.browser) {
-      await this.browser.close();
-      this.browser = null;
+      try {
+        await this.browser.close();
+        console.log('✅ Browser closed successfully');
+      } catch (error) {
+        console.warn('⚠️  Error closing browser:', error);
+      } finally {
+        this.browser = null;
+      }
     }
   }
 
@@ -145,33 +162,49 @@ export class GeneralWebScraper {
       throw new Error('Browser not initialized. Call setup() first.');
     }
 
-    const page = await this.browser.newPage();
+    let page: Page;
+    try {
+      page = await this.browser.newPage();
+    } catch (error) {
+      console.error('❌ Failed to create new page:', error);
+      throw error;
+    }
 
-    // Block unnecessary resources to speed up scraping
-    const blockedResources = ['image', 'media', 'font', 'texttrack', 'object', 'beacon', 'csp_report', 'imageset'];
-    
-    await page.setRequestInterception(true);
-    page.on('request', (req) => {
-      if (blockedResources.includes(req.resourceType())) {
-        return req.abort();
+    try {
+      // Block unnecessary resources to speed up scraping
+      const blockedResources = ['image', 'media', 'font', 'texttrack', 'object', 'beacon', 'csp_report', 'imageset'];
+      
+      await page.setRequestInterception(true);
+      page.on('request', (req) => {
+        if (blockedResources.includes(req.resourceType())) {
+          return req.abort();
+        }
+        return req.continue();
+      });
+
+      // Set realistic user agent
+      await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
+
+      // Remove webdriver detection
+      await page.evaluateOnNewDocument(() => {
+        delete (navigator as any).__proto__.webdriver;
+      });
+
+      await page.setViewport({
+        width: 1200,
+        height: 720
+      });
+
+      return page;
+    } catch (error) {
+      console.error('❌ Failed to configure page:', error);
+      try {
+        await page.close();
+      } catch (closeError) {
+        console.warn('⚠️  Error closing page after configuration failure:', closeError);
       }
-      return req.continue();
-    });
-
-    // Set realistic user agent
-    await page.setUserAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36');
-
-    // Remove webdriver detection
-    await page.evaluateOnNewDocument(() => {
-      delete (navigator as any).__proto__.webdriver;
-    });
-
-    await page.setViewport({
-      width: 1200,
-      height: 720
-    });
-
-    return page;
+      throw error;
+    }
   }
 
   async scrapeWebsite(url: string, options: ScrapingOptions = {}): Promise<ScrapedData> {
@@ -182,10 +215,12 @@ export class GeneralWebScraper {
       throw new Error('Browser not initialized. Call setup() first.');
     }
 
-    const page = await this.createPage();
+    let page: Page | null = null;
 
     try {
       console.log(`🌐 Scraping: ${url}`);
+      
+      page = await this.createPage();
       
       const navigationStart = Date.now();
       await page.goto(url, {
@@ -378,12 +413,20 @@ export class GeneralWebScraper {
       console.error(`❌ Error scraping ${url}:`, error);
       throw error;
     } finally {
-      await page.close();
+      if (page) {
+        try {
+          await page.close();
+        } catch (closeError) {
+          console.warn(`⚠️  Error closing page for ${url}:`, closeError);
+        }
+      }
     }
   }
 
   async scrapeMultipleWebsites(urls: string[], options: ScrapingOptions = {}): Promise<ScrapedData[]> {
     const results: ScrapedData[] = [];
+    let successCount = 0;
+    let failureCount = 0;
     
     for (let i = 0; i < urls.length; i++) {
       const url = urls[i];
@@ -392,17 +435,34 @@ export class GeneralWebScraper {
       try {
         const data = await this.scrapeWebsite(url, options);
         results.push(data);
+        successCount++;
+        console.log(`✅ Successfully scraped: ${url}`);
         
         // Add delay between requests to be respectful
         if (i < urls.length - 1) {
           await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
         }
       } catch (error) {
+        failureCount++;
         console.error(`❌ Failed to scrape ${url}:`, error);
+        
+        // If browser connection is lost, try to reinitialize
+        if (error && error.toString().includes('Protocol error: Connection closed')) {
+          console.log(`🔄 Attempting to reinitialize browser...`);
+          try {
+            await this.close();
+            await this.setup();
+            console.log(`✅ Browser reinitialized successfully`);
+          } catch (reinitError) {
+            console.error(`❌ Failed to reinitialize browser:`, reinitError);
+          }
+        }
+        
         // Continue with next URL instead of failing completely
       }
     }
     
+    console.log(`\n📊 Scraping Summary: ${successCount} successful, ${failureCount} failed out of ${urls.length} total`);
     return results;
   }
 }
