@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { GoogleSearchScraper, type GoogleSearchResult } from "./google-search/scraper";
+import { DuckDuckGoSearchScraper, type GoogleSearchResult } from "./duckduckgo-search/scraper";
 import { GeneralWebScraper, type ScrapedData } from "./web-scraper/general-scraper";
 import { PersonAnalyzer, type PersonAnalysisResult, type PersonCluster } from "./person-analysis/enhanced-analyzer";
 import { SiteDiscoveryEngine } from "./site-discovery/site-finder";
@@ -196,18 +196,18 @@ function printAnalysisResult(result: PersonAnalysisResult) {
 }
 
 async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false, priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'): Promise<PersonAnalysisResult> {
-  const googleScraper = new GoogleSearchScraper();
+  const duckduckgoScraper = new DuckDuckGoSearchScraper();
   const webScraper = new GeneralWebScraper();
   
   try {
     // Setup both scrapers
-    await googleScraper.setup();
+    await duckduckgoScraper.setup();
     await webScraper.setup();
     
     console.log("🚀 Scrapers initialized...\n");
     
-    // Perform Google search with queryCount limit
-    console.log(`🔍 Searching Google for: ${person.firstName} ${person.lastName} (${person.email})`);
+    // Perform DuckDuckGo search with queryCount limit
+    console.log(`🔍 Searching DuckDuckGo for: ${person.firstName} ${person.lastName} (${person.email})`);
     
     // Generate optimized search queries based on priority
     let allQueries: string[];
@@ -239,7 +239,7 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
       console.log(`   ${i + 1}/${queriesToExecute.length}: ${query}`);
       
       try {
-        const results = await googleScraper.searchGoogle(query, { 
+        const results = await duckduckgoScraper.searchGoogle(query, { 
           maxResults: detailed ? 5 : 3,
           includeSnippets: true 
         });
@@ -305,7 +305,7 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     return analysisResult;
     
   } finally {
-    await googleScraper.close();
+    await duckduckgoScraper.close();
     await webScraper.close();
   }
 }
@@ -319,7 +319,7 @@ async function main() {
     console.error("\n📋 Usage: node dist/cli-enhanced-person-analysis.js <firstName> <lastName> <email> [queryCount] [--detailed] [--priority=MODE]");
     console.error("📋 Example: node dist/cli-enhanced-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first");
     console.error("\n📝 Description:");
-    console.error("   Enhanced tool with optimized query ordering that searches Google for a person, scrapes found websites,");
+    console.error("   Enhanced tool with optimized query ordering that searches DuckDuckGo for a person, scrapes found websites,");
     console.error("   analyzes the data using advanced clustering to identify distinct persons, and provides detailed insights.");
     console.error("   • firstName: Person's first name (required)");
     console.error("   • lastName: Person's last name (required)");
