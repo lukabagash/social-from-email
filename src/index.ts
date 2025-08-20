@@ -1,5 +1,5 @@
 // Core exports for enhanced person analysis workflow
-export { GoogleSearchScraper } from "./google-search/scraper";
+export { DuckDuckGoSearchScraper } from "./duckduckgo-search/scraper";
 export { GeneralWebScraper } from "./web-scraper/general-scraper";
 export { PersonAnalyzer } from "./person-analysis/enhanced-analyzer";
 export { SiteDiscoveryEngine } from "./site-discovery/site-finder";
@@ -11,7 +11,7 @@ export { EnhancedKeywordExtractor } from "./advanced-nlp/enhanced-keyword-extrac
 export type { 
   GoogleSearchResult,
   SearchOptions 
-} from "./google-search/scraper";
+} from "./duckduckgo-search/scraper";
 
 export type { 
   ScrapedData,
