@@ -136,7 +136,29 @@ export class PersonAnalyzer {
     // Step 2.5: Enhanced Biographical Profiling
     console.log('🧠 Extracting enhanced biographical profiles...');
     const personalBios = this.extractPersonalBios(searchResults, scrapedData);
-    const consolidatedBio = this.enhancedKeywordExtractor.analyzePersonBioComprehensively(personalBios);
+    
+    // Use the new extractPersonBio method from StateOfTheArtPersonExtractor
+    let consolidatedBio: any = null;
+    if (scrapedData.length > 0) {
+      const firstResult = scrapedData[0];
+      // Convert content object to string
+      const contentText = [
+        ...firstResult.content.paragraphs,
+        ...firstResult.content.headings.h1,
+        ...firstResult.content.headings.h2,
+        ...firstResult.content.headings.h3
+      ].join(' ');
+      
+      consolidatedBio = this.enhancedKeywordExtractor.extractPersonBio(
+        firstResult.title || '',
+        '', // snippet not available in ScrapedData
+        contentText,
+        firstResult.url,
+        this.targetFirstName,
+        this.targetLastName,
+        this.targetEmail
+      );
+    }
     
     // Step 3: Perform enhanced clustering using biographical dimensions
     console.log('🤖 Performing enhanced clustering with biographical dimensions...');
@@ -327,34 +349,219 @@ export class PersonAnalyzer {
   }
 
   private extractEvidenceFromSearchResult(searchResult: GoogleSearchResult): PersonEvidence {
-    const evidence: PersonEvidence = {};
+    console.log(`🔍 🧠 Advanced search result evidence extraction for: ${searchResult.url}`);
     
-    // Extract from search snippet only (for LinkedIn)
-    if (searchResult.snippet) {
-      evidence.name = this.extractNameFromText(searchResult.snippet);
-      evidence.email = this.extractEmailFromText(searchResult.snippet);
-      evidence.title = this.extractTitleFromText(searchResult.snippet);
-      evidence.company = this.extractCompanyFromText(searchResult.snippet);
-      evidence.location = this.extractLocationFromText(searchResult.snippet);
+    // Use state-of-the-art bio extraction even for search results
+    const personalBio = this.enhancedKeywordExtractor.extractPersonBio(
+      searchResult.title,
+      searchResult.snippet,
+      '', // Search results don't have full content
+      searchResult.url,
+      this.targetFirstName,
+      this.targetLastName,
+      this.targetEmail
+    );
+
+    const evidence: PersonEvidence = {};
+
+    // Map comprehensive bio data to evidence structure
+    if (personalBio.names && personalBio.names.length > 0) {
+      evidence.name = personalBio.names[0].full;
     }
 
-    // Extract from search title
-    if (searchResult.title) {
-      const nameFromTitle = this.extractNameFromText(searchResult.title);
-      if (nameFromTitle && !evidence.name) {
-        evidence.name = nameFromTitle;
-      }
+    if (personalBio.emails && personalBio.emails.length > 0) {
+      const relevantEmail = personalBio.emails.find(e => e.verified) || personalBio.emails[0];
+      evidence.email = relevantEmail.address;
+    }
+
+    if (personalBio.professional.currentRole) {
+      evidence.title = personalBio.professional.currentRole.title;
+      evidence.company = personalBio.professional.currentRole.company.name;
+    }
+
+    if (personalBio.locations.current) {
+      evidence.location = `${personalBio.locations.current.city}, ${personalBio.locations.current.country}`;
+    }
+
+    // Advanced skills with categorization and proficiency
+    if (personalBio.professional.skills && personalBio.professional.skills.length > 0) {
+      evidence.skills = personalBio.professional.skills.map(skill => 
+        `${skill.name} (${skill.category}${skill.proficiency ? `, ${skill.proficiency}` : ''})`
+      );
+    }
+
+    // Advanced education with institutional details
+    if (personalBio.education.degrees && personalBio.education.degrees.length > 0) {
+      evidence.education = personalBio.education.degrees.map(degree => 
+        `${degree.level} in ${degree.field} from ${degree.institution.name}`
+      );
+    }
+
+    // Fallback to basic extraction if state-of-the-art yields minimal results
+    if (!evidence.name || (!evidence.title && !evidence.company)) {
+      console.log(`⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...`);
       
-      const titleFromTitle = this.extractTitleFromText(searchResult.title);
-      if (titleFromTitle && !evidence.title) {
-        evidence.title = titleFromTitle;
+      // Extract from search snippet only (for LinkedIn)
+      if (searchResult.snippet) {
+        if (!evidence.name) evidence.name = this.extractNameFromText(searchResult.snippet);
+        if (!evidence.email) evidence.email = this.extractEmailFromText(searchResult.snippet);
+        if (!evidence.title) evidence.title = this.extractTitleFromText(searchResult.snippet);
+        if (!evidence.company) evidence.company = this.extractCompanyFromText(searchResult.snippet);
+        if (!evidence.location) evidence.location = this.extractLocationFromText(searchResult.snippet);
+      }
+
+      // Extract from search title
+      if (searchResult.title) {
+        const nameFromTitle = this.extractNameFromText(searchResult.title);
+        if (nameFromTitle && !evidence.name) {
+          evidence.name = nameFromTitle;
+        }
+        
+        const titleFromTitle = this.extractTitleFromText(searchResult.title);
+        if (titleFromTitle && !evidence.title) {
+          evidence.title = titleFromTitle;
+        }
       }
     }
+
+    console.log(`✅ Advanced search result evidence: ${Object.keys(evidence).filter(k => evidence[k as keyof PersonEvidence]).join(', ')}`);
 
     return evidence;
   }
 
   private extractEvidenceFromSource(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    console.log(`🔍 🧠 Advanced evidence extraction for: ${searchResult.url}`);
+    
+    // Use state-of-the-art bio extraction to get comprehensive person data
+    const fullContent = scrapedData ? this.extractTextFromScrapedContent(scrapedData.content) : '';
+    const personalBio = this.enhancedKeywordExtractor.extractPersonBio(
+      searchResult.title,
+      searchResult.snippet,
+      fullContent,
+      searchResult.url,
+      this.targetFirstName,
+      this.targetLastName,
+      this.targetEmail
+    );
+
+    // Map comprehensive bio data to evidence structure
+    if (personalBio.names && personalBio.names.length > 0) {
+      evidence.name = personalBio.names[0].full;
+    }
+
+    if (personalBio.emails && personalBio.emails.length > 0) {
+      const relevantEmail = personalBio.emails.find(e => e.verified) || personalBio.emails[0];
+      evidence.email = relevantEmail.address;
+    }
+
+    if (personalBio.phones && personalBio.phones.length > 0) {
+      evidence.phone = personalBio.phones[0].number;
+    }
+
+    // Advanced professional information extraction
+    if (personalBio.professional.currentRole) {
+      evidence.title = personalBio.professional.currentRole.title;
+      evidence.company = personalBio.professional.currentRole.company.name;
+    }
+
+    // Advanced location extraction
+    if (personalBio.locations.current) {
+      evidence.location = `${personalBio.locations.current.city}, ${personalBio.locations.current.country}`;
+    } else if (personalBio.locations.workLocations && personalBio.locations.workLocations.length > 0) {
+      const workLoc = personalBio.locations.workLocations[0];
+      evidence.location = `${workLoc.city}, ${workLoc.country}`;
+    }
+
+    // Advanced social profiles extraction
+    if (personalBio.digitalFootprint.socialProfiles && personalBio.digitalFootprint.socialProfiles.length > 0) {
+      evidence.socialProfiles = personalBio.digitalFootprint.socialProfiles.map(profile => ({
+        platform: profile.platform,
+        url: profile.url,
+        username: profile.username || this.extractUsernameFromUrl(profile.url)
+      }));
+    }
+
+    // Advanced skills extraction with state-of-the-art categorization
+    if (personalBio.professional.skills && personalBio.professional.skills.length > 0) {
+      evidence.skills = personalBio.professional.skills.map(skill => 
+        `${skill.name} (${skill.category}${skill.proficiency ? `, ${skill.proficiency}` : ''})`
+      );
+    }
+
+    // Advanced education extraction with institutional details
+    if (personalBio.education.degrees && personalBio.education.degrees.length > 0) {
+      evidence.education = personalBio.education.degrees.map(degree => 
+        `${degree.level} in ${degree.field} from ${degree.institution.name}${degree.graduationYear ? ` (${degree.graduationYear})` : ''}`
+      );
+    }
+
+    // Advanced achievements extraction
+    if (personalBio.professional.achievements && personalBio.professional.achievements.length > 0) {
+      evidence.achievements = personalBio.professional.achievements.map(achievement => 
+        `${achievement.achievement} (${achievement.type}${achievement.date ? `, ${achievement.date}` : ''})`
+      );
+    }
+
+    // Advanced affiliations including companies, institutions, and organizations
+    const affiliations: string[] = [];
+    
+    // Add previous companies
+    if (personalBio.professional.previousRoles && personalBio.professional.previousRoles.length > 0) {
+      affiliations.push(...personalBio.professional.previousRoles.map(role => 
+        `${role.company.name} (${role.title}${role.duration ? `, ${role.duration}` : ''})`
+      ));
+    }
+
+    // Add educational institutions
+    if (personalBio.education.institutions && personalBio.education.institutions.length > 0) {
+      affiliations.push(...personalBio.education.institutions.map(inst => 
+        `${inst.name} (${inst.type})`
+      ));
+    }
+
+    // Add certification issuers
+    if (personalBio.professional.certifications && personalBio.professional.certifications.length > 0) {
+      affiliations.push(...personalBio.professional.certifications.map(cert => 
+        `${cert.issuer} (certification: ${cert.name})`
+      ));
+    }
+
+    evidence.affiliations = affiliations;
+
+    // Advanced website and publication tracking
+    if (personalBio.digitalFootprint.websites && personalBio.digitalFootprint.websites.length > 0) {
+      evidence.websites = personalBio.digitalFootprint.websites.map(site => site.url);
+    }
+
+    // Fallback to basic extraction if state-of-the-art extraction yields minimal results
+    if (!evidence.name || (!evidence.title && !evidence.company && !evidence.skills)) {
+      console.log(`⚠️  State-of-the-art extraction yielded minimal results, applying fallback basic extraction...`);
+      
+      // Apply basic extraction as fallback
+      const basicEvidence = this.extractBasicEvidenceFromSource(searchResult, scrapedData);
+      
+      // Merge with basic evidence where state-of-the-art extraction was insufficient
+      if (!evidence.name && basicEvidence.name) evidence.name = basicEvidence.name;
+      if (!evidence.email && basicEvidence.email) evidence.email = basicEvidence.email;
+      if (!evidence.title && basicEvidence.title) evidence.title = basicEvidence.title;
+      if (!evidence.company && basicEvidence.company) evidence.company = basicEvidence.company;
+      if (!evidence.location && basicEvidence.location) evidence.location = basicEvidence.location;
+      if (!evidence.phone && basicEvidence.phone) evidence.phone = basicEvidence.phone;
+      if (!evidence.socialProfiles && basicEvidence.socialProfiles) evidence.socialProfiles = basicEvidence.socialProfiles;
+      if (!evidence.skills && basicEvidence.skills) evidence.skills = basicEvidence.skills;
+      if (!evidence.education && basicEvidence.education) evidence.education = basicEvidence.education;
+      if (!evidence.affiliations && basicEvidence.affiliations) evidence.affiliations = basicEvidence.affiliations;
+      if (!evidence.websites && basicEvidence.websites) evidence.websites = basicEvidence.websites;
+    }
+
+    console.log(`✅ Advanced evidence extracted: ${Object.keys(evidence).filter(k => evidence[k as keyof PersonEvidence]).join(', ')}`);
+    
+    return evidence;
+  }
+
+  private extractBasicEvidenceFromSource(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
     const evidence: PersonEvidence = {};
     
     // Extract from search snippet
@@ -610,7 +817,7 @@ export class PersonAnalyzer {
       // Base confidence from number of sources
       confidence += Math.min(cluster.sources.length * 15, 45);
       
-      // Evidence quality bonuses
+      // Evidence quality bonuses with enhanced categories
       if (cluster.personEvidence.email && this.isEmailRelevant(cluster.personEvidence.email)) {
         confidence += 25;
       }
@@ -619,11 +826,79 @@ export class PersonAnalyzer {
         confidence += 20;
       }
       
+      // Enhanced evidence scoring
       if (cluster.personEvidence.phone) confidence += 10;
       if (cluster.personEvidence.company) confidence += 8;
       if (cluster.personEvidence.title) confidence += 8;
+      if (cluster.personEvidence.location) confidence += 6;
+      
+      // Advanced social profiles scoring
       if (cluster.personEvidence.socialProfiles && cluster.personEvidence.socialProfiles.length > 0) {
-        confidence += Math.min(cluster.personEvidence.socialProfiles.length * 5, 15);
+        const socialScore = Math.min(cluster.personEvidence.socialProfiles.length * 5, 15);
+        confidence += socialScore;
+        
+        // Bonus for professional platforms
+        const hasProfessional = cluster.personEvidence.socialProfiles.some(p => 
+          ['linkedin', 'github'].includes(p.platform.toLowerCase())
+        );
+        if (hasProfessional) confidence += 8;
+      }
+      
+      // Advanced skills scoring
+      if (cluster.personEvidence.skills && cluster.personEvidence.skills.length > 0) {
+        const skillsScore = Math.min(cluster.personEvidence.skills.length * 2, 12);
+        confidence += skillsScore;
+        
+        // Bonus for categorized skills
+        const hasCategories = cluster.personEvidence.skills.some(skill => 
+          skill.includes('(') && skill.includes(')')
+        );
+        if (hasCategories) confidence += 5;
+      }
+      
+      // Advanced education scoring
+      if (cluster.personEvidence.education && cluster.personEvidence.education.length > 0) {
+        const eduScore = Math.min(cluster.personEvidence.education.length * 4, 15);
+        confidence += eduScore;
+        
+        // Bonus for detailed education (with institutions)
+        const hasInstitutions = cluster.personEvidence.education.some(edu => 
+          edu.includes('from ')
+        );
+        if (hasInstitutions) confidence += 6;
+      }
+      
+      // Advanced achievements scoring
+      if (cluster.personEvidence.achievements && cluster.personEvidence.achievements.length > 0) {
+        const achievementScore = Math.min(cluster.personEvidence.achievements.length * 3, 12);
+        confidence += achievementScore;
+        
+        // Bonus for categorized achievements
+        const hasTypes = cluster.personEvidence.achievements.some(ach => 
+          ach.includes('(') && ach.includes(')')
+        );
+        if (hasTypes) confidence += 4;
+      }
+      
+      // Advanced affiliations scoring
+      if (cluster.personEvidence.affiliations && cluster.personEvidence.affiliations.length > 0) {
+        const affiliationScore = Math.min(cluster.personEvidence.affiliations.length * 2, 10);
+        confidence += affiliationScore;
+        
+        // Bonus for diverse affiliations
+        const hasCompanies = cluster.personEvidence.affiliations.some(aff => 
+          aff.includes('Inc') || aff.includes('Corp') || aff.includes('LLC')
+        );
+        const hasUniversities = cluster.personEvidence.affiliations.some(aff => 
+          aff.includes('University') || aff.includes('College')
+        );
+        if (hasCompanies && hasUniversities) confidence += 5;
+      }
+      
+      // Advanced websites scoring
+      if (cluster.personEvidence.websites && cluster.personEvidence.websites.length > 0) {
+        const websiteScore = Math.min(cluster.personEvidence.websites.length * 3, 8);
+        confidence += websiteScore;
       }
       
       // Average source relevance score
@@ -633,6 +908,30 @@ export class PersonAnalyzer {
       // Domain diversity bonus
       const uniqueDomains = new Set(cluster.sources.map(src => src.domain)).size;
       confidence += Math.min(uniqueDomains * 3, 12);
+      
+      // Evidence richness bonus - reward comprehensive profiles
+      const evidenceTypes = [
+        cluster.personEvidence.name,
+        cluster.personEvidence.email,
+        cluster.personEvidence.phone,
+        cluster.personEvidence.title,
+        cluster.personEvidence.company,
+        cluster.personEvidence.location,
+        cluster.personEvidence.socialProfiles,
+        cluster.personEvidence.skills,
+        cluster.personEvidence.education,
+        cluster.personEvidence.achievements,
+        cluster.personEvidence.affiliations,
+        cluster.personEvidence.websites
+      ].filter(Boolean).length;
+      
+      if (evidenceTypes >= 8) {
+        confidence += 10; // Comprehensive profile bonus
+      } else if (evidenceTypes >= 6) {
+        confidence += 6; // Good profile bonus
+      } else if (evidenceTypes >= 4) {
+        confidence += 3; // Moderate profile bonus
+      }
       
       cluster.confidence = Math.min(Math.round(confidence), 100);
       return cluster;
@@ -962,19 +1261,101 @@ export class PersonAnalyzer {
   }
 
   private getEvidenceContributed(evidence: PersonEvidence): string[] {
-    const contributions: string[] = [];
+    const contributed: string[] = [];
     
-    if (evidence.name) contributions.push('name');
-    if (evidence.email) contributions.push('email');
-    if (evidence.title) contributions.push('title');
-    if (evidence.company) contributions.push('company');
-    if (evidence.location) contributions.push('location');
-    if (evidence.phone) contributions.push('phone');
-    if (evidence.socialProfiles && evidence.socialProfiles.length > 0) contributions.push('social_profiles');
-    if (evidence.skills && evidence.skills.length > 0) contributions.push('skills');
-    if (evidence.education && evidence.education.length > 0) contributions.push('education');
+    // Enhanced evidence categorization with detailed classification
+    if (evidence.name) contributed.push('name');
+    if (evidence.email) contributed.push('email');
+    if (evidence.phone) contributed.push('phone');
+    if (evidence.title) contributed.push('professional_title');
+    if (evidence.company) contributed.push('company_affiliation');
+    if (evidence.location) contributed.push('geographic_location');
     
-    return contributions;
+    // Advanced evidence categories
+    if (evidence.socialProfiles) {
+      evidence.socialProfiles.forEach(profile => {
+        contributed.push(`social_${profile.platform.toLowerCase()}`);
+      });
+    }
+    
+    if (evidence.skills) {
+      contributed.push('technical_skills');
+      if (evidence.skills.length > 3) contributed.push('comprehensive_skills');
+      // Categorize by skill types if detailed info available
+      const hasAdvanced = evidence.skills.some(skill => skill.includes('advanced') || skill.includes('expert'));
+      const hasTechnical = evidence.skills.some(skill => skill.includes('technical'));
+      const hasSoft = evidence.skills.some(skill => skill.includes('soft'));
+      
+      if (hasAdvanced) contributed.push('advanced_skills');
+      if (hasTechnical) contributed.push('technical_expertise');
+      if (hasSoft) contributed.push('soft_skills');
+    }
+    
+    if (evidence.education) {
+      contributed.push('educational_background');
+      if (evidence.education.length > 1) contributed.push('multiple_degrees');
+      // Categorize by education level
+      const hasMasters = evidence.education.some(edu => edu.toLowerCase().includes('master'));
+      const hasBachelors = evidence.education.some(edu => edu.toLowerCase().includes('bachelor'));
+      const hasPhd = evidence.education.some(edu => edu.toLowerCase().includes('phd') || edu.toLowerCase().includes('doctorate'));
+      
+      if (hasPhd) contributed.push('doctoral_education');
+      if (hasMasters) contributed.push('graduate_education');
+      if (hasBachelors) contributed.push('undergraduate_education');
+    }
+    
+    if (evidence.achievements) {
+      contributed.push('professional_achievements');
+      if (evidence.achievements.length > 2) contributed.push('multiple_achievements');
+      // Categorize by achievement types
+      const hasAwards = evidence.achievements.some(ach => ach.includes('award'));
+      const hasPromotions = evidence.achievements.some(ach => ach.includes('promotion'));
+      const hasProjects = evidence.achievements.some(ach => ach.includes('project'));
+      const hasPatents = evidence.achievements.some(ach => ach.includes('patent'));
+      
+      if (hasAwards) contributed.push('awards_recognition');
+      if (hasPromotions) contributed.push('career_progression');
+      if (hasProjects) contributed.push('project_accomplishments');
+      if (hasPatents) contributed.push('intellectual_property');
+    }
+    
+    if (evidence.affiliations) {
+      contributed.push('organizational_affiliations');
+      if (evidence.affiliations.length > 2) contributed.push('multiple_affiliations');
+      // Categorize by affiliation types
+      const hasCompanies = evidence.affiliations.some(aff => aff.includes('Inc') || aff.includes('Corp') || aff.includes('LLC'));
+      const hasUniversities = evidence.affiliations.some(aff => aff.includes('University') || aff.includes('College'));
+      const hasCertifications = evidence.affiliations.some(aff => aff.includes('certification'));
+      
+      if (hasCompanies) contributed.push('corporate_affiliations');
+      if (hasUniversities) contributed.push('academic_affiliations');
+      if (hasCertifications) contributed.push('certification_affiliations');
+    }
+    
+    if (evidence.websites) {
+      contributed.push('web_presence');
+      if (evidence.websites.length > 1) contributed.push('multiple_websites');
+      // Categorize by website types
+      const hasPersonal = evidence.websites.some(site => site.includes('github') || site.includes('portfolio'));
+      const hasProfessional = evidence.websites.some(site => site.includes('linkedin') || site.includes('company'));
+      
+      if (hasPersonal) contributed.push('personal_websites');
+      if (hasProfessional) contributed.push('professional_websites');
+    }
+    
+    // Add comprehensive profiling indicators
+    const evidenceRichness = contributed.length;
+    if (evidenceRichness > 8) {
+      contributed.push('comprehensive_profile');
+    } else if (evidenceRichness > 5) {
+      contributed.push('detailed_profile');
+    } else if (evidenceRichness > 3) {
+      contributed.push('moderate_profile');
+    } else {
+      contributed.push('basic_profile');
+    }
+    
+    return contributed;
   }
 
   // Enhanced biographical profiling methods
@@ -1139,8 +1520,9 @@ export class PersonAnalyzer {
     if (bio.professional.achievements.length > 0) {
       enhanced.achievements = enhanced.achievements || [];
       bio.professional.achievements.forEach(achievement => {
-        if (!enhanced.achievements!.includes(achievement)) {
-          enhanced.achievements!.push(achievement);
+        const achievementText = achievement.achievement;
+        if (!enhanced.achievements!.includes(achievementText)) {
+          enhanced.achievements!.push(achievementText);
         }
       });
     }
@@ -1201,23 +1583,63 @@ export class PersonAnalyzer {
     // Start with basic summary
     const basicSummary = this.createSummary(searchResults, clusters);
     
-    // Add biographical insights
-    const biographicalSummary = {
-      careerStage: consolidatedBio.consolidatedBio.insights.careerStage,
-      professionalSeniority: consolidatedBio.consolidatedBio.professional.seniority,
-      industryExpertise: consolidatedBio.consolidatedBio.insights.industryExpertise,
-      educationLevel: consolidatedBio.consolidatedBio.education.degrees.length > 0 
-        ? consolidatedBio.consolidatedBio.education.degrees[0].level 
-        : 'unknown',
-      thoughtLeadership: consolidatedBio.consolidatedBio.insights.thoughtLeadership,
-      digitalSavviness: consolidatedBio.consolidatedBio.insights.digitalSavviness,
-      geographicMobility: consolidatedBio.consolidatedBio.insights.geographicMobility,
-      keySkills: consolidatedBio.consolidatedBio.professional.skills.slice(0, 5).map((s: any) => s.name),
-      achievementsCount: consolidatedBio.consolidatedBio.professional.achievements.length,
-      educationInstitutions: consolidatedBio.consolidatedBio.education.institutions.length,
-      socialPresence: consolidatedBio.consolidatedBio.digitalFootprint.socialProfiles.length,
-      biographicalConfidence: consolidatedBio.confidence
-    };
+    // Add biographical insights with defensive programming
+    let biographicalSummary = {};
+    
+    if (consolidatedBio && consolidatedBio.insights) {
+      // Direct structure
+      biographicalSummary = {
+        careerStage: consolidatedBio.insights.careerStage || 'unknown',
+        professionalSeniority: consolidatedBio.professional?.seniority || 'unknown',
+        industryExpertise: consolidatedBio.insights.industryExpertise || [],
+        educationLevel: consolidatedBio.education?.degrees?.length > 0 
+          ? consolidatedBio.education.degrees[0].level 
+          : 'unknown',
+        thoughtLeadership: consolidatedBio.insights.thoughtLeadership || 'none',
+        digitalSavviness: consolidatedBio.insights.digitalSavviness || 'medium',
+        geographicMobility: consolidatedBio.insights.geographicMobility || 'unknown',
+        keySkills: consolidatedBio.professional?.skills?.slice(0, 5).map((s: any) => s.name) || [],
+        achievementsCount: consolidatedBio.professional?.achievements?.length || 0,
+        educationInstitutions: consolidatedBio.education?.institutions?.length || 0,
+        socialPresence: consolidatedBio.digitalFootprint?.socialProfiles?.length || 0,
+        biographicalConfidence: consolidatedBio.resolution?.confidence || 0.5
+      };
+    } else if (consolidatedBio?.consolidatedBio?.insights) {
+      // Nested structure
+      biographicalSummary = {
+        careerStage: consolidatedBio.consolidatedBio.insights.careerStage || 'unknown',
+        professionalSeniority: consolidatedBio.consolidatedBio.professional?.seniority || 'unknown',
+        industryExpertise: consolidatedBio.consolidatedBio.insights.industryExpertise || [],
+        educationLevel: consolidatedBio.consolidatedBio.education?.degrees?.length > 0 
+          ? consolidatedBio.consolidatedBio.education.degrees[0].level 
+          : 'unknown',
+        thoughtLeadership: consolidatedBio.consolidatedBio.insights.thoughtLeadership || 'none',
+        digitalSavviness: consolidatedBio.consolidatedBio.insights.digitalSavviness || 'medium',
+        geographicMobility: consolidatedBio.consolidatedBio.insights.geographicMobility || 'unknown',
+        keySkills: consolidatedBio.consolidatedBio.professional?.skills?.slice(0, 5).map((s: any) => s.name) || [],
+        achievementsCount: consolidatedBio.consolidatedBio.professional?.achievements?.length || 0,
+        educationInstitutions: consolidatedBio.consolidatedBio.education?.institutions?.length || 0,
+        socialPresence: consolidatedBio.consolidatedBio.digitalFootprint?.socialProfiles?.length || 0,
+        biographicalConfidence: consolidatedBio.confidence || 0.5
+      };
+    } else {
+      // Fallback for missing biographical data
+      biographicalSummary = {
+        careerStage: 'unknown',
+        professionalSeniority: 'unknown',
+        industryExpertise: [],
+        educationLevel: 'unknown',
+        thoughtLeadership: 'none',
+        digitalSavviness: 'medium',
+        geographicMobility: 'unknown',
+        keySkills: [],
+        achievementsCount: 0,
+        educationInstitutions: 0,
+        socialPresence: 0,
+        biographicalConfidence: 0.5
+      };
+      console.log('  ⚠️  Missing biographical insights, using fallback data');
+    }
     
     return {
       ...basicSummary,
