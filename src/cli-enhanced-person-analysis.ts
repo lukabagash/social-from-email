@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { UltimateCrawlerEngine, type GoogleSearchResult } from "./hybrid-search/ultimate-scraper";
 import { GeneralWebScraper, type ScrapedData } from "./web-scraper/general-scraper";
+import { EnhancedWebScraper, type EnhancedScrapedData } from "./web-scraper/enhanced-scraper";
 import { PersonAnalyzer, type PersonAnalysisResult, type PersonCluster } from "./person-analysis/enhanced-analyzer";
 import { SiteDiscoveryEngine } from "./site-discovery/site-finder";
 import { AdvancedPersonClusterer, type ClusteringResult } from "./advanced-clustering/advanced-clusterer";
@@ -197,7 +198,7 @@ function printAnalysisResult(result: PersonAnalysisResult) {
 
 async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false, priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'): Promise<PersonAnalysisResult> {
   const ultimateScraper = new UltimateCrawlerEngine();
-  const webScraper = new GeneralWebScraper();
+  const enhancedScraper = new EnhancedWebScraper();
   
   try {
     // Setup both scrapers
@@ -208,7 +209,7 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
       parallelSessions: Math.min(3, queryCount || 3),
       fallbackEngine: true
     });
-    await webScraper.setup();
+    await enhancedScraper.setup();
     
     console.log("🚀 Ultimate Crawler Engine initialized...\n");
     
@@ -237,7 +238,7 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     
     console.log(`🎯 Generated ${allQueries.length} total queries, executing ${queriesToExecute.length}...`);
     console.log(`📋 Search Priority: ${priority.toUpperCase()}`);
-    console.log(`🤖 Using Ultimate Crawler with Playwright + Puppeteer`);
+    console.log(`🤖 Using Ultimate Crawler with Enhanced Scraping`);
     
     // Use the enhanced search method with load balancing
     const allSearchResults = await ultimateScraper.searchPersonWithVariations(
@@ -289,18 +290,84 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
       .filter(result => !result.domain.includes('linkedin.com'))
       .map(result => result.url);
     
-    console.log(`\n🕷️  Starting web scraping of ${urlsToScrape.length} websites (excluding LinkedIn)...`);
+    console.log(`\n🕷️  Starting enhanced web scraping of ${urlsToScrape.length} websites (excluding LinkedIn)...`);
     console.log(`${'='.repeat(80)}`);
     
-    // Scrape all websites (excluding LinkedIn)
-    const scrapedData = await webScraper.scrapeMultipleWebsites(urlsToScrape, {
-      timeout: 15000,
-      extractImages: false, // Skip images for faster scraping
+    // Use enhanced scraper for comprehensive data extraction
+    const enhancedScrapedData = await enhancedScraper.scrapeMultipleWebsites(urlsToScrape, {
+      timeout: 20000,
+      extractImages: true,
       extractLinks: true,
-      maxContentLength: 5000
+      extractSocialMedia: true,
+      extractProfessionalInfo: true,
+      extractPersonalInfo: true,
+      extractTechnicalInfo: true,
+      enableAIAnalysis: false, // Keep disabled for performance
+      maxContentLength: 15000,
+      executeJavaScript: true,
+      waitForNetworkIdle: true,
+      blockResources: ['font', 'texttrack', 'object', 'beacon']
     });
     
-    console.log(`✅ Scraping completed! Successfully scraped ${scrapedData.length}/${urlsToScrape.length} websites.`);
+    console.log(`✅ Enhanced scraping completed! Successfully scraped ${enhancedScrapedData.length}/${urlsToScrape.length} websites.`);
+    
+    // Convert enhanced data to standard format for compatibility with PersonAnalyzer
+    const scrapedData: ScrapedData[] = enhancedScrapedData.map(enhanced => ({
+      url: enhanced.url,
+      title: enhanced.title,
+      domain: enhanced.domain,
+      metadata: {
+        description: enhanced.metadata.description,
+        keywords: enhanced.metadata.keywords?.join(', '),
+        author: enhanced.metadata.author,
+        ogTitle: enhanced.metadata.ogTitle,
+        ogDescription: enhanced.metadata.ogDescription,
+        ogImage: enhanced.metadata.ogImage,
+        twitterTitle: enhanced.metadata.twitterTitle,
+        twitterDescription: enhanced.metadata.twitterDescription,
+        twitterImage: enhanced.metadata.twitterImage,
+      },
+      content: {
+        headings: {
+          h1: enhanced.content.headings.h1,
+          h2: enhanced.content.headings.h2,
+          h3: enhanced.content.headings.h3,
+        },
+        paragraphs: enhanced.content.paragraphs,
+        links: enhanced.content.links.map(link => ({
+          text: link.text,
+          url: link.url,
+          isExternal: link.isExternal
+        })),
+        images: enhanced.content.images.map(img => ({
+          src: img.src,
+          alt: img.alt,
+          title: img.title
+        })),
+        contactInfo: {
+          emails: enhanced.content.contactInfo.emails.map(e => e.email),
+          phones: enhanced.content.contactInfo.phones.map(p => p.phone),
+          socialLinks: enhanced.content.contactInfo.socialLinks.map(s => ({
+            platform: s.platform,
+            url: s.url
+          }))
+        }
+      },
+      structure: {
+        hasNav: enhanced.structure.hasNav,
+        hasHeader: enhanced.structure.hasHeader,
+        hasFooter: enhanced.structure.hasFooter,
+        hasSidebar: enhanced.structure.hasSidebar,
+        articleCount: enhanced.structure.articleCount,
+        formCount: enhanced.structure.formCount
+      },
+      performance: {
+        loadTime: enhanced.technical.loadTime,
+        responseTime: enhanced.technical.responseTime
+      }
+    }));
+    
+    console.log(`✅ Enhanced data conversion completed! Processed ${scrapedData.length} websites with comprehensive analysis.`);
     
     // Create person analyzer with enhanced clustering capabilities
     const analyzer = new PersonAnalyzer(person.firstName, person.lastName, person.email);
@@ -312,7 +379,7 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     
   } finally {
     await ultimateScraper.close();
-    await webScraper.close();
+    await enhancedScraper.close();
   }
 }
 
