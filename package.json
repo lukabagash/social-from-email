@@ -13,21 +13,13 @@
     }
   },
   "bin": {
-    "social-from-email": "./dist/cli.cjs",
-    "google-search": "./dist/cli-search.cjs",
-    "google-search-linkedin": "./dist/cli-search-with-linkedin.cjs",
-    "search-and-scrape": "./dist/cli-search-and-scrape.cjs",
-    "export-to-json": "./dist/cli-export-json.cjs",
-    "person-analysis": "./dist/cli-person-analysis.cjs",
     "enhanced-person-analysis": "./dist/cli-enhanced-person-analysis.cjs"
   },
   "scripts": {
-    "build": "tsup src/index.ts src/cli.ts src/cli-search.ts src/cli-search-with-linkedin.ts src/cli-search-and-scrape.ts src/cli-export-json.ts src/cli-person-analysis.ts src/cli-enhanced-person-analysis.ts src/test-linkedin.ts src/test-cookie.ts --dts --format esm,cjs",
-    "dev": "tsup src/index.ts src/cli.ts src/cli-search.ts src/cli-search-with-linkedin.ts src/cli-search-and-scrape.ts src/cli-export-json.ts src/cli-person-analysis.ts src/cli-enhanced-person-analysis.ts src/test-linkedin.ts src/test-cookie.ts --dts --format esm,cjs --watch",
+    "build": "tsup src/index.ts src/cli-enhanced-person-analysis.ts --dts --format esm,cjs",
+    "dev": "tsup src/index.ts src/cli-enhanced-person-analysis.ts --dts --format esm,cjs --watch",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:linkedin": "node dist/test-linkedin.cjs",
-    "test:cookie": "node dist/test-cookie.cjs",
     "prepublishOnly": "npm run build && npm test"
   },
   "keywords": [
