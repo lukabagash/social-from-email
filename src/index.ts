@@ -1,48 +1,41 @@
-import type { EnrichmentResult, Provider } from "./types";
-import { GravatarProvider } from "./providers/gravatar";
-import { HeuristicsProvider } from "./providers/heuristics";
+// Core exports for enhanced person analysis workflow
+export { GoogleSearchScraper } from "./google-search/scraper";
+export { GeneralWebScraper } from "./web-scraper/general-scraper";
+export { PersonAnalyzer } from "./person-analysis/enhanced-analyzer";
+export { SiteDiscoveryEngine } from "./site-discovery/site-finder";
+export { AdvancedPersonClusterer } from "./advanced-clustering/advanced-clusterer";
+export { AdvancedInfoExtractor } from "./advanced-nlp/keyword-extractor";
+export { EnhancedKeywordExtractor } from "./advanced-nlp/enhanced-keyword-extractor";
 
-export interface Options {
-  providers?: Provider[];
-  timeoutMs?: number;
-  firstName?: string;
-  lastName?: string;
-}
+// Type exports
+export type { 
+  GoogleSearchResult,
+  SearchOptions 
+} from "./google-search/scraper";
 
-export async function enrichEmail(email: string, opts: Options = {}): Promise<EnrichmentResult> {
-  if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
-    throw new Error("Invalid email");
-  }
+export type { 
+  ScrapedData,
+  ScrapingOptions 
+} from "./web-scraper/general-scraper";
 
-  const providers = opts.providers ?? [GravatarProvider, HeuristicsProvider];
-  const attempted: string[] = [];
-  const start = Date.now();
+export type { 
+  PersonAnalysisResult,
+  PersonCluster,
+  PersonEvidence 
+} from "./person-analysis/enhanced-analyzer";
 
-  // Run providers sequentially so high-confidence data can win and avoid site throttling.
-  const profiles: EnrichmentResult["profiles"] = {};
+export type { 
+  SiteDiscoveryResult 
+} from "./site-discovery/site-finder";
 
-  for (const p of providers) {
-    attempted.push(p.name);
-    const part = await p.findByEmail(email, opts);
+export type { 
+  ExtractedKeywords 
+} from "./advanced-nlp/keyword-extractor";
 
-    for (const [k, v] of Object.entries(part)) {
-      const net = k as keyof typeof profiles;
-      // prefer highest confidence (gravatar > inferred)
-      const prev = profiles[net];
-      if (!prev || (prev.confidence === "low" && v.confidence !== "low")) {
-        profiles[net] = v;
-      }
-    }
-  }
+export type { 
+  PersonBio 
+} from "./advanced-nlp/enhanced-keyword-extractor";
 
-  return {
-    email,
-    profiles,
-    meta: {
-      attempted_providers: attempted,
-      timing_ms: Date.now() - start
-    }
-  };
-}
-
-export type { EnrichmentResult };
+export type { 
+  ClusteringResult 
+} from "./advanced-clustering/advanced-clusterer";
