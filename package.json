@@ -53,6 +53,7 @@
     "ml-kmeans": "^6.0.0",
     "moment-timezone": "^0.6.0",
     "natural": "^8.1.0",
+    "playwright": "^1.54.2",
     "puppeteer": "^24.16.2",
     "puppeteer-extra": "^3.3.6",
     "puppeteer-extra-plugin-stealth": "^2.11.2",
