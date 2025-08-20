@@ -248,7 +248,8 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
         queryLimit: queryCount,
         maxResults: detailed ? 5 : 3,
         includeSnippets: true,
-        parallelSessions: Math.min(3, Math.ceil(queriesToExecute.length / 4)),
+        multiEngineMode: true, // Enable multi-engine search for better coverage
+        parallelSessions: Math.min(2, Math.ceil(queriesToExecute.length / 4)),
         useMultipleBrowsers: true,
         rotateUserAgents: true,
         enableStealth: true,
