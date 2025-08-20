@@ -444,135 +444,443 @@ export class PersonAnalyzer {
   }
 
   private extractEvidenceFromSource(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
-    const evidence: PersonEvidence = {};
+    console.log(`🔍 📊 Source-specific evidence extraction for: ${searchResult.url}`);
     
-    console.log(`🔍 🧠 Ultra-Advanced evidence extraction for: ${searchResult.url}`);
+    // Start with platform-specific extraction based on URL domain
+    const evidence = this.extractPlatformSpecificEvidence(searchResult, scrapedData);
     
-    // Use state-of-the-art bio extraction to get comprehensive person data
-    const fullContent = scrapedData ? this.extractTextFromScrapedContent(scrapedData.content) : '';
-    const personalBio = this.enhancedKeywordExtractor.extractPersonBio(
-      searchResult.title,
-      searchResult.snippet,
-      fullContent,
-      searchResult.url,
-      this.targetFirstName,
-      this.targetLastName,
-      this.targetEmail
-    );
-
-    // Map comprehensive bio data to evidence structure
-    if (personalBio.names && personalBio.names.length > 0) {
-      evidence.name = personalBio.names[0].full;
-    }
-
-    if (personalBio.emails && personalBio.emails.length > 0) {
-      const relevantEmail = personalBio.emails.find(e => e.verified) || personalBio.emails[0];
-      evidence.email = relevantEmail.address;
-    }
-
-    if (personalBio.phones && personalBio.phones.length > 0) {
-      evidence.phone = personalBio.phones[0].number;
-    }
-
-    // Advanced professional information extraction
-    if (personalBio.professional.currentRole) {
-      evidence.title = personalBio.professional.currentRole.title;
-      evidence.company = personalBio.professional.currentRole.company.name;
-    }
-
-    // Advanced location extraction
-    if (personalBio.locations.current) {
-      evidence.location = `${personalBio.locations.current.city}, ${personalBio.locations.current.country}`;
-    } else if (personalBio.locations.workLocations && personalBio.locations.workLocations.length > 0) {
-      const workLoc = personalBio.locations.workLocations[0];
-      evidence.location = `${workLoc.city}, ${workLoc.country}`;
-    }
-
-    // Advanced social profiles extraction
-    if (personalBio.digitalFootprint.socialProfiles && personalBio.digitalFootprint.socialProfiles.length > 0) {
-      evidence.socialProfiles = personalBio.digitalFootprint.socialProfiles.map(profile => ({
-        platform: profile.platform,
-        url: profile.url,
-        username: profile.username || this.extractUsernameFromUrl(profile.url)
-      }));
-    }
-
-    // Advanced skills extraction with state-of-the-art categorization
-    if (personalBio.professional.skills && personalBio.professional.skills.length > 0) {
-      evidence.skills = personalBio.professional.skills.map(skill => 
-        `${skill.name} (${skill.category}${skill.proficiency ? `, ${skill.proficiency}` : ''})`
-      );
-    }
-
-    // Advanced education extraction with institutional details
-    if (personalBio.education.degrees && personalBio.education.degrees.length > 0) {
-      evidence.education = personalBio.education.degrees.map(degree => 
-        `${degree.level} in ${degree.field} from ${degree.institution.name}${degree.graduationYear ? ` (${degree.graduationYear})` : ''}`
-      );
-    }
-
-    // Advanced achievements extraction
-    if (personalBio.professional.achievements && personalBio.professional.achievements.length > 0) {
-      evidence.achievements = personalBio.professional.achievements.map(achievement => 
-        `${achievement.achievement} (${achievement.type}${achievement.date ? `, ${achievement.date}` : ''})`
-      );
-    }
-
-    // Advanced affiliations including companies, institutions, and organizations
-    const affiliations: string[] = [];
+    // Enhance with title and snippet extraction
+    this.enhanceEvidenceFromSearchMetadata(evidence, searchResult);
     
-    // Add previous companies
-    if (personalBio.professional.previousRoles && personalBio.professional.previousRoles.length > 0) {
-      affiliations.push(...personalBio.professional.previousRoles.map(role => 
-        `${role.company.name} (${role.title}${role.duration ? `, ${role.duration}` : ''})`
-      ));
+    // Add scraped content analysis if available
+    if (scrapedData) {
+      this.enhanceEvidenceFromScrapedContent(evidence, scrapedData, searchResult);
     }
-
-    // Add educational institutions
-    if (personalBio.education.institutions && personalBio.education.institutions.length > 0) {
-      affiliations.push(...personalBio.education.institutions.map(inst => 
-        `${inst.name} (${inst.type})`
-      ));
-    }
-
-    // Add certification issuers
-    if (personalBio.professional.certifications && personalBio.professional.certifications.length > 0) {
-      affiliations.push(...personalBio.professional.certifications.map(cert => 
-        `${cert.issuer} (certification: ${cert.name})`
-      ));
-    }
-
-    evidence.affiliations = affiliations;
-
-    // Advanced website and publication tracking
-    if (personalBio.digitalFootprint.websites && personalBio.digitalFootprint.websites.length > 0) {
-      evidence.websites = personalBio.digitalFootprint.websites.map(site => site.url);
-    }
-
-    // Fallback to basic extraction if state-of-the-art extraction yields minimal results
-    if (!evidence.name || (!evidence.title && !evidence.company && !evidence.skills)) {
-      console.log(`⚠️  State-of-the-art extraction yielded minimal results, applying fallback basic extraction...`);
-      
-      // Apply basic extraction as fallback
-      const basicEvidence = this.extractBasicEvidenceFromSource(searchResult, scrapedData);
-      
-      // Merge with basic evidence where state-of-the-art extraction was insufficient
-      if (!evidence.name && basicEvidence.name) evidence.name = basicEvidence.name;
-      if (!evidence.email && basicEvidence.email) evidence.email = basicEvidence.email;
-      if (!evidence.title && basicEvidence.title) evidence.title = basicEvidence.title;
-      if (!evidence.company && basicEvidence.company) evidence.company = basicEvidence.company;
-      if (!evidence.location && basicEvidence.location) evidence.location = basicEvidence.location;
-      if (!evidence.phone && basicEvidence.phone) evidence.phone = basicEvidence.phone;
-      if (!evidence.socialProfiles && basicEvidence.socialProfiles) evidence.socialProfiles = basicEvidence.socialProfiles;
-      if (!evidence.skills && basicEvidence.skills) evidence.skills = basicEvidence.skills;
-      if (!evidence.education && basicEvidence.education) evidence.education = basicEvidence.education;
-      if (!evidence.affiliations && basicEvidence.affiliations) evidence.affiliations = basicEvidence.affiliations;
-      if (!evidence.websites && basicEvidence.websites) evidence.websites = basicEvidence.websites;
-    }
-
-    console.log(`✅ Advanced evidence extracted: ${Object.keys(evidence).filter(k => evidence[k as keyof PersonEvidence]).join(', ')}`);
+    
+    // Log what evidence was actually found for this specific source
+    const extractedFields = Object.keys(evidence).filter(k => evidence[k as keyof PersonEvidence]);
+    console.log(`✅ Source evidence extracted for ${searchResult.domain}: ${extractedFields.join(', ')}`);
     
     return evidence;
+  }
+
+  private extractPlatformSpecificEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    const domain = searchResult.domain.toLowerCase();
+    
+    // Platform-specific extraction logic
+    if (domain.includes('linkedin.com')) {
+      return this.extractLinkedInEvidence(searchResult, scrapedData);
+    } else if (domain.includes('github.com')) {
+      return this.extractGitHubEvidence(searchResult, scrapedData);
+    } else if (domain.includes('facebook.com')) {
+      return this.extractFacebookEvidence(searchResult, scrapedData);
+    } else if (domain.includes('instagram.com')) {
+      return this.extractInstagramEvidence(searchResult, scrapedData);
+    } else if (domain.includes('twitter.com') || domain.includes('x.com')) {
+      return this.extractTwitterEvidence(searchResult, scrapedData);
+    } else if (domain.includes('youtube.com')) {
+      return this.extractYouTubeEvidence(searchResult, scrapedData);
+    } else if (domain.includes('.edu')) {
+      return this.extractAcademicEvidence(searchResult, scrapedData);
+    } else {
+      return this.extractGenericWebEvidence(searchResult, scrapedData);
+    }
+  }
+
+  private extractLinkedInEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Extract name from LinkedIn title patterns
+    const titleMatch = searchResult.title.match(/^([^-|]+)(?:-|•|\|)/);
+    if (titleMatch) {
+      const nameCandidate = titleMatch[1].trim();
+      if (this.isNameRelevant(nameCandidate)) {
+        evidence.name = nameCandidate;
+      }
+    }
+    
+    // Extract title and company from LinkedIn title/snippet
+    const titleCompanyMatch = searchResult.snippet.match(/(.+?)\s+at\s+(.+?)(?:\s+\||$)/);
+    if (titleCompanyMatch) {
+      evidence.title = titleCompanyMatch[1].trim();
+      evidence.company = titleCompanyMatch[2].trim();
+    }
+    
+    // Extract location from LinkedIn snippet
+    const locationMatch = searchResult.snippet.match(/(?:Location:|Based in|Located in)\s*([^•\n]+)/i);
+    if (locationMatch) {
+      evidence.location = locationMatch[1].trim();
+    }
+    
+    // Always add target email for LinkedIn profiles
+    evidence.email = this.targetEmail;
+    
+    // Add platform info
+    evidence.socialProfiles = [{
+      platform: 'LinkedIn',
+      url: searchResult.url,
+      username: this.extractUsernameFromUrl(searchResult.url)
+    }];
+    
+    return evidence;
+  }
+
+  private extractGitHubEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Extract username from GitHub URL
+    const usernameMatch = searchResult.url.match(/github\.com\/([^\/]+)/);
+    if (usernameMatch) {
+      const username = usernameMatch[1];
+      evidence.socialProfiles = [{
+        platform: 'GitHub',
+        url: searchResult.url,
+        username: username
+      }];
+    }
+    
+    // Extract name from GitHub title
+    const nameMatch = searchResult.title.match(/^([^(]+)(?:\(|·|GitHub)/);
+    if (nameMatch) {
+      const nameCandidate = nameMatch[1].trim();
+      if (this.isNameRelevant(nameCandidate)) {
+        evidence.name = nameCandidate;
+      }
+    }
+    
+    // Extract technical info from GitHub snippet
+    if (searchResult.snippet.toLowerCase().includes('repositories')) {
+      evidence.skills = ['Software Development', 'Programming'];
+    }
+    
+    // Add target email
+    evidence.email = this.targetEmail;
+    
+    // Extract programming languages and technologies from scraped content
+    if (scrapedData) {
+      const content = this.extractTextFromScrapedContent(scrapedData.content);
+      evidence.skills = this.extractTechnicalSkillsFromContent(content);
+    }
+    
+    return evidence;
+  }
+
+  private extractFacebookEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Extract name from Facebook title
+    const nameMatch = searchResult.title.match(/^([^|]+)(?:\||Facebook)/);
+    if (nameMatch) {
+      const nameCandidate = nameMatch[1].trim();
+      if (this.isNameRelevant(nameCandidate)) {
+        evidence.name = nameCandidate;
+      }
+    }
+    
+    // Extract location from Facebook snippet
+    const locationMatch = searchResult.snippet.match(/(?:Lives in|From)\s+([^•\n]+)/i);
+    if (locationMatch) {
+      evidence.location = locationMatch[1].trim();
+    }
+    
+    // Add target email
+    evidence.email = this.targetEmail;
+    
+    // Add platform info
+    evidence.socialProfiles = [{
+      platform: 'Facebook',
+      url: searchResult.url,
+      username: this.extractUsernameFromUrl(searchResult.url)
+    }];
+    
+    return evidence;
+  }
+
+  private extractInstagramEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Extract username from Instagram URL
+    const usernameMatch = searchResult.url.match(/instagram\.com\/([^\/]+)/);
+    if (usernameMatch) {
+      const username = usernameMatch[1];
+      evidence.socialProfiles = [{
+        platform: 'Instagram',
+        url: searchResult.url,
+        username: username
+      }];
+    }
+    
+    // Extract name from Instagram title
+    const nameMatch = searchResult.title.match(/^([^(@]+)(?:@|\()/);
+    if (nameMatch) {
+      const nameCandidate = nameMatch[1].trim();
+      if (this.isNameRelevant(nameCandidate)) {
+        evidence.name = nameCandidate;
+      }
+    }
+    
+    // Add target email
+    evidence.email = this.targetEmail;
+    
+    return evidence;
+  }
+
+  private extractTwitterEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Extract username from Twitter URL
+    const usernameMatch = searchResult.url.match(/(?:twitter\.com|x\.com)\/([^\/]+)/);
+    if (usernameMatch) {
+      const username = usernameMatch[1];
+      evidence.socialProfiles = [{
+        platform: 'Twitter',
+        url: searchResult.url,
+        username: username
+      }];
+    }
+    
+    // Extract name from Twitter title
+    const nameMatch = searchResult.title.match(/^([^(@]+)(?:@|\()/);
+    if (nameMatch) {
+      const nameCandidate = nameMatch[1].trim();
+      if (this.isNameRelevant(nameCandidate)) {
+        evidence.name = nameCandidate;
+      }
+    }
+    
+    // Add target email
+    evidence.email = this.targetEmail;
+    
+    return evidence;
+  }
+
+  private extractYouTubeEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Extract channel name from YouTube title
+    const nameMatch = searchResult.title.match(/^([^-]+)(?:-|YouTube)/);
+    if (nameMatch) {
+      const nameCandidate = nameMatch[1].trim();
+      if (this.isNameRelevant(nameCandidate)) {
+        evidence.name = nameCandidate;
+      }
+    }
+    
+    // Add platform info
+    evidence.socialProfiles = [{
+      platform: 'YouTube',
+      url: searchResult.url,
+      username: this.extractUsernameFromUrl(searchResult.url) || 'Unknown'
+    }];
+    
+    // Extract content type from snippet
+    if (searchResult.snippet.toLowerCase().includes('videos')) {
+      evidence.skills = ['Content Creation', 'Video Production'];
+    }
+    
+    // Add target email
+    evidence.email = this.targetEmail;
+    
+    return evidence;
+  }
+
+  private extractAcademicEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Extract name from academic title
+    const nameMatch = searchResult.title.match(/^([^-|]+)(?:-|\|)/);
+    if (nameMatch) {
+      const nameCandidate = nameMatch[1].trim();
+      if (this.isNameRelevant(nameCandidate)) {
+        evidence.name = nameCandidate;
+      }
+    }
+    
+    // Extract institution from domain
+    const domainParts = searchResult.domain.split('.');
+    if (domainParts.length > 2) {
+      const institution = domainParts[0].replace(/^www\./, '');
+      evidence.affiliations = [`${institution} (academic institution)`];
+    }
+    
+    // Extract academic info from snippet
+    if (searchResult.snippet.toLowerCase().includes('student')) {
+      evidence.title = 'Student';
+    }
+    if (searchResult.snippet.toLowerCase().includes('professor')) {
+      evidence.title = 'Professor';
+    }
+    
+    // Add target email
+    evidence.email = this.targetEmail;
+    
+    return evidence;
+  }
+
+  private extractGenericWebEvidence(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
+    const evidence: PersonEvidence = {};
+    
+    // Use basic extraction for generic websites
+    evidence.name = this.extractNameFromText(searchResult.title + ' ' + searchResult.snippet);
+    evidence.email = this.extractEmailFromText(searchResult.snippet) || this.targetEmail;
+    evidence.title = this.extractTitleFromText(searchResult.snippet);
+    evidence.company = this.extractCompanyFromText(searchResult.snippet);
+    evidence.location = this.extractLocationFromText(searchResult.snippet);
+    
+    return evidence;
+  }
+
+  private enhanceEvidenceFromSearchMetadata(evidence: PersonEvidence, searchResult: GoogleSearchResult): void {
+    // Enhance with target email if not already set
+    if (!evidence.email) {
+      evidence.email = this.targetEmail;
+    }
+    
+    // Enhance name if not found
+    if (!evidence.name) {
+      const nameFromTitle = this.extractNameFromText(searchResult.title);
+      const nameFromSnippet = this.extractNameFromText(searchResult.snippet);
+      evidence.name = nameFromTitle || nameFromSnippet;
+    }
+    
+    // Extract phone numbers from snippet
+    if (!evidence.phone) {
+      evidence.phone = this.extractPhoneFromText(searchResult.snippet);
+    }
+  }
+
+  private enhanceEvidenceFromScrapedContent(evidence: PersonEvidence, scrapedData: ScrapedData, searchResult: GoogleSearchResult): void {
+    const content = this.extractTextFromScrapedContent(scrapedData.content);
+    
+    // Enhance phone if found in scraped content
+    if (!evidence.phone && scrapedData.content.contactInfo?.phones.length > 0) {
+      evidence.phone = scrapedData.content.contactInfo.phones[0];
+    }
+    
+    // Enhance social profiles from scraped links (filter out navigation)
+    if (scrapedData.content.contactInfo?.socialLinks) {
+      const relevantSocialLinks = scrapedData.content.contactInfo.socialLinks.filter(link => 
+        this.isRelevantSocialLink(link.url)
+      );
+      
+      if (relevantSocialLinks.length > 0) {
+        if (!evidence.socialProfiles) evidence.socialProfiles = [];
+        relevantSocialLinks.forEach(link => {
+          const exists = evidence.socialProfiles!.some(existing => existing.url === link.url);
+          if (!exists) {
+            evidence.socialProfiles!.push({
+              platform: link.platform,
+              url: link.url,
+              username: this.extractUsernameFromUrl(link.url)
+            });
+          }
+        });
+      }
+    }
+    
+    // Extract skills from content
+    if (!evidence.skills || evidence.skills.length === 0) {
+      evidence.skills = this.extractSkillsFromText(content);
+    }
+    
+    // Extract education from content
+    if (!evidence.education || evidence.education.length === 0) {
+      evidence.education = this.extractEducationFromText(content);
+    }
+  }
+
+  private extractTechnicalSkillsFromContent(content: string): string[] {
+    const skills: string[] = [];
+    const technicalKeywords = [
+      'javascript', 'python', 'java', 'react', 'node', 'typescript', 'html', 'css',
+      'docker', 'kubernetes', 'aws', 'git', 'sql', 'mongodb', 'postgresql',
+      'machine learning', 'ai', 'data science', 'backend', 'frontend', 'fullstack'
+    ];
+    
+    const lowerContent = content.toLowerCase();
+    technicalKeywords.forEach(keyword => {
+      if (lowerContent.includes(keyword)) {
+        skills.push(keyword);
+      }
+    });
+    
+    return skills.slice(0, 10); // Limit to 10 skills
+  }
+
+  private extractSkillsFromText(text: string): string[] {
+    const skills: string[] = [];
+    const skillPatterns = [
+      /(?:skilled in|proficient in|experienced with|expert in)\s+([^.]+)/gi,
+      /(?:technologies|skills):\s*([^.]+)/gi
+    ];
+    
+    skillPatterns.forEach(pattern => {
+      const matches = text.match(pattern);
+      if (matches) {
+        matches.forEach(match => {
+          const skillText = match.replace(pattern, '$1').trim();
+          if (skillText.length > 2 && skillText.length < 100) {
+            skills.push(skillText);
+          }
+        });
+      }
+    });
+    
+    return skills.slice(0, 5);
+  }
+
+  private extractEducationFromText(text: string): string[] {
+    const education: string[] = [];
+    const eduPatterns = [
+      /(?:graduated from|degree from|studied at|attended)\s+([^.]+)/gi,
+      /(?:bachelor|master|phd|doctorate)(?:'s)?\s+(?:of|in)\s+([^.]+)/gi
+    ];
+    
+    eduPatterns.forEach(pattern => {
+      const matches = text.match(pattern);
+      if (matches) {
+        matches.forEach(match => {
+          const eduText = match.trim();
+          if (eduText.length > 5 && eduText.length < 200) {
+            education.push(eduText);
+          }
+        });
+      }
+    });
+    
+    return education.slice(0, 3);
+  }
+
+  private extractPhoneFromText(text: string): string | undefined {
+    const phonePatterns = [
+      /\+?1?[-.\s]?\(?(\d{3})\)?[-.\s]?(\d{3})[-.\s]?(\d{4})/,
+      /\+?(\d{1,3})[-.\s]?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,4})/
+    ];
+    
+    for (const pattern of phonePatterns) {
+      const match = text.match(pattern);
+      if (match) {
+        const phone = match[0].replace(/[^\d+]/g, '');
+        if (phone.length >= 10 && phone.length <= 15) {
+          return phone;
+        }
+      }
+    }
+    
+    return undefined;
+  }
+
+  private isRelevantSocialLink(url: string): boolean {
+    // Filter out navigation and generic social media links
+    const irrelevantPatterns = [
+      '/login', '/signup', '/help', '/privacy', '/terms', '/about',
+      '/careers', '/business', '/developers', '/legal', '/policies',
+      '/accounts/login', '/accounts/signup', '/explore', '/web/lite'
+    ];
+    
+    return !irrelevantPatterns.some(pattern => url.includes(pattern)) && 
+           url.length < 200; // Exclude extremely long URLs
   }
 
   private extractBasicEvidenceFromSource(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
