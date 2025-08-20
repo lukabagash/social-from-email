@@ -259,15 +259,12 @@ export class UltimateCrawlerEngine {
     const results: SearchResult[] = [];
     
     try {
-      // Navigate to DuckDuckGo
-      await page.goto('https://duckduckgo.com', { waitUntil: 'networkidle', timeout: options.timeout });
-
-      // Find search input and enter query
-      await page.waitForSelector('input[name="q"]', { timeout: 10000 });
-      await page.fill('input[name="q"]', query);
+      // Construct direct search URL - much faster than navigating + form submission
+      const encodedQuery = encodeURIComponent(query);
+      const searchUrl = `https://duckduckgo.com/?q=${encodedQuery}&ia=web`;
       
-      // Submit the search
-      await page.press('input[name="q"]', 'Enter');
+      // Navigate directly to search results
+      await page.goto(searchUrl, { waitUntil: 'networkidle', timeout: options.timeout });
       
       // Wait for search results to load
       await page.waitForSelector('[data-testid="result"]', { timeout: 15000 });
@@ -346,15 +343,12 @@ export class UltimateCrawlerEngine {
     const results: SearchResult[] = [];
 
     try {
-      // Navigate to DuckDuckGo
-      await page.goto('https://duckduckgo.com', { waitUntil: 'networkidle2', timeout: options.timeout });
-
-      // Find search input and enter query
-      await page.waitForSelector('input[name="q"]', { timeout: 10000 });
-      await page.type('input[name="q"]', query);
+      // Construct direct search URL - much faster than navigating + form submission
+      const encodedQuery = encodeURIComponent(query);
+      const searchUrl = `https://duckduckgo.com/?q=${encodedQuery}&ia=web`;
       
-      // Submit the search
-      await page.keyboard.press('Enter');
+      // Navigate directly to search results
+      await page.goto(searchUrl, { waitUntil: 'networkidle2', timeout: options.timeout });
       
       // Wait for search results to load
       await page.waitForSelector('[data-testid="result"]', { timeout: 15000 });
