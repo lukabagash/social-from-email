@@ -1,4 +1,4 @@
-import { GoogleSearchResult } from '../google-search/scraper';
+import { GoogleSearchResult } from '../duckduckgo-search/scraper';
 import { ScrapedData } from '../web-scraper/general-scraper';
 import { SiteDiscoveryEngine } from '../site-discovery/site-finder';
 import { AdvancedInfoExtractor, ExtractedKeywords } from '../advanced-nlp/keyword-extractor';
