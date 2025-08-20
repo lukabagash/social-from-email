@@ -16,12 +16,26 @@ export interface PersonEvidence {
     platform: string;
     url: string;
     username?: string;
+    verified?: boolean;
+    followers?: number;
+    following?: number;
+    posts?: number;
+    engagement?: number;
+    lastActivity?: string;
   }>;
   websites?: string[];
   affiliations?: string[];
   skills?: string[];
   education?: string[];
   achievements?: string[];
+  // Advanced evidence properties
+  careerProgression?: string[];
+  industryExpertise?: string[];
+  publications?: string[];
+  languages?: string[];
+  coordinates?: string;
+  employmentPeriod?: string;
+  responsibilities?: string[];
 }
 
 export interface PersonCluster {
@@ -432,7 +446,7 @@ export class PersonAnalyzer {
   private extractEvidenceFromSource(searchResult: GoogleSearchResult, scrapedData?: ScrapedData): PersonEvidence {
     const evidence: PersonEvidence = {};
     
-    console.log(`🔍 🧠 Advanced evidence extraction for: ${searchResult.url}`);
+    console.log(`🔍 🧠 Ultra-Advanced evidence extraction for: ${searchResult.url}`);
     
     // Use state-of-the-art bio extraction to get comprehensive person data
     const fullContent = scrapedData ? this.extractTextFromScrapedContent(scrapedData.content) : '';
@@ -1263,98 +1277,109 @@ export class PersonAnalyzer {
   private getEvidenceContributed(evidence: PersonEvidence): string[] {
     const contributed: string[] = [];
     
-    // Enhanced evidence categorization with detailed classification
-    if (evidence.name) contributed.push('name');
-    if (evidence.email) contributed.push('email');
-    if (evidence.phone) contributed.push('phone');
-    if (evidence.title) contributed.push('professional_title');
-    if (evidence.company) contributed.push('company_affiliation');
-    if (evidence.location) contributed.push('geographic_location');
+    // Return actual evidence data instead of just categories
     
-    // Advanced evidence categories
-    if (evidence.socialProfiles) {
+    // Core Identity Evidence - show actual values
+    if (evidence.name) {
+      contributed.push(`name: "${evidence.name}"`);
+    }
+    
+    if (evidence.email) {
+      contributed.push(`email: "${evidence.email}"`);
+      
+      // Email domain analysis for additional context
+      const emailDomain = evidence.email.split('@')[1];
+      if (emailDomain) {
+        if (emailDomain.includes('.edu')) {
+          contributed.push(`domain: academic (.edu)`);
+        } else if (emailDomain.includes('.gov')) {
+          contributed.push(`domain: government (.gov)`);
+        } else if (emailDomain.includes('gmail') || emailDomain.includes('yahoo') || emailDomain.includes('outlook')) {
+          contributed.push(`domain: personal (${emailDomain})`);
+        } else {
+          contributed.push(`domain: professional (${emailDomain})`);
+        }
+      }
+    }
+    
+    if (evidence.phone) {
+      contributed.push(`phone: "${evidence.phone}"`);
+    }
+    // Professional Identity Evidence - show actual values
+    if (evidence.title) {
+      contributed.push(`title: "${evidence.title}"`);
+    }
+    
+    if (evidence.company) {
+      contributed.push(`company: "${evidence.company}"`);
+    }
+
+    // Geographic and Location Evidence - show actual values
+    if (evidence.location) {
+      contributed.push(`location: "${evidence.location}"`);
+    }
+
+    // Digital Footprint Evidence - show actual values
+    if (evidence.socialProfiles && evidence.socialProfiles.length > 0) {
       evidence.socialProfiles.forEach(profile => {
-        contributed.push(`social_${profile.platform.toLowerCase()}`);
+        contributed.push(`social: ${profile.platform} (${profile.username || 'username N/A'})`);
       });
     }
-    
-    if (evidence.skills) {
-      contributed.push('technical_skills');
-      if (evidence.skills.length > 3) contributed.push('comprehensive_skills');
-      // Categorize by skill types if detailed info available
-      const hasAdvanced = evidence.skills.some(skill => skill.includes('advanced') || skill.includes('expert'));
-      const hasTechnical = evidence.skills.some(skill => skill.includes('technical'));
-      const hasSoft = evidence.skills.some(skill => skill.includes('soft'));
-      
-      if (hasAdvanced) contributed.push('advanced_skills');
-      if (hasTechnical) contributed.push('technical_expertise');
-      if (hasSoft) contributed.push('soft_skills');
+
+    // Skills and Expertise Evidence - show actual values
+    if (evidence.skills && evidence.skills.length > 0) {
+      contributed.push(`skills: [${evidence.skills.slice(0, 3).join(', ')}${evidence.skills.length > 3 ? `, +${evidence.skills.length - 3} more` : ''}]`);
     }
-    
-    if (evidence.education) {
-      contributed.push('educational_background');
-      if (evidence.education.length > 1) contributed.push('multiple_degrees');
-      // Categorize by education level
-      const hasMasters = evidence.education.some(edu => edu.toLowerCase().includes('master'));
-      const hasBachelors = evidence.education.some(edu => edu.toLowerCase().includes('bachelor'));
-      const hasPhd = evidence.education.some(edu => edu.toLowerCase().includes('phd') || edu.toLowerCase().includes('doctorate'));
-      
-      if (hasPhd) contributed.push('doctoral_education');
-      if (hasMasters) contributed.push('graduate_education');
-      if (hasBachelors) contributed.push('undergraduate_education');
+
+    // Educational Background Evidence - show actual values
+    if (evidence.education && evidence.education.length > 0) {
+      contributed.push(`education: [${evidence.education.slice(0, 2).join(', ')}${evidence.education.length > 2 ? `, +${evidence.education.length - 2} more` : ''}]`);
     }
-    
-    if (evidence.achievements) {
-      contributed.push('professional_achievements');
-      if (evidence.achievements.length > 2) contributed.push('multiple_achievements');
-      // Categorize by achievement types
-      const hasAwards = evidence.achievements.some(ach => ach.includes('award'));
-      const hasPromotions = evidence.achievements.some(ach => ach.includes('promotion'));
-      const hasProjects = evidence.achievements.some(ach => ach.includes('project'));
-      const hasPatents = evidence.achievements.some(ach => ach.includes('patent'));
-      
-      if (hasAwards) contributed.push('awards_recognition');
-      if (hasPromotions) contributed.push('career_progression');
-      if (hasProjects) contributed.push('project_accomplishments');
-      if (hasPatents) contributed.push('intellectual_property');
+
+    // Achievements and Recognition Evidence - show actual values
+    if (evidence.achievements && evidence.achievements.length > 0) {
+      contributed.push(`achievements: [${evidence.achievements.slice(0, 2).join(', ')}${evidence.achievements.length > 2 ? `, +${evidence.achievements.length - 2} more` : ''}]`);
     }
-    
-    if (evidence.affiliations) {
-      contributed.push('organizational_affiliations');
-      if (evidence.affiliations.length > 2) contributed.push('multiple_affiliations');
-      // Categorize by affiliation types
-      const hasCompanies = evidence.affiliations.some(aff => aff.includes('Inc') || aff.includes('Corp') || aff.includes('LLC'));
-      const hasUniversities = evidence.affiliations.some(aff => aff.includes('University') || aff.includes('College'));
-      const hasCertifications = evidence.affiliations.some(aff => aff.includes('certification'));
-      
-      if (hasCompanies) contributed.push('corporate_affiliations');
-      if (hasUniversities) contributed.push('academic_affiliations');
-      if (hasCertifications) contributed.push('certification_affiliations');
+
+    // Organizational Affiliations Evidence - show actual values
+    if (evidence.affiliations && evidence.affiliations.length > 0) {
+      contributed.push(`affiliations: [${evidence.affiliations.slice(0, 3).join(', ')}${evidence.affiliations.length > 3 ? `, +${evidence.affiliations.length - 3} more` : ''}]`);
     }
-    
-    if (evidence.websites) {
-      contributed.push('web_presence');
-      if (evidence.websites.length > 1) contributed.push('multiple_websites');
-      // Categorize by website types
-      const hasPersonal = evidence.websites.some(site => site.includes('github') || site.includes('portfolio'));
-      const hasProfessional = evidence.websites.some(site => site.includes('linkedin') || site.includes('company'));
-      
-      if (hasPersonal) contributed.push('personal_websites');
-      if (hasProfessional) contributed.push('professional_websites');
+
+    // Web Presence and Digital Assets Evidence - show actual values
+    if (evidence.websites && evidence.websites.length > 0) {
+      contributed.push(`websites: [${evidence.websites.slice(0, 2).join(', ')}${evidence.websites.length > 2 ? `, +${evidence.websites.length - 2} more` : ''}]`);
     }
-    
-    // Add comprehensive profiling indicators
-    const evidenceRichness = contributed.length;
-    if (evidenceRichness > 8) {
-      contributed.push('comprehensive_profile');
-    } else if (evidenceRichness > 5) {
-      contributed.push('detailed_profile');
-    } else if (evidenceRichness > 3) {
-      contributed.push('moderate_profile');
-    } else {
-      contributed.push('basic_profile');
+
+    // Advanced Evidence Categories - show actual values if available
+    if (evidence.careerProgression && evidence.careerProgression.length > 0) {
+      contributed.push(`career: [${evidence.careerProgression.slice(0, 2).join(', ')}${evidence.careerProgression.length > 2 ? `, +${evidence.careerProgression.length - 2} more` : ''}]`);
     }
-    
+
+    if (evidence.industryExpertise && evidence.industryExpertise.length > 0) {
+      contributed.push(`expertise: [${evidence.industryExpertise.slice(0, 2).join(', ')}${evidence.industryExpertise.length > 2 ? `, +${evidence.industryExpertise.length - 2} more` : ''}]`);
+    }
+
+    if (evidence.publications && evidence.publications.length > 0) {
+      contributed.push(`publications: [${evidence.publications.slice(0, 2).join(', ')}${evidence.publications.length > 2 ? `, +${evidence.publications.length - 2} more` : ''}]`);
+    }
+
+    if (evidence.languages && evidence.languages.length > 0) {
+      contributed.push(`languages: [${evidence.languages.join(', ')}]`);
+    }
+
+    if (evidence.coordinates) {
+      contributed.push(`coordinates: ${evidence.coordinates}`);
+    }
+
+    if (evidence.employmentPeriod) {
+      contributed.push(`employment: ${evidence.employmentPeriod}`);
+    }
+
+    if (evidence.responsibilities && evidence.responsibilities.length > 0) {
+      contributed.push(`responsibilities: [${evidence.responsibilities.slice(0, 2).join(', ')}${evidence.responsibilities.length > 2 ? `, +${evidence.responsibilities.length - 2} more` : ''}]`);
+    }
+
     return contributed;
   }
 
