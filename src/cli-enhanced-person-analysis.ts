@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { DuckDuckGoSearchScraper, type GoogleSearchResult } from "./duckduckgo-search/scraper";
+import { UltimateCrawlerEngine, type GoogleSearchResult } from "./hybrid-search/ultimate-scraper";
 import { GeneralWebScraper, type ScrapedData } from "./web-scraper/general-scraper";
 import { PersonAnalyzer, type PersonAnalysisResult, type PersonCluster } from "./person-analysis/enhanced-analyzer";
 import { SiteDiscoveryEngine } from "./site-discovery/site-finder";
@@ -196,18 +196,24 @@ function printAnalysisResult(result: PersonAnalysisResult) {
 }
 
 async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false, priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'): Promise<PersonAnalysisResult> {
-  const duckduckgoScraper = new DuckDuckGoSearchScraper();
+  const ultimateScraper = new UltimateCrawlerEngine();
   const webScraper = new GeneralWebScraper();
   
   try {
     // Setup both scrapers
-    await duckduckgoScraper.setup();
+    await ultimateScraper.initialize({
+      useMultipleBrowsers: true,
+      rotateUserAgents: true,
+      enableStealth: true,
+      parallelSessions: Math.min(3, queryCount || 3),
+      fallbackEngine: true
+    });
     await webScraper.setup();
     
-    console.log("🚀 Scrapers initialized...\n");
+    console.log("🚀 Ultimate Crawler Engine initialized...\n");
     
-    // Perform DuckDuckGo search with queryCount limit
-    console.log(`🔍 Searching DuckDuckGo for: ${person.firstName} ${person.lastName} (${person.email})`);
+    // Perform multi-engine search with queryCount limit
+    console.log(`🔍 Searching with Ultimate Crawler for: ${person.firstName} ${person.lastName} (${person.email})`);
     
     // Generate optimized search queries based on priority
     let allQueries: string[];
@@ -231,45 +237,44 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     
     console.log(`🎯 Generated ${allQueries.length} total queries, executing ${queriesToExecute.length}...`);
     console.log(`📋 Search Priority: ${priority.toUpperCase()}`);
+    console.log(`🤖 Using Ultimate Crawler with Playwright + Puppeteer`);
     
-    const allSearchResults: GoogleSearchResult[] = [];
-    
-    for (let i = 0; i < queriesToExecute.length; i++) {
-      const query = queriesToExecute[i];
-      console.log(`   ${i + 1}/${queriesToExecute.length}: ${query}`);
-      
-      try {
-        const results = await duckduckgoScraper.searchGoogle(query, { 
-          maxResults: detailed ? 5 : 3,
-          includeSnippets: true 
-        });
-        allSearchResults.push(...results);
-        
-        // Add delay between searches to avoid rate limiting
-        if (i < queriesToExecute.length - 1) {
-          await new Promise(resolve => setTimeout(resolve, 1500));
-        }
-      } catch (error) {
-        console.error(`   ❌ Error in query ${i + 1}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    // Use the enhanced search method with load balancing
+    const allSearchResults = await ultimateScraper.searchPersonWithVariations(
+      person.firstName, 
+      person.lastName, 
+      person.email, 
+      { 
+        queryLimit: queryCount,
+        maxResults: detailed ? 5 : 3,
+        includeSnippets: true,
+        parallelSessions: Math.min(3, Math.ceil(queriesToExecute.length / 4)),
+        useMultipleBrowsers: true,
+        rotateUserAgents: true,
+        enableStealth: true,
+        fallbackEngine: true
       }
-    }
-    
-    // Remove duplicates based on URL
-    const searchResults = allSearchResults.filter((result, index, self) => 
-      index === self.findIndex(r => r.url === result.url)
+    );
+
+    // Remove duplicates based on URL (already done by Ultimate Crawler, but ensure)
+    const uniqueSearchResults = allSearchResults.filter((result: GoogleSearchResult, index: number, self: GoogleSearchResult[]) => 
+      index === self.findIndex((r: GoogleSearchResult) => r.url === result.url)
     );
     
-    if (searchResults.length === 0) {
+    if (uniqueSearchResults.length === 0) {
       console.log("❌ No search results found");
       throw new Error("No search results found");
     }
     
-    console.log(`✅ Found ${searchResults.length} search results`);
+    console.log(`✅ Found ${uniqueSearchResults.length} unique search results`);
     
-    // Show search results with snippets
-    console.log(`\n📊 Search Results with Descriptions:`);
-    searchResults.forEach((result, index) => {
-      console.log(`${index + 1}. ${result.title}`);
+    // Show search results with snippets and engine info
+    console.log(`\n📊 Search Results with Engine Distribution:`);
+    uniqueSearchResults.forEach((result, index) => {
+      const engineInfo = result.scrapeMethod && result.browserEngine 
+        ? ` [${result.scrapeMethod}/${result.browserEngine}]` 
+        : '';
+      console.log(`${index + 1}. ${result.title}${engineInfo}`);
       console.log(`   🌐 ${result.url}`);
       console.log(`   🏷️  Domain: ${result.domain}`);
       if (result.snippet && result.snippet.trim().length > 0) {
@@ -279,7 +284,7 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     });
     
     // Filter out LinkedIn URLs for scraping (as requested)
-    const urlsToScrape = searchResults
+    const urlsToScrape = uniqueSearchResults
       .filter(result => !result.domain.includes('linkedin.com'))
       .map(result => result.url);
     
@@ -300,12 +305,12 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     const analyzer = new PersonAnalyzer(person.firstName, person.lastName, person.email);
     
     // Perform enhanced analysis
-    const analysisResult = analyzer.analyzePersons(searchResults, scrapedData);
+    const analysisResult = analyzer.analyzePersons(uniqueSearchResults, scrapedData);
     
     return analysisResult;
     
   } finally {
-    await duckduckgoScraper.close();
+    await ultimateScraper.close();
     await webScraper.close();
   }
 }
@@ -319,8 +324,8 @@ async function main() {
     console.error("\n📋 Usage: node dist/cli-enhanced-person-analysis.js <firstName> <lastName> <email> [queryCount] [--detailed] [--priority=MODE]");
     console.error("📋 Example: node dist/cli-enhanced-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first");
     console.error("\n📝 Description:");
-    console.error("   Enhanced tool with optimized query ordering that searches DuckDuckGo for a person, scrapes found websites,");
-    console.error("   analyzes the data using advanced clustering to identify distinct persons, and provides detailed insights.");
+    console.error("   Enhanced tool with Ultimate Crawler Engine (Playwright + Puppeteer) that searches DuckDuckGo,");
+    console.error("   scrapes found websites, and analyzes data using advanced clustering to identify distinct persons.");
     console.error("   • firstName: Person's first name (required)");
     console.error("   • lastName: Person's last name (required)");
     console.error("   • email: Person's email address (required, must be valid format)");
