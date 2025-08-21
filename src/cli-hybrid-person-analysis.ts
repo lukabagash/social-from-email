@@ -270,12 +270,11 @@ async function searchAndAnalyzePersonHybrid(
       console.log();
     });
     
-    // Filter out LinkedIn URLs for scraping (as requested)
+    // Use all URLs for Crawlee-enhanced scraping (including LinkedIn)
     const urlsToScrape = uniqueSearchResults
-      .filter(result => !result.domain.includes('linkedin.com'))
       .map(result => result.url);
     
-    console.log(`\n🕷️  Starting Crawlee-enhanced scraping of ${urlsToScrape.length} websites (excluding LinkedIn)...`);
+    console.log(`\n🕷️  Starting Crawlee-enhanced scraping of ${urlsToScrape.length} websites...`);
     console.log(`${'='.repeat(80)}`);
     
     // Use Crawlee for enhanced scraping
@@ -448,7 +447,7 @@ async function main() {
     console.log(`🔢 Query Count: All generated queries (no limit)`);
   }
   console.log(`🚀 Hybrid Enhancement: Ultimate Crawler (Search) + Crawlee (Scraping) 🌟`);
-  console.log(`⚠️  Note: LinkedIn pages will be excluded from scraping as requested`);
+  console.log(`✅ Note: All websites including LinkedIn will be scraped with Crawlee`);
   console.log(`${'='.repeat(80)}\n`);
 
   try {
