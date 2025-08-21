@@ -5,6 +5,7 @@ import { EnhancedWebScraper, type EnhancedScrapedData } from "./web-scraper/enha
 import { PersonAnalyzer, type PersonAnalysisResult, type PersonCluster } from "./person-analysis/enhanced-analyzer";
 import { SiteDiscoveryEngine } from "./site-discovery/site-finder";
 import { AdvancedPersonClusterer, type ClusteringResult } from "./advanced-clustering/advanced-clusterer";
+import { EnhancedPersonAnalyzer, type EnhancedPersonResult } from "./analysis/enhanced-person-analyzer";
 
 interface PersonSearchInput {
   firstName: string;
@@ -196,7 +197,90 @@ function printAnalysisResult(result: PersonAnalysisResult) {
   }
 }
 
-async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false, priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'): Promise<PersonAnalysisResult> {
+function printEnhancedAnalysisResult(result: EnhancedPersonResult) {
+  console.log(`\n${'='.repeat(80)}`);
+  console.log(`🔍 ENHANCED PERSON ANALYSIS RESULTS`);
+  console.log(`${'='.repeat(80)}`);
+  
+  console.log(`📊 Summary:`);
+  console.log(`   Total URLs Found: ${result.processingStats.totalURLsFound}`);
+  console.log(`   Valid URLs Processed: ${result.processingStats.validURLsProcessed}`);
+  console.log(`   Filtered Out: ${result.processingStats.filteredOutURLs}`);
+  console.log(`   Persons Identified: ${result.identifiedPersons.length}`);
+  console.log(`   Average Confidence: ${(result.qualityMetrics.averageConfidence * 100).toFixed(1)}%`);
+  console.log(`   Profile Consistency: ${(result.qualityMetrics.profileConsistency * 100).toFixed(1)}%`);
+  console.log(`   Handle Deduplication: ${(result.qualityMetrics.handleDeduplication * 100).toFixed(1)}%`);
+  
+  // Print each identified person
+  result.identifiedPersons.forEach((person, index) => {
+    const confidenceColor = person.confidence > 70 ? '🟢' : person.confidence > 40 ? '🟡' : '🔴';
+    const outlierStatus = person.isOutlier ? ' (Outlier)' : '';
+    
+    console.log(`\n${confidenceColor} PERSON ${index + 1} - Confidence: ${person.confidence.toFixed(1)}%${outlierStatus}`);
+    console.log(`${'─'.repeat(60)}`);
+    
+    // Canonical Social Handle
+    if (person.canonicalSocialHandle) {
+      console.log(`🎯 Primary Social Handle:`);
+      console.log(`   ${person.canonicalSocialHandle.platform}: ${person.canonicalSocialHandle.handle}`);
+      console.log(`   URL: ${person.canonicalSocialHandle.url}`);
+      console.log(`   Confidence: ${(person.canonicalSocialHandle.confidence * 100).toFixed(1)}%`);
+    }
+    
+    // Alternate Handles
+    if (person.alternateHandles && person.alternateHandles.length > 0) {
+      console.log(`\n🔗 Alternate Handles:`);
+      person.alternateHandles.forEach(handle => {
+        const status = handle.status === 'accepted' ? '✅' : '❌';
+        console.log(`   ${status} ${handle.platform}: ${handle.handle} (${handle.reason})`);
+      });
+    }
+    
+    // Top TF-IDF Terms
+    if (person.topTFIDFTerms && person.topTFIDFTerms.length > 0) {
+      console.log(`\n🔤 Key Terms: ${person.topTFIDFTerms.slice(0, 10).join(', ')}`);
+    }
+    
+    // Entity Matches
+    if (person.entityMatches && person.entityMatches.length > 0) {
+      console.log(`\n🤝 Entity Matches: ${person.entityMatches.join(', ')}`);
+    }
+    
+    // Rationale
+    if (person.rationale) {
+      console.log(`\n💭 Rationale: ${person.rationale}`);
+    }
+    
+    // Profiles
+    if (person.profiles && person.profiles.length > 0) {
+      console.log(`\n� Profiles (${person.profiles.length}):`);
+      person.profiles.slice(0, 5).forEach((profile, idx) => {
+        console.log(`   ${idx + 1}. ${profile.platform}: ${profile.title}`);
+        console.log(`      URL: ${profile.url}`);
+        console.log(`      Relevance: ${(profile.relevanceScore * 100).toFixed(1)}%`);
+        if (profile.whyIncluded) {
+          console.log(`      Why Included: ${profile.whyIncluded}`);
+        }
+      });
+      if (person.profiles.length > 5) {
+        console.log(`   ... and ${person.profiles.length - 5} more profiles`);
+      }
+    }
+  });
+  
+  // Processing insights
+  console.log(`\n${'='.repeat(80)}`);
+  console.log(`🧠 PROCESSING INSIGHTS`);
+  console.log(`${'='.repeat(80)}`);
+  
+  console.log(`⏱️  Total Processing Time: ${result.processingStats.totalProcessingTime.toFixed(2)}ms`);
+  console.log(`🎯 Vector Dimensions: ${result.processingStats.vectorDimensions}`);
+  console.log(`🔍 Clusters Found: ${result.processingStats.clustersFound}`);
+  console.log(`⚠️  Outliers: ${result.processingStats.outlierCount}`);
+  console.log(`🤝 Entity Resolution Time: ${result.processingStats.entityResolutionTime.toFixed(2)}ms`);
+}
+
+async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: number | undefined = undefined, detailed: boolean = false, priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'): Promise<EnhancedPersonResult> {
   const ultimateScraper = new UltimateCrawlerEngine();
   const enhancedScraper = new EnhancedWebScraper();
   
@@ -369,13 +453,39 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     
     console.log(`✅ Enhanced data conversion completed! Processed ${scrapedData.length} websites with comprehensive analysis.`);
     
-    // Create person analyzer with enhanced clustering capabilities
-    const analyzer = new PersonAnalyzer(person.firstName, person.lastName, person.email);
+    // Create enhanced person analyzer with automatic pipeline
+    const enhancedAnalyzer = new EnhancedPersonAnalyzer(person.firstName, person.lastName, person.email, {
+      // Enable all automatic features
+      enableURLValidation: true,
+      strictProfilePatterns: true,
+      unicodeNormalization: true,
+      aggressiveDeduplication: true,
+      
+      // TF-IDF settings for robust vectorization
+      minDocFreq: 2,
+      maxDocFreq: 0.8,
+      svdComponents: 200,
+      useL2Normalization: true,
+      
+      // HDBSCAN clustering with auto-k
+      minClusterSize: Math.max(8, Math.min(20, Math.floor(uniqueSearchResults.length / 4))),
+      clusteringMetric: 'euclidean', // Works well with L2-normalized vectors
+      autoOutlierDetection: true,
+      
+      // Entity resolution for handle deduplication
+      entityResolutionEnabled: true,
+      handleDeduplication: true,
+      multiAccountDetection: true,
+      
+      // Clean output logging
+      verboseLogging: detailed,
+      includeRationale: true
+    });
     
-    // Perform enhanced analysis
-    const analysisResult = analyzer.analyzePersons(uniqueSearchResults, scrapedData);
+    // Perform enhanced automatic analysis
+    const enhancedResult = await enhancedAnalyzer.analyzePersonAutomatic(uniqueSearchResults, scrapedData);
     
-    return analysisResult;
+    return enhancedResult;
     
   } finally {
     await ultimateScraper.close();
@@ -478,7 +588,7 @@ async function main() {
     const totalTime = Date.now() - startTime;
     
     // Print comprehensive analysis
-    printAnalysisResult(result);
+    printEnhancedAnalysisResult(result);
     
     console.log(`\n⏱️  Total execution time: ${(totalTime / 1000).toFixed(2)} seconds`);
     console.log(`🔚 Person analysis completed successfully!`);
