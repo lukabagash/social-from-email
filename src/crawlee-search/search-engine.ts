@@ -2,6 +2,7 @@ import { PlaywrightCrawler, Dataset, RequestQueue, Configuration } from 'crawlee
 import { Page } from 'playwright';
 import * as cheerio from 'cheerio';
 import { TemporaryStorageManager } from '../utils/temporary-storage';
+import { IntelligentSelectorManager } from '../selector-automation/intelligent-selector-manager';
 
 export interface CrawleeSearchOptions {
   maxResultsPerEngine?: number;
@@ -15,6 +16,8 @@ export interface CrawleeSearchOptions {
   useTemporaryStorage?: boolean;
   retainStorageOnError?: boolean;
   storageNamespace?: string;
+  useIntelligentSelectors?: boolean;
+  selectorCacheEnabled?: boolean;
 }
 
 export interface SearchEngineResult {
@@ -31,6 +34,8 @@ export interface SearchEngineResult {
     hasImage: boolean;
     isAd: boolean;
     estimatedLoadTime: number;
+    selectorUsed?: string;
+    selectorType?: 'intelligent' | 'fallback' | 'legacy';
   };
 }
 
@@ -41,6 +46,7 @@ export class CrawleeSearchEngine {
   private options: CrawleeSearchOptions;
   private searchResults: SearchEngineResult[] = [];
   private storageManager?: TemporaryStorageManager;
+  private selectorManager: IntelligentSelectorManager;
 
   constructor(options: CrawleeSearchOptions = {}) {
     this.options = {
@@ -54,8 +60,13 @@ export class CrawleeSearchEngine {
       waitForNetworkIdle: true,
       useTemporaryStorage: true,
       retainStorageOnError: false,
+      useIntelligentSelectors: true,
+      selectorCacheEnabled: true,
       ...options
     };
+
+    // Initialize intelligent selector manager
+    this.selectorManager = new IntelligentSelectorManager();
 
     // Initialize temporary storage if enabled
     if (this.options.useTemporaryStorage) {
@@ -280,6 +291,117 @@ export class CrawleeSearchEngine {
   }
 
   private async extractSearchResults(page: Page, engine: string, query: string, timestamp: string): Promise<SearchEngineResult[]> {
+    if (!this.options.useIntelligentSelectors) {
+      // Fallback to original extraction method
+      return this.extractSearchResultsLegacy(page, engine, query, timestamp);
+    }
+
+    const results: SearchEngineResult[] = [];
+
+    try {
+      const searchEngine = engine as 'google' | 'duckduckgo' | 'bing';
+      
+      // Get intelligent selectors
+      const resultSelector = await this.selectorManager.getSelector(page, searchEngine, 'search-results');
+      const titleSelector = await this.selectorManager.getSelector(page, searchEngine, 'result-title');
+      const linkSelector = await this.selectorManager.getSelector(page, searchEngine, 'result-link');
+      const descriptionSelector = await this.selectorManager.getSelector(page, searchEngine, 'result-description');
+
+      console.log(`🎯 Using intelligent selectors for ${engine}: ${resultSelector}`);
+
+      // Extract results using intelligent selectors
+      const extractedData = await page.evaluate(
+        ({ resultSel, titleSel, linkSel, descSel, query, engine, timestamp }) => {
+          const results: any[] = [];
+          const resultElements = document.querySelectorAll(resultSel);
+          
+          resultElements.forEach((element, index) => {
+            try {
+              // Extract title
+              let title = '';
+              const titleEl = element.querySelector(titleSel);
+              if (titleEl) {
+                title = titleEl.textContent?.trim() || '';
+              }
+
+              // Extract link
+              let url = '';
+              const linkEl = element.querySelector(linkSel) || element.querySelector('a[href]');
+              if (linkEl) {
+                url = linkEl.getAttribute('href') || '';
+              }
+
+              // Extract description
+              let snippet = '';
+              const descEl = element.querySelector(descSel);
+              if (descEl) {
+                snippet = descEl.textContent?.trim() || '';
+              }
+
+              // Validate and clean data
+              if (title && url && !url.startsWith('/') && !url.includes(`${engine}.com`)) {
+                try {
+                  const urlObj = new URL(url.startsWith('http') ? url : `https://${url}`);
+                  
+                  results.push({
+                    title,
+                    url: urlObj.href,
+                    snippet,
+                    domain: urlObj.hostname,
+                    searchEngine: engine,
+                    query,
+                    rank: index + 1,
+                    timestamp,
+                    metadata: {
+                      hasRichSnippet: element.querySelector('.rich-snippet, .enhanced-snippet') !== null,
+                      hasImage: element.querySelector('img') !== null,
+                      isAd: element.classList.contains('ad') || element.querySelector('.ad-indicator') !== null,
+                      estimatedLoadTime: 0,
+                      selectorUsed: resultSel,
+                      selectorType: 'intelligent' as const
+                    }
+                  });
+                } catch (urlError) {
+                  console.warn('Invalid URL found:', url);
+                }
+              }
+            } catch (error) {
+              console.warn('Error extracting result:', error);
+            }
+          });
+          
+          return results;
+        },
+        {
+          resultSel: resultSelector,
+          titleSel: titleSelector,
+          linkSel: linkSelector,
+          descSel: descriptionSelector,
+          query,
+          engine,
+          timestamp
+        }
+      );
+
+      results.push(...extractedData.slice(0, this.options.maxResultsPerEngine));
+      
+      if (results.length === 0) {
+        console.warn(`⚠️ No results found with intelligent selectors for ${engine}, trying fallback...`);
+        return this.extractSearchResultsLegacy(page, engine, query, timestamp);
+      }
+
+      console.log(`✨ Successfully extracted ${results.length} results using intelligent selectors`);
+      
+    } catch (error) {
+      console.error(`❌ Error with intelligent selectors for ${engine}:`, error);
+      console.log(`🔄 Falling back to legacy extraction...`);
+      return this.extractSearchResultsLegacy(page, engine, query, timestamp);
+    }
+
+    return results;
+  }
+
+  private async extractSearchResultsLegacy(page: Page, engine: string, query: string, timestamp: string): Promise<SearchEngineResult[]> {
     const content = await page.content();
     const $ = cheerio.load(content);
     const results: SearchEngineResult[] = [];
@@ -295,6 +417,11 @@ export class CrawleeSearchEngine {
         results.push(...this.extractBingResults($, query, timestamp));
         break;
     }
+    
+    // Mark as legacy extraction
+    results.forEach(result => {
+      result.metadata.selectorType = 'legacy';
+    });
     
     return results.slice(0, this.options.maxResultsPerEngine);
   }
@@ -509,5 +636,20 @@ export class CrawleeSearchEngine {
    */
   getStorageManager(): TemporaryStorageManager | undefined {
     return this.storageManager;
+  }
+
+  /**
+   * Get intelligent selector performance statistics
+   */
+  getSelectorStats() {
+    return this.selectorManager.getCacheStats();
+  }
+
+  /**
+   * Clear selector cache (useful for testing)
+   */
+  clearSelectorCache(): void {
+    // Clear the cache by creating a new instance
+    this.selectorManager = new IntelligentSelectorManager();
   }
 }
