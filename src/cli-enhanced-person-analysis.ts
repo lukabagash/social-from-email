@@ -324,13 +324,10 @@ async function searchAndAnalyzePerson(person: PersonSearchInput, queryCount: num
     console.log(`📋 Search Priority: ${priority.toUpperCase()}`);
     console.log(`🤖 Using Ultimate Crawler with Enhanced Scraping`);
     
-    // Use the enhanced search method with load balancing
-    const allSearchResults = await ultimateScraper.searchPersonWithVariations(
-      person.firstName, 
-      person.lastName, 
-      person.email, 
+    // Use the new searchWithCustomQueries method with the generated queries
+    const allSearchResults = await ultimateScraper.searchWithCustomQueries(
+      queriesToExecute,
       { 
-        queryLimit: queryCount,
         maxResults: detailed ? 5 : 3,
         includeSnippets: true,
         multiEngineMode: true, // Enable multi-engine search for better coverage
