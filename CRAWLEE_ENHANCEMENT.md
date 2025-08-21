@@ -35,6 +35,8 @@ The new Crawlee-enhanced system provides the same CLI command plus a new enhance
 node dist/cli-crawlee-person-analysis.cjs "Jed" "Burdick" "jed@votaryfilms.com" 3 --priority=social-first --engines=duckduckgo,google --concurrency=5
 ```
 
+**Note**: The Crawlee-enhanced version now includes LinkedIn scraping for comprehensive professional profile analysis.
+
 ### Crawlee Advantages:
 
 #### 1. **Automatic Retry Logic & Error Recovery**
