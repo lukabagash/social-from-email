@@ -806,6 +806,73 @@ export class UltimateCrawlerEngine {
 
     return this.searchDuckDuckGo(query, options);
   }
+
+  /**
+   * Execute custom search queries with intelligent load balancing
+   * @param queries - Array of custom search queries to execute
+   * @param options - Search options including parallelSessions, multiEngineMode, etc.
+   * @returns Promise<SearchResult[]> - All unique results from the executed queries
+   */
+  async searchWithCustomQueries(queries: string[], options: UltimateSearchOptions = {}): Promise<SearchResult[]> {
+    const allResults: SearchResult[] = [];
+
+    console.log(`🔍 Running ${queries.length} custom search queries with Ultimate Crawler...`);
+
+    // Process queries with intelligent load balancing
+    const parallelSessions = options.parallelSessions || 3;
+    const batchSize = Math.min(parallelSessions, queries.length);
+    
+    for (let i = 0; i < queries.length; i += batchSize) {
+      const batch = queries.slice(i, i + batchSize);
+      
+      // Process batch in parallel
+      const batchPromises = batch.map(async (query, batchIndex) => {
+        const queryIndex = i + batchIndex + 1;
+        console.log(`   ${queryIndex}/${queries.length}: ${query}`);
+        
+        try {
+          // Use multi-engine search if enabled
+          if (options.multiEngineMode) {
+            return await this.searchMultipleEngines(query, { ...options, maxResults: options.maxResults || 3 });
+          } else {
+            return await this.searchDuckDuckGo(query, { ...options, maxResults: options.maxResults || 3 });
+          }
+        } catch (error) {
+          console.error(`Error in search ${queryIndex}:`, error);
+          return [];
+        }
+      });
+      
+      const batchResults = await Promise.all(batchPromises);
+      batchResults.forEach(results => allResults.push(...results));
+      
+      // Add delay between batches to avoid overwhelming the server
+      if (i + batchSize < queries.length) {
+        const delay = Math.random() * 1000 + 2000; // 2-3 seconds
+        console.log(`⏳ Batch completed, waiting ${Math.round(delay/1000)}s before next batch...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+
+    // Remove duplicates based on URL
+    const uniqueResults = allResults.filter((result, index, self) => 
+      index === self.findIndex(r => r.url === result.url)
+    );
+
+    const modeText = options.multiEngineMode ? 'Multi-Engine' : 'DuckDuckGo';
+    console.log(`🎯 ${modeText} Crawler completed: ${uniqueResults.length} unique results from ${queries.length} queries`);
+    
+    // Add engine distribution statistics
+    const engineStats = uniqueResults.reduce((stats, result) => {
+      const engine = result.searchEngine || result.browserEngine || 'unknown';
+      stats[engine] = (stats[engine] || 0) + 1;
+      return stats;
+    }, {} as Record<string, number>);
+    
+    console.log(`📊 Engine distribution:`, engineStats);
+
+    return uniqueResults;
+  }
 }
 
 // Export the SearchResult interface as GoogleSearchResult for compatibility
