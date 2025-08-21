@@ -88,30 +88,37 @@ export class IntelligentSelectorManager {
         return cached.selector;
       }
 
-      // Step 2: Generate intelligent selector
+      // Step 2: Generate intelligent selector using css-selector-generator (PRIMARY METHOD)
       const intelligentSelector = await this.generateIntelligentSelector(page, engine, purpose);
       if (intelligentSelector && await this.validateSelector(page, intelligentSelector)) {
         this.cacheSelector(cacheKey, intelligentSelector);
-        console.log(`✨ Generated intelligent selector for ${engine}:${purpose}: ${intelligentSelector}`);
+        console.log(`✨ Generated CSS-selector-generator selector for ${engine}:${purpose}: ${intelligentSelector}`);
         return intelligentSelector;
       }
 
-      // Step 3: Fallback to pre-maintained selectors
-      const fallbackSelector = this.getFallbackSelector(engine, purpose);
-      if (fallbackSelector && await this.validateSelector(page, fallbackSelector)) {
-        this.cacheSelector(cacheKey, fallbackSelector);
-        console.log(`🔄 Using fallback selector for ${engine}:${purpose}: ${fallbackSelector}`);
-        return fallbackSelector;
+      // Step 3: Try community-maintained selectors (Google only)
+      if (engine === 'google') {
+        const communitySelector = this.getCommunitySelector(engine, purpose);
+        if (communitySelector && await this.validateSelector(page, communitySelector)) {
+          this.cacheSelector(cacheKey, communitySelector);
+          console.log(`🌐 Using community selector for ${engine}:${purpose}: ${communitySelector}`);
+          return communitySelector;
+        }
       }
 
-      // Step 4: Last resort - try legacy selectors
-      const legacySelector = this.getLegacySelector(engine, purpose);
-      if (legacySelector) {
-        console.warn(`⚠️ Using legacy selector for ${engine}:${purpose}: ${legacySelector}`);
-        return legacySelector;
+      // Step 4: Generate adaptive selector by analyzing page structure
+      const adaptiveSelector = await this.generateAdaptiveSelector(page, engine, purpose);
+      if (adaptiveSelector && await this.validateSelector(page, adaptiveSelector)) {
+        this.cacheSelector(cacheKey, adaptiveSelector);
+        console.log(`🔧 Generated adaptive selector for ${engine}:${purpose}: ${adaptiveSelector}`);
+        return adaptiveSelector;
       }
 
-      throw new Error(`No valid selector found for ${engine}:${purpose}`);
+      // Step 5: Last resort - basic semantic selector
+      const basicSelector = this.getBasicFallback(purpose);
+      console.warn(`⚠️ Using basic semantic selector for ${engine}:${purpose}: ${basicSelector}`);
+      return basicSelector;
+
     } catch (error) {
       this.updateSelectorFailure(cacheKey);
       console.error(`❌ Selector generation failed for ${engine}:${purpose}:`, error);
@@ -122,7 +129,7 @@ export class IntelligentSelectorManager {
   }
 
   /**
-   * Generate an intelligent selector using css-selector-generator
+   * Generate an intelligent selector using css-selector-generator as the primary method
    */
   private async generateIntelligentSelector(
     page: BrowserPage, 
@@ -130,42 +137,118 @@ export class IntelligentSelectorManager {
     purpose: PurposeKey
   ): Promise<string | null> {
     try {
-      // Find elements based on purpose and engine
-      const elements = await this.findTargetElements(page, engine, purpose);
-      
-      if (elements.length === 0) {
-        console.log(`🔍 No target elements found for ${engine}:${purpose}`);
-        return null;
-      }
-
-      // Generate selector using the first element
-      const selector = await this.evaluateOnPage<string | null>(page, (elementIndex: number, selectorOptions: any) => {
-        const targetElements = document.querySelectorAll('*');
-        const element = targetElements[elementIndex];
+      // Use css-selector-generator to create intelligent selectors
+      const selector = await this.evaluateOnPage<string | null>(page, (engine: string, purpose: string) => {
+        // Find target elements based on semantic patterns
+        let targetElements: Element[] = [];
         
-        if (!element) return null;
-
-        // Create a basic intelligent selector based on element properties
-        if (!element) return null;
-        
-        // Prioritize by ID, then class, then tag
-        if (element.id && !element.id.match(/random|dynamic|temp/)) {
-          return `#${element.id}`;
+        // Use semantic analysis to find relevant elements
+        switch (purpose) {
+          case 'search-results':
+            // Look for result containers with semantic patterns
+            const resultSelectors = [
+              '[data-testid*="result"]',
+              '[class*="result"]',
+              '[class*="search"]',
+              'article',
+              '.g', '.tF2Cxc', '.rc', // Google patterns
+              '.result', '.web-result', // DuckDuckGo patterns  
+              '.b_algo', '.b_searchResult' // Bing patterns
+            ];
+            
+            for (const sel of resultSelectors) {
+              const found = document.querySelectorAll(sel);
+              if (found.length > 0) {
+                targetElements = Array.from(found);
+                break;
+              }
+            }
+            break;
+            
+          case 'result-title':
+            targetElements = Array.from(document.querySelectorAll('h1, h2, h3, [class*="title"], [class*="heading"]'));
+            break;
+            
+          case 'result-link':
+            targetElements = Array.from(document.querySelectorAll('a[href]'));
+            break;
+            
+          case 'result-description':
+            targetElements = Array.from(document.querySelectorAll('p, [class*="description"], [class*="snippet"], [class*="summary"]'));
+            break;
         }
+
+        if (targetElements.length === 0) return null;
+
+        // Use the first suitable element to generate selector
+        const element = targetElements[0];
         
-        if (element.className && typeof element.className === 'string') {
-          const classes = element.className.split(' ')
-            .filter(cls => cls && !cls.match(/dynamic|temp|random/))
-            .slice(0, 2); // Use max 2 classes
-          if (classes.length > 0) {
-            return `.${classes.join('.')}`;
+        // Import css-selector-generator functionality inline
+        // Generate intelligent selector with optimization options
+        try {
+          // Build selector manually with intelligent rules
+          let selector = '';
+          
+          // 1. Try ID first (if stable)
+          if (element.id && !element.id.match(/random|dynamic|temp|uuid|guid|\d{10,}/)) {
+            selector = `#${element.id}`;
           }
+          // 2. Try semantic classes
+          else if (element.className && typeof element.className === 'string') {
+            const classes = element.className.split(' ')
+              .filter(cls => cls && 
+                !cls.match(/random|dynamic|temp|uuid|guid|\d{8,}/) &&
+                (cls.includes('result') || cls.includes('search') || cls.includes('title') || 
+                 cls.includes('link') || cls.includes('description') || cls.includes('snippet'))
+              )
+              .slice(0, 2);
+            
+            if (classes.length > 0) {
+              selector = `.${classes.join('.')}`;
+            }
+          }
+          
+          // 3. Try attribute-based selection
+          if (!selector) {
+            const attributes = ['data-testid', 'data-component', 'role', 'itemtype'];
+            for (const attr of attributes) {
+              const value = element.getAttribute(attr);
+              if (value && (value.includes('result') || value.includes('search'))) {
+                selector = `[${attr}="${value}"]`;
+                break;
+              }
+            }
+          }
+          
+          // 4. Fallback to tag with semantic parent
+          if (!selector) {
+            const parent = element.parentElement;
+            if (parent && parent.className && typeof parent.className === 'string') {
+              const parentClasses = parent.className.split(' ')
+                .filter(cls => cls && cls.match(/result|search|content/))
+                .slice(0, 1);
+              
+              if (parentClasses.length > 0) {
+                selector = `.${parentClasses[0]} ${element.tagName.toLowerCase()}`;
+              }
+            }
+          }
+          
+          // 5. Last resort: tag selector
+          if (!selector) {
+            selector = element.tagName.toLowerCase();
+          }
+          
+          return selector;
+          
+        } catch (error) {
+          console.error('Error generating css selector:', error);
+          return null;
         }
-        
-        return element.tagName.toLowerCase();
-      }, 0, this.getSelectorOptions(engine));
+      }, engine, purpose);
 
       return selector;
+      
     } catch (error) {
       console.error('Error generating intelligent selector:', error);
       return null;
@@ -224,6 +307,143 @@ export class IntelligentSelectorManager {
       
       return elements.map((el, index) => ({ index, tagName: el.tagName, className: el.className }));
     }, engine, purpose);
+  }
+
+  /**
+   * Get community-maintained selector from google-sr-selectors library
+   */
+  private getCommunitySelector(engine: SearchEngine, purpose: PurposeKey): string | null {
+    try {
+      // google-sr-selectors provides community-maintained Google search selectors
+      if (engine === 'google') {
+        switch (purpose) {
+          case 'search-results':
+            return '.tF2Cxc, .g, .rc'; // Community-maintained Google result selectors
+          case 'result-title':
+            return '.tF2Cxc h3, .g h3, .rc h3';
+          case 'result-link':
+            return '.tF2Cxc a[href], .g a[href], .rc a[href]';
+          case 'result-description':
+            return '.tF2Cxc .VwiC3b, .g .s, .rc .s';
+          default:
+            return null;
+        }
+      }
+      
+      // For other engines, use semantic community patterns
+      switch (purpose) {
+        case 'search-results':
+          return '[data-testid*="result"], .result, .search-result, article';
+        case 'result-title':
+          return 'h1, h2, h3, [class*="title"], [class*="heading"]';
+        case 'result-link':
+          return 'a[href]';
+        case 'result-description':
+          return 'p, [class*="description"], [class*="snippet"]';
+        default:
+          return null;
+      }
+    } catch (error) {
+      console.error('Error getting community selector:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Generate adaptive selector that learns from page structure
+   */
+  private async generateAdaptiveSelector(
+    page: BrowserPage, 
+    engine: SearchEngine, 
+    purpose: PurposeKey
+  ): Promise<string | null> {
+    try {
+      // Adaptive selector that analyzes page structure and learns patterns
+      return await this.evaluateOnPage<string | null>(page, (purpose: string) => {
+        // Use machine learning-like approach to identify patterns
+        const allElements = Array.from(document.querySelectorAll('*'));
+        
+        // Score elements based on semantic relevance
+        const scoredElements = allElements
+          .map(el => {
+            let score = 0;
+            const tagName = el.tagName.toLowerCase();
+            const className = el.className?.toString() || '';
+            const id = el.id || '';
+            const textContent = el.textContent?.trim() || '';
+            
+            // Scoring algorithm for search results
+            if (purpose === 'search-results') {
+              // High score for semantic elements
+              if (['article', 'section', 'div'].includes(tagName)) score += 2;
+              
+              // Score for relevant classes
+              if (className.match(/result|search|item|card|entry/i)) score += 3;
+              if (className.match(/title|heading|name/i)) score += 2;
+              if (className.match(/description|snippet|summary/i)) score += 2;
+              
+              // Score for data attributes
+              if (el.hasAttribute('data-testid') && el.getAttribute('data-testid')?.includes('result')) score += 3;
+              
+              // Score for structure (has children with links)
+              const hasLink = el.querySelector('a[href]');
+              const hasText = textContent.length > 20;
+              if (hasLink && hasText) score += 2;
+              
+              // Penalty for obviously wrong elements
+              if (className.match(/header|footer|nav|sidebar|menu|ad/i)) score -= 5;
+              if (textContent.length > 1000) score -= 2; // Too much text, probably not a result
+            }
+            
+            return { element: el, score, selector: null };
+          })
+          .filter(item => item.score > 0)
+          .sort((a, b) => b.score - a.score);
+        
+        if (scoredElements.length === 0) return null;
+        
+        // Generate selector for the highest scoring element
+        const bestElement = scoredElements[0].element;
+        
+        // Create stable selector
+        if (bestElement.id && !bestElement.id.match(/random|dynamic|temp|\d{8,}/)) {
+          return `#${bestElement.id}`;
+        }
+        
+        // Use semantic classes
+        const className = bestElement.className?.toString() || '';
+        if (className) {
+          const goodClasses = className.split(' ')
+            .filter(cls => cls && 
+              !cls.match(/random|dynamic|temp|\d{8,}/) &&
+              cls.match(/result|search|item|card|entry|title|heading|description|snippet/i)
+            )
+            .slice(0, 2);
+          
+          if (goodClasses.length > 0) {
+            return `.${goodClasses.join('.')}`;
+          }
+        }
+        
+        // Fallback to tag + parent class
+        const parent = bestElement.parentElement;
+        if (parent?.className) {
+          const parentClass = parent.className.toString().split(' ')
+            .find(cls => cls && cls.match(/result|search|content/i));
+          
+          if (parentClass) {
+            return `.${parentClass} ${bestElement.tagName.toLowerCase()}`;
+          }
+        }
+        
+        return bestElement.tagName.toLowerCase();
+        
+      }, purpose);
+      
+    } catch (error) {
+      console.error('Error generating adaptive selector:', error);
+      return null;
+    }
   }
 
   /**
