@@ -333,12 +333,11 @@ async function searchAndAnalyzePersonWithCrawlee(
     // Print detailed search results
     printCrawleeSearchResults(searchResults);
     
-    // Filter out LinkedIn URLs for scraping (as requested)
+    // Use all URLs for Crawlee-powered scraping (including LinkedIn)
     const urlsToScrape = searchResults
-      .filter(result => !result.domain.includes('linkedin.com'))
       .map(result => result.url);
     
-    console.log(`\n🕷️  Starting Crawlee-powered scraping of ${urlsToScrape.length} websites (excluding LinkedIn)...`);
+    console.log(`\n🕷️  Starting Crawlee-powered scraping of ${urlsToScrape.length} websites...`);
     console.log(`${'='.repeat(80)}`);
     
     // Use Crawlee for comprehensive data extraction
@@ -572,7 +571,7 @@ async function main() {
     console.log(`🔢 Query Count: All generated queries (no limit)`);
   }
   console.log(`🚀 Enhancement: Crawlee Multi-Crawler Engine 🕷️`);
-  console.log(`⚠️  Note: LinkedIn pages will be excluded from scraping as requested`);
+  console.log(`✅ Note: All websites including LinkedIn will be scraped with Crawlee`);
   console.log(`${'='.repeat(80)}\n`);
 
   try {
