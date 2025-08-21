@@ -7,6 +7,10 @@ export { AdvancedPersonClusterer } from "./advanced-clustering/advanced-clustere
 export { AdvancedInfoExtractor } from "./advanced-nlp/keyword-extractor";
 export { EnhancedKeywordExtractor } from "./advanced-nlp/enhanced-keyword-extractor";
 
+// Crawlee-enhanced exports
+export { EnhancedCrawleeEngine } from "./crawlee/enhanced-crawler";
+export { CrawleeSearchEngine } from "./crawlee-search/search-engine";
+
 // Type exports
 export type { 
   GoogleSearchResult,
@@ -39,3 +43,14 @@ export type {
 export type { 
   ClusteringResult 
 } from "./advanced-clustering/advanced-clusterer";
+
+// Crawlee type exports
+export type {
+  CrawleeScrapedData,
+  CrawleeOptions
+} from "./crawlee/enhanced-crawler";
+
+export type {
+  SearchEngineResult,
+  CrawleeSearchOptions
+} from "./crawlee-search/search-engine";
