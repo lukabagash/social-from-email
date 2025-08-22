@@ -12,6 +12,10 @@
  */
 
 import * as natural from 'natural';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
+// Fix for ES module compatibility
+const naturalLib = require('natural');
 import nlp from 'compromise';
 import keywordExtractor from 'keyword-extractor';
 
@@ -409,8 +413,8 @@ export interface SourceReliability {
 
 export class StateOfTheArtPersonExtractor {
   private readonly stemmer = natural.PorterStemmer;
-  private readonly tokenizer = new natural.WordTokenizer();
-  private readonly sentiment = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
+  private readonly tokenizer = new naturalLib.WordTokenizer();
+  private readonly sentiment = new naturalLib.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
   
   // State-of-the-art pattern libraries with contextual understanding
   private readonly patterns = {
