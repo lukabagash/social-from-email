@@ -261,32 +261,26 @@ export class CrawleeSearchEngine {
   }
 
   private async waitForSearchResults(page: Page, engine: string): Promise<void> {
-    const selectors = {
-      duckduckgo: ['.results .result', '.result', '.web-result', '[data-testid="result"]'],
-      google: ['#search .g', '.g', '.MjjYud', '.hlcw0c'],
-      bing: ['.b_algo', '.algo', '.b_searchResult']
-    };
+    const searchEngine = engine as 'google' | 'duckduckgo' | 'bing';
     
-    const selectorList = selectors[engine as keyof typeof selectors] || [];
-    
-    for (const selector of selectorList) {
-      try {
-        await page.waitForSelector(selector, { timeout: 5000 });
-        console.log(`✅ Found ${engine} results with selector: ${selector}`);
-        return; // Success, exit early
-      } catch (error) {
-        console.log(`⚠️ Selector ${selector} not found for ${engine}, trying next...`);
-        continue;
+    try {
+      // Get intelligent selector for search results - this already has the full fallback strategy
+      const selector = await this.selectorManager.getSelector(page, searchEngine, 'search-results');
+      
+      // Try the intelligent selector
+      await page.waitForSelector(selector, { timeout: 5000 });
+      console.log(`✅ Found ${engine} results with intelligent selector: ${selector}`);
+      return;
+    } catch (error) {
+      console.log(`⚠️ Intelligent selector failed for ${engine}, checking page content...`);
+      
+      // If selector fails, log page content for debugging
+      const pageText = await page.textContent('body') || '';
+      if (pageText.length > 100) {
+        console.log(`✅ Page loaded for ${engine} (${pageText.length} characters), will try extraction anyway`);
+      } else {
+        console.log(`❌ Page appears empty for ${engine}`);
       }
-    }
-    
-    // If no selectors worked, log the page content for debugging
-    console.log(`⚠️ No result selectors worked for ${engine}, checking page content...`);
-    const pageText = await page.textContent('body') || '';
-    if (pageText.length > 100) {
-      console.log(`✅ Page loaded for ${engine} (${pageText.length} characters), extracting with fallback method`);
-    } else {
-      console.log(`❌ Page appears empty for ${engine}`);
     }
   }
 
@@ -429,29 +423,28 @@ export class CrawleeSearchEngine {
   private extractDuckDuckGoResults($: cheerio.CheerioAPI, query: string, timestamp: string): SearchEngineResult[] {
     const results: SearchEngineResult[] = [];
     
-    // Try multiple selectors for DuckDuckGo results
-    const selectors = [
-      '.results .result',
-      '.result',
-      '.web-result',
-      '[data-testid="result"]',
-      '.links_main'
+    // Use semantic selectors instead of hardcoded ones - intelligent approach
+    const semanticSelectors = [
+      '[data-testid*="result"]',    // Data attribute approach
+      '[class*="result"]',          // Class contains result
+      'article',                    // Semantic HTML
+      'div[class*="search"]',       // Search-related divs
+      'section'                     // Semantic sections
     ];
     
-    for (const selector of selectors) {
+    for (const selector of semanticSelectors) {
       $(selector).each((index, element) => {
         const $el = $(element);
         
-        // Try different title selectors
-        let titleEl = $el.find('.result__title a');
-        if (!titleEl.length) titleEl = $el.find('h2 a');
-        if (!titleEl.length) titleEl = $el.find('h3 a');
+        // Use semantic title selectors - intelligent approach
+        let titleEl = $el.find('h1 a, h2 a, h3 a').first();
+        if (!titleEl.length) titleEl = $el.find('[class*="title"] a').first();
         if (!titleEl.length) titleEl = $el.find('a[href]').first();
         
-        // Try different snippet selectors
-        let snippetEl = $el.find('.result__snippet');
-        if (!snippetEl.length) snippetEl = $el.find('.result__meta');
-        if (!snippetEl.length) snippetEl = $el.find('.snippet');
+        // Use semantic snippet selectors - intelligent approach  
+        let snippetEl = $el.find('p').first();
+        if (!snippetEl.length) snippetEl = $el.find('[class*="snippet"], [class*="description"], [class*="summary"]').first();
+        if (!snippetEl.length) snippetEl = $el.find('div').filter((i, div) => $(div).text().length > 20).first();
         
         const title = titleEl.text().trim();
         const url = titleEl.attr('href');
