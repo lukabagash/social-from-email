@@ -27,7 +27,7 @@ interface SelectorPurpose {
   'result-snippet': string;
 }
 
-type SearchEngine = 'google' | 'duckduckgo' | 'bing';
+type SearchEngine = 'google' | 'duckduckgo' | 'bing' | 'brave' | 'yandex';
 type PurposeKey = keyof SelectorPurpose;
 
 /**
@@ -153,7 +153,9 @@ export class IntelligentSelectorManager {
               'article',
               '.g', '.tF2Cxc', '.rc', // Google patterns
               '.result', '.web-result', // DuckDuckGo patterns  
-              '.b_algo', '.b_searchResult' // Bing patterns
+              '.b_algo', '.b_searchResult', // Bing patterns
+              '.fdb', '.snippet', // Brave patterns
+              '.organic', '.serp-item', '.content', // Yandex patterns
             ];
             
             for (const sel of resultSelectors) {
@@ -303,6 +305,32 @@ export class IntelligentSelectorManager {
             }
           }
           break;
+
+        case 'brave':
+          if (purpose === 'search-results') {
+            const braveSelectors = ['.fdb', '.snippet', '.web-result', '[data-type="web"]', '.result'];
+            for (const selector of braveSelectors) {
+              const found = document.querySelectorAll(selector);
+              if (found.length > 0) {
+                elements.push(...Array.from(found));
+                break;
+              }
+            }
+          }
+          break;
+
+        case 'yandex':
+          if (purpose === 'search-results') {
+            const yandexSelectors = ['.organic', '.serp-item', '.content', '.organic__url-text', '.result'];
+            for (const selector of yandexSelectors) {
+              const found = document.querySelectorAll(selector);
+              if (found.length > 0) {
+                elements.push(...Array.from(found));
+                break;
+              }
+            }
+          }
+          break;
       }
       
       return elements.map((el, index) => ({ index, tagName: el.tagName, className: el.className }));
@@ -333,6 +361,11 @@ export class IntelligentSelectorManager {
       // For other engines, use semantic community patterns
       switch (purpose) {
         case 'search-results':
+          if (engine === 'brave') {
+            return '.fdb, .snippet, .web-result, [data-type="web"]';
+          } else if (engine === 'yandex') {
+            return '.organic, .serp-item, .content, .organic__url-text';
+          }
           return '[data-testid*="result"], .result, .search-result, article';
         case 'result-title':
           return 'h1, h2, h3, [class*="title"], [class*="heading"]';
@@ -478,6 +511,19 @@ export class IntelligentSelectorManager {
         '[data-*]',
         '*[id*="random"]',
         '.b-*'
+      ],
+      brave: [
+        '.dynamic-*',
+        '[data-*]',
+        '*[id*="random"]',
+        '.brave-*'
+      ],
+      yandex: [
+        '.dynamic-*',
+        '[data-*]',
+        '*[id*="random"]',
+        '.yandex-*',
+        '.serp-*'
       ]
     };
 
