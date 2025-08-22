@@ -1,10 +1,5 @@
-import puppeteer from 'puppeteer-extra';
-import { Page, Browser } from 'puppeteer';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import puppeteer, { Page, Browser } from 'puppeteer';
 import * as dotenv from 'dotenv';
-
-// Use stealth plugin to avoid detection
-puppeteer.use(StealthPlugin());
 
 dotenv.config();
 

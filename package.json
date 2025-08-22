@@ -64,8 +64,6 @@
     "natural": "^8.1.0",
     "playwright": "^1.54.2",
     "puppeteer": "^24.16.2",
-    "puppeteer-extra": "^3.3.6",
-    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "tree-kill": "^1.2.2"
   }
 }

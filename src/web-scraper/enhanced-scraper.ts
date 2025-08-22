@@ -1,10 +1,5 @@
-import puppeteer from 'puppeteer-extra';
-import { Page, Browser, ElementHandle, HTTPRequest, ConsoleMessage } from 'puppeteer';
-import StealthPlugin from 'puppeteer-extra-plugin-stealth';
+import puppeteer, { Page, Browser, ElementHandle, HTTPRequest, ConsoleMessage } from 'puppeteer';
 import * as dotenv from 'dotenv';
-
-// Enhanced stealth plugin configuration
-puppeteer.use(StealthPlugin());
 
 dotenv.config();
 
