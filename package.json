@@ -18,7 +18,16 @@
   "scripts": {
     "build": "tsup src/index.ts src/cli-hybrid-person-analysis.ts --dts --format esm,cjs",
     "dev": "tsx src/index.ts",
-    "test": "npm run build && node dist/index.js"
+    "test": "tsx test/basic.test.ts",
+    "test:build": "npm run build && node dist/index.js",
+    "example:basic": "tsx examples/basic-usage.ts",
+    "example:advanced": "tsx examples/advanced-usage.ts",
+    "example:integration": "tsx examples/integration-examples.ts",
+    "examples": "npm run example:basic && npm run example:advanced",
+    "demo": "tsx demo/live-demo.ts",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [
     "email",
@@ -37,6 +46,7 @@
     "@types/node": "^24.3.0",
     "eslint": "^9.33.0",
     "tsup": "^8.5.0",
+    "tsx": "^4.19.1",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
