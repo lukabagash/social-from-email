@@ -135,9 +135,15 @@ export class PersonAnalyzer {
   }
 
   // Main analysis method
-  public analyzePersons(searchResults: GoogleSearchResult[], scrapedData: ScrapedData[]): PersonAnalysisResult {
+  public async analyzePersons(searchResults: GoogleSearchResult[], scrapedData: ScrapedData[], useAdvancedClustering: boolean = false): Promise<PersonAnalysisResult> {
     console.log(`\n🔍 ENHANCED PERSON ANALYSIS: ${this.targetFirstName} ${this.targetLastName} (${this.targetEmail})`);
     console.log(`${'='.repeat(80)}`);
+
+    if (useAdvancedClustering) {
+      console.log('🤖 ADVANCED CLUSTERING MODE ENABLED - Using ML algorithms (HDBSCAN, Spectral, etc.)');
+    } else {
+      console.log('📊 BASIC CLUSTERING MODE - Using rule-based clustering');
+    }
 
     // Step 1: Site Discovery - find LinkedIn snippet and other discovered sites
     const siteDiscovery = this.performSiteDiscovery(searchResults);
@@ -174,26 +180,49 @@ export class PersonAnalyzer {
       );
     }
     
-    // Step 3: Perform enhanced clustering using biographical dimensions
-    console.log('🤖 Performing enhanced clustering with biographical dimensions...');
+    // Step 3: Perform clustering (advanced or basic based on flag)
+    let personClusters: PersonCluster[];
     
-    // Enhanced clustering using biographical data as dimensions
-    const allEvidence = this.extractEvidenceFromSources(searchResults, scrapedData);
+    if (useAdvancedClustering) {
+      console.log('🤖 Performing ADVANCED ML-based clustering with biographical dimensions...');
+      console.log('� Using: HDBSCAN, Spectral Clustering, and Ensemble methods');
+      
+      // Enhanced clustering using biographical data as dimensions
+      const allEvidence = this.extractEvidenceFromSources(searchResults, scrapedData);
+      
+      // Convert allEvidence to enhanced format
+      const enhancedEvidenceInput = allEvidence.map(item => ({
+        evidence: item.evidence,
+        source: item.source.url,
+        sourceType: (item.source.domain.includes('linkedin') || item.source.domain.includes('facebook') ? 'scraped' : 'search') as 'search' | 'scraped',
+        originalSource: item.source // Keep original source data
+      }));
+      
+      const enhancedEvidence = this.enrichEvidenceWithBiographicalData(enhancedEvidenceInput, personalBios);
+      personClusters = await this.clusterEvidenceWithAdvancedAlgorithms(enhancedEvidence, consolidatedBio);
+    } else {
+      console.log('📊 Performing basic rule-based clustering with biographical dimensions...');
+      
+      // Enhanced clustering using biographical data as dimensions
+      const allEvidence = this.extractEvidenceFromSources(searchResults, scrapedData);
+      
+      // Convert allEvidence to enhanced format
+      const enhancedEvidenceInput = allEvidence.map(item => ({
+        evidence: item.evidence,
+        source: item.source.url,
+        sourceType: (item.source.domain.includes('linkedin') || item.source.domain.includes('facebook') ? 'scraped' : 'search') as 'search' | 'scraped',
+        originalSource: item.source // Keep original source data
+      }));
+      
+      const enhancedEvidence = this.enrichEvidenceWithBiographicalData(enhancedEvidenceInput, personalBios);
+      personClusters = this.clusterEvidenceWithBiographicalDimensions(enhancedEvidence, consolidatedBio);
+    }
     
-    // Convert allEvidence to enhanced format
-    const enhancedEvidenceInput = allEvidence.map(item => ({
-      evidence: item.evidence,
-      source: item.source.url,
-      sourceType: (item.source.domain.includes('linkedin') || item.source.domain.includes('facebook') ? 'scraped' : 'search') as 'search' | 'scraped',
-      originalSource: item.source // Keep original source data
-    }));
-    
-    const enhancedEvidence = this.enrichEvidenceWithBiographicalData(enhancedEvidenceInput, personalBios);
-    const personClusters = this.clusterEvidenceWithBiographicalDimensions(enhancedEvidence, consolidatedBio);
     const rankedClusters = this.calculateEnhancedConfidenceScores(personClusters, consolidatedBio);
     
     // Step 4: Generate enhanced analysis with biographical insights
-    const analysis = this.generateAdvancedAnalysis(rankedClusters, undefined, 'advanced_clustering');
+    const analysisMethod = useAdvancedClustering ? 'advanced_clustering' : 'basic';
+    const analysis = this.generateAdvancedAnalysis(rankedClusters, undefined, analysisMethod);
     
     // Step 5: Create enhanced summary with bio insights
     const summary = this.createEnhancedSummary(searchResults, rankedClusters, consolidatedBio);
@@ -1750,7 +1779,7 @@ export class PersonAnalyzer {
   }
 
   private enrichEvidenceWithBiographicalData(
-    evidenceList: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; originalSource?: any }>, 
+    evidenceList: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio; originalSource?: any }>, 
     personalBios: PersonBio[]
   ): Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio; originalSource?: any }> {
     console.log('  🔗 Enriching evidence with biographical dimensions...');
@@ -1979,5 +2008,235 @@ export class PersonAnalyzer {
       biographicalInsights: biographicalSummary,
       enhancementMethod: 'advanced_biographical_profiling'
     };
+  }
+
+  private async clusterEvidenceWithAdvancedAlgorithms(
+    enrichedEvidence: Array<{ evidence: PersonEvidence; source: string; sourceType: 'search' | 'scraped'; bio?: PersonBio; originalSource?: any }>,
+    consolidatedBio: any
+  ): Promise<PersonCluster[]> {
+    console.log('  🔬 Using advanced ML clustering algorithms...');
+    
+    try {
+      // Convert evidence to ScrapedData format expected by AdvancedPersonClusterer
+      const scrapedDataForClustering: ScrapedData[] = enrichedEvidence.map(item => {
+        const originalSource = item.originalSource || {
+          url: item.source,
+          title: 'Unknown Title',
+          snippet: '',
+          domain: new URL(item.source).hostname
+        };
+        
+        return {
+          url: originalSource.url,
+          title: originalSource.title,
+          domain: originalSource.domain,
+          metadata: {
+            description: originalSource.snippet || '',
+            keywords: item.evidence.skills?.join(', ') || '',
+            author: item.evidence.name || '',
+            ogTitle: originalSource.title,
+            ogDescription: originalSource.snippet || '',
+          },
+          content: {
+            headings: {
+              h1: item.evidence.name ? [item.evidence.name] : [],
+              h2: item.evidence.title ? [item.evidence.title] : [],
+              h3: item.evidence.company ? [item.evidence.company] : [],
+            },
+            paragraphs: [
+              ...(item.evidence.skills || []),
+              ...(item.evidence.education || []),
+              ...(item.evidence.achievements || []),
+              item.evidence.location || '',
+              item.evidence.title || '',
+              item.evidence.company || ''
+            ].filter(p => p.length > 0),
+            links: item.evidence.socialProfiles?.map(social => ({
+              text: social.platform,
+              url: social.url,
+              isExternal: true
+            })) || [],
+            images: [],
+            contactInfo: {
+              emails: item.evidence.email ? [item.evidence.email] : [],
+              phones: item.evidence.phone ? [item.evidence.phone] : [],
+              socialLinks: item.evidence.socialProfiles || []
+            }
+          },
+          structure: {
+            hasNav: false,
+            hasHeader: false,
+            hasFooter: false,
+            hasSidebar: false,
+            articleCount: 0,
+            formCount: 0
+          },
+          performance: {
+            loadTime: 0,
+            responseTime: 0
+          }
+        };
+      });
+      
+      // Use AdvancedPersonClusterer
+      console.log(`  📊 Extracted ${scrapedDataForClustering.length} data points for clustering`);
+      
+      // Perform clustering with the optimal algorithm (HDBSCAN for person identification)
+      const clusteringResult = await AdvancedPersonClusterer.clusterPersonData(scrapedDataForClustering, {
+        algorithm: 'hdbscan',
+        minClusterSize: 2,
+        maxClusters: 5
+      });
+      
+      console.log(`  🎯 ML Clustering completed: ${clusteringResult.clusterCount} clusters found`);
+      console.log(`  📈 Silhouette Score: ${clusteringResult.silhouetteScore?.toFixed(3) || 'N/A'}`);
+      
+      // Convert clustering results back to PersonCluster format
+      const personClusters: PersonCluster[] = [];
+      
+      for (let clusterId = 0; clusterId < clusteringResult.clusterCount; clusterId++) {
+        const clusterIndices = clusteringResult.clusterLabels
+          .map((label: number, index: number) => ({ label, index }))
+          .filter((item: any) => item.label === clusterId)
+          .map((item: any) => item.index);
+        
+        if (clusterIndices.length === 0) continue;
+        
+        // Merge evidence from all items in this cluster
+        const clusterEvidence: PersonEvidence = {};
+        const clusterSources: Array<{
+          url: string;
+          title: string;
+          snippet: string;
+          domain: string;
+          evidenceContributed: string[];
+          relevanceScore: number;
+        }> = [];
+        
+        clusterIndices.forEach((index: number) => {
+          const item = enrichedEvidence[index];
+          const originalSource = item.originalSource || {
+            url: item.source,
+            title: 'Unknown Title',
+            snippet: '',
+            domain: new URL(item.source).hostname
+          };
+          
+          // Merge evidence
+          if (item.evidence.name && !clusterEvidence.name) {
+            clusterEvidence.name = item.evidence.name;
+          }
+          if (item.evidence.email && !clusterEvidence.email) {
+            clusterEvidence.email = item.evidence.email;
+          }
+          if (item.evidence.phone && !clusterEvidence.phone) {
+            clusterEvidence.phone = item.evidence.phone;
+          }
+          if (item.evidence.location && !clusterEvidence.location) {
+            clusterEvidence.location = item.evidence.location;
+          }
+          if (item.evidence.title && !clusterEvidence.title) {
+            clusterEvidence.title = item.evidence.title;
+          }
+          if (item.evidence.company && !clusterEvidence.company) {
+            clusterEvidence.company = item.evidence.company;
+          }
+          
+          // Merge arrays
+          if (item.evidence.socialProfiles) {
+            clusterEvidence.socialProfiles = [...(clusterEvidence.socialProfiles || []), ...item.evidence.socialProfiles];
+          }
+          if (item.evidence.skills) {
+            clusterEvidence.skills = [...(clusterEvidence.skills || []), ...item.evidence.skills];
+          }
+          if (item.evidence.education) {
+            clusterEvidence.education = [...(clusterEvidence.education || []), ...item.evidence.education];
+          }
+          
+          // Add source
+          clusterSources.push({
+            url: originalSource.url,
+            title: originalSource.title,
+            snippet: originalSource.snippet,
+            domain: originalSource.domain,
+            evidenceContributed: this.getEvidenceContributed(item.evidence),
+            relevanceScore: clusteringResult.confidenceScores[index] * 100
+          });
+        });
+        
+        // Create PersonCluster
+        const cluster: PersonCluster = {
+          confidence: 0, // Will be calculated later
+          personEvidence: clusterEvidence,
+          sources: clusterSources,
+          potentialVariations: clusterEvidence.name ? [clusterEvidence.name] : [],
+          metadata: {
+            clusteringMethod: 'advanced_ml',
+            clusteringAlgorithm: clusteringResult.algorithm,
+            silhouetteScore: clusteringResult.silhouetteScore,
+            mlConfidence: Math.max(...clusterIndices.map((i: number) => clusteringResult.confidenceScores[i]))
+          }
+        };
+        
+        personClusters.push(cluster);
+      }
+      
+      // Handle outliers as separate clusters if they have high confidence
+      clusteringResult.outliers.forEach((outlierIndex: number) => {
+        const item = enrichedEvidence[outlierIndex];
+        const confidence = clusteringResult.confidenceScores[outlierIndex];
+        
+        if (confidence > 0.5) { // Only include high-confidence outliers
+          const originalSource = item.originalSource || {
+            url: item.source,
+            title: 'Unknown Title',
+            snippet: '',
+            domain: new URL(item.source).hostname
+          };
+          
+          const outlierCluster: PersonCluster = {
+            confidence: 0, // Will be calculated later
+            personEvidence: { ...item.evidence },
+            sources: [{
+              url: originalSource.url,
+              title: originalSource.title,
+              snippet: originalSource.snippet,
+              domain: originalSource.domain,
+              evidenceContributed: this.getEvidenceContributed(item.evidence),
+              relevanceScore: confidence * 100
+            }],
+            potentialVariations: item.evidence.name ? [item.evidence.name] : [],
+            metadata: {
+              clusteringMethod: 'advanced_ml_outlier',
+              clusteringAlgorithm: clusteringResult.algorithm,
+              silhouetteScore: clusteringResult.silhouetteScore,
+              mlConfidence: confidence
+            }
+          };
+          
+          personClusters.push(outlierCluster);
+        }
+      });
+      
+      console.log(`  ✅ Advanced clustering produced ${personClusters.length} person clusters`);
+      return personClusters;
+      
+    } catch (error) {
+      console.error('  ❌ Advanced clustering failed, falling back to basic clustering:', error);
+      
+      // Fallback to basic clustering
+      const basicEvidence = enrichedEvidence.map(item => ({
+        evidence: item.evidence,
+        source: item.originalSource || {
+          url: item.source,
+          title: 'Unknown Title',
+          snippet: '',
+          domain: new URL(item.source).hostname
+        },
+        relevanceScore: 80
+      }));
+      
+      return this.clusterEvidenceIntoPersions(basicEvidence);
+    }
   }
 }
