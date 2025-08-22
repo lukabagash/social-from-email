@@ -1,0 +1,28 @@
+# Source files
+src/
+test/
+examples/
+
+# Environment and configuration
+.env*
+.cache/
+temp-storage/
+.vscode/
+.git/
+.github/
+
+# Development files
+tsconfig.json
+*.log
+*.tsbuildinfo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Coverage and testing
+coverage/
+.nyc_output/
+
+# Build artifacts not needed in package
+exports/
