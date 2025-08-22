@@ -18,11 +18,9 @@
     "hybrid-person-analysis": "./dist/cli-hybrid-person-analysis.cjs"
   },
   "scripts": {
-    "build": "tsup src/index.ts src/cli-enhanced-person-analysis.ts src/cli-crawlee-person-analysis.ts src/cli-hybrid-person-analysis.ts --dts --format esm,cjs",
-    "dev": "tsup src/index.ts src/cli-enhanced-person-analysis.ts src/cli-crawlee-person-analysis.ts src/cli-hybrid-person-analysis.ts --dts --format esm,cjs --watch",
-    "test": "vitest",
-    "test:run": "vitest run",
-    "prepublishOnly": "npm run build && npm test"
+    "build": "tsup src/index.ts src/cli-enhanced-person-analysis.ts src/cli-crawlee-person-analysis.ts src/cli-hybrid-person-analysis.ts src/quick-social-finder.ts --dts --format esm,cjs",
+    "dev": "tsx src/index.ts",
+    "test": "npm run build && node dist/index.js"
   },
   "keywords": [
     "email",
