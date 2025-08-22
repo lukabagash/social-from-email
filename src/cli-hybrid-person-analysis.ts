@@ -423,7 +423,7 @@ function printCrawleeScrapingStats(scrapedData: CrawleeScrapedData[], showTechni
 
 async function searchAndAnalyzePersonHybrid(
   person: PersonSearchInput, 
-  queryCount?: number, 
+  queryCount: number, 
   detailed: boolean = false, 
   priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first',
   useAdvancedClustering: boolean = false,
@@ -452,7 +452,7 @@ async function searchAndAnalyzePersonHybrid(
       useMultipleBrowsers: true,
       rotateUserAgents: true,
       enableStealth: true,
-      parallelSessions: Math.min(3, queryCount || 3),
+      parallelSessions: Math.min(3, queryCount),
       fallbackEngine: true
     });
     await crawleeEngine.initialize();
@@ -462,22 +462,23 @@ async function searchAndAnalyzePersonHybrid(
     // Generate search queries (using the proven approach)
     let allQueries: string[];
     
-    if (priority === 'social-first' && queryCount && queryCount <= 15) {
+    if (priority === 'social-first' && queryCount <= 15) {
       allQueries = SiteDiscoveryEngine.generatePrioritizedQueries(person.firstName, person.lastName, person.email, 'social-first');
       console.log(`🎯 Using SOCIAL-FIRST optimization (${queryCount} queries)`);
-    } else if (priority === 'professional' && queryCount && queryCount <= 20) {
+    } else if (priority === 'professional' && queryCount <= 20) {
       allQueries = SiteDiscoveryEngine.generatePrioritizedQueries(person.firstName, person.lastName, person.email, 'professional');
       console.log(`💼 Using PROFESSIONAL optimization (${queryCount} queries)`);
     } else {
       allQueries = SiteDiscoveryEngine.generateSearchQueries(person.firstName, person.lastName, person.email);
-      console.log(`🌐 Using COMPREHENSIVE search (all ${allQueries.length} queries)`);
+      console.log(`🌐 Using COMPREHENSIVE search (${queryCount} queries from ${allQueries.length} generated)`);
     }
     
-    // Limit queries if queryCount is specified
-    const queriesToExecute = queryCount ? allQueries.slice(0, queryCount) : allQueries;
+    // Always limit queries to the specified queryCount
+    const queriesToExecute = allQueries.slice(0, queryCount);
     
     console.log(`🎯 Generated ${allQueries.length} total queries, executing ${queriesToExecute.length}...`);
     console.log(`📋 Search Priority: ${priority.toUpperCase()}`);
+    console.log(`🔢 Query Limit: ${queryCount} (REQUIRED)`);
     console.log(`🤖 Using HYBRID: Ultimate Crawler (Search) + Crawlee (Scraping)`);
     
     // Use Ultimate Crawler for search (proven to work)
@@ -614,10 +615,10 @@ async function searchAndAnalyzePersonHybrid(
 async function main() {
   const args = process.argv.slice(2);
   
-  // Require all three parameters
-  if (args.length < 3) {
-    console.error("❌ Error: All three fields are required!");
-    console.error("\n📋 Usage: node dist/cli-hybrid-person-analysis.js <firstName> <lastName> <email> [queryCount] [options]");
+  // Require all four parameters
+  if (args.length < 4) {
+    console.error("❌ Error: All four fields are required!");
+    console.error("\n📋 Usage: node dist/cli-hybrid-person-analysis.js <firstName> <lastName> <email> <queryCount> [options]");
     console.error("📋 Example: node dist/cli-hybrid-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first --advanced-clustering --extended --technical --keywords --social-links");
     console.error("\n📝 Description:");
     console.error("   HYBRID tool combining the proven Ultimate Crawler Engine for search with");
@@ -625,7 +626,7 @@ async function main() {
     console.error("   • firstName: Person's first name (required)");
     console.error("   • lastName: Person's last name (required)");
     console.error("   • email: Person's email address (required, must be valid format)");
-    console.error("   • queryCount: Number of search queries to execute (optional, default: all generated queries)");
+    console.error("   • queryCount: Number of search queries to execute (required, must be positive integer)");
     console.error("\n🚩 Available Flags:");
     console.error("   • --detailed: Enhanced search with more comprehensive analysis");
     console.error("   • --extended: Show all biographical insights, career progression, social metrics");
@@ -648,9 +649,16 @@ async function main() {
   const firstName = cleanInput(args[0]);
   const lastName = cleanInput(args[1]);
   const email = cleanInput(args[2]);
+  const queryCount = parseInt(args[3], 10);
+  
+  // Validate queryCount
+  if (isNaN(queryCount) || queryCount < 1) {
+    console.error("❌ Error: Query count must be a positive integer");
+    console.error("   Example: 15 (to execute 15 search queries)");
+    process.exit(1);
+  }
   
   // Parse optional parameters
-  let queryCount: number | undefined;
   let detailed = false;
   let showExtended = false;
   let showTechnical = false;
@@ -659,10 +667,10 @@ async function main() {
   let exportSocialFile: string | undefined;
   let priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first';
   
-  // Check for queryCount and flags
+  // Check for flags
   let useAdvancedClustering = false;
   
-  for (let i = 3; i < args.length; i++) {
+  for (let i = 4; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--detailed') {
       detailed = true;
@@ -688,8 +696,9 @@ async function main() {
         console.error("   Valid options: social-first, professional, comprehensive");
         process.exit(1);
       }
-    } else if (!isNaN(Number(arg)) && !queryCount) {
-      queryCount = parseInt(arg, 10);
+    } else {
+      console.error(`❌ Unknown flag: ${arg}`);
+      process.exit(1);
     }
   }
 
@@ -720,7 +729,8 @@ async function main() {
   console.log(`${'='.repeat(80)}`);
   console.log(`👤 Target: ${person.firstName} ${person.lastName}`);
   console.log(`📧 Email: ${person.email}`);
-  console.log(`🔍 Mode: ${detailed ? 'Detailed Analysis' : 'Standard Analysis'}`);
+  console.log(`� Query Count: ${queryCount} queries (REQUIRED)`);
+  console.log(`�🔍 Mode: ${detailed ? 'Detailed Analysis' : 'Standard Analysis'}`);
   if (showExtended) console.log(`🔍 Extended Info: Biographical insights, social metrics, career progression`);
   if (showTechnical) console.log(`🔍 Technical Details: Quality scores, status codes, performance metrics`);
   if (showKeywords) console.log(`🔍 Keyword Analysis: Topic extraction, named entities, relationships`);
@@ -728,11 +738,6 @@ async function main() {
   if (exportSocialFile) console.log(`🔍 Export Social: ${exportSocialFile}`);
   console.log(`🤖 Clustering: ${useAdvancedClustering ? 'ADVANCED ML (HDBSCAN, Spectral)' : 'Basic Rule-Based'}`);
   console.log(`🎲 Search Priority: ${priority.toUpperCase()}`);
-  if (queryCount) {
-    console.log(`🔢 Query Count: ${queryCount} (custom limit)`);
-  } else {
-    console.log(`🔢 Query Count: All generated queries (no limit)`);
-  }
   console.log(`🚀 Hybrid Enhancement: Ultimate Crawler (Search) + Crawlee (Scraping) 🌟`);
   console.log(`✅ Note: All websites including LinkedIn will be scraped with Crawlee`);
   console.log(`${'='.repeat(80)}\n`);
