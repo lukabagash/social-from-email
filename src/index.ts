@@ -11,6 +11,19 @@ export { EnhancedKeywordExtractor } from "./advanced-nlp/enhanced-keyword-extrac
 export { EnhancedCrawleeEngine } from "./crawlee/enhanced-crawler";
 export { CrawleeSearchEngine } from "./crawlee-search/search-engine";
 
+// NEW: Main API exports for developers
+export {
+  searchAndAnalyzePerson,
+  quickSearch,
+  comprehensiveSearch,
+  extractSocialLinks,
+  exportSocialLinksToFile,
+  extractSupportingSources,
+  performExtendedAnalysis,
+  validateEmail,
+  validatePersonInput
+} from "./api";
+
 // Type exports
 export type { 
   GoogleSearchResult,
@@ -54,3 +67,17 @@ export type {
   SearchEngineResult,
   CrawleeSearchOptions
 } from "./crawlee-search/search-engine";
+
+// NEW: API type exports
+export type {
+  PersonSearchInput,
+  SearchOptions,
+  AnalysisOptions,
+  PersonSearchResult,
+  SocialLinkSummary,
+  SupportingSource,
+  SupportingSourcesResult,
+  ExtendedAnalysisResult,
+  BiographicalAnalysis,
+  BiographicalIntelligenceSummary
+} from "./api";
