@@ -63,10 +63,10 @@ export class UltimateCrawlerEngine {
   ];
 
   async initialize(options: UltimateSearchOptions = {}): Promise<void> {
-    console.log('🚀 Initializing Ultimate Crawler Engine with Dedicated Puppeteers...');
+    console.log('🚀 Initializing Ultimate Crawler Engine with DuckDuckGo Puppeteer...');
     
-    // Initialize failure trackers for each engine
-    const engines = options.searchEngines || ['duckduckgo', 'google', 'bing', 'brave', 'yandex'];
+    // For now, only initialize DuckDuckGo for reliability
+    const engines = ['duckduckgo'];
     
     for (const engine of engines) {
       this.failureTrackers[engine] = {
@@ -77,9 +77,9 @@ export class UltimateCrawlerEngine {
     }
     
     try {
-      // Launch dedicated Puppeteer instances for each search engine
+      // Launch only DuckDuckGo Puppeteer instance for now
       const launchPromises = engines.map(async (engine) => {
-        console.log(`🕷️ Launching dedicated Puppeteer for ${engine.toUpperCase()}...`);
+        console.log(`🦆 Launching dedicated Puppeteer for ${engine.toUpperCase()}...`);
         
         const browser = await puppeteer.launch({
           headless: true,
@@ -87,15 +87,7 @@ export class UltimateCrawlerEngine {
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-accelerated-2d-canvas',
-            '--disable-gpu',
-            '--disable-web-security',
-            '--allow-running-insecure-content',
-            '--disable-blink-features=AutomationControlled',
-            '--disable-features=VizDisplayCompositor',
-            '--disable-background-timer-throttling',
-            '--disable-backgrounding-occluded-windows',
-            '--disable-renderer-backgrounding'
+            '--disable-gpu'
           ]
         });
         
@@ -105,11 +97,11 @@ export class UltimateCrawlerEngine {
       
       await Promise.all(launchPromises);
       
-      console.log(`✅ All ${engines.length} dedicated Puppeteer instances initialized successfully`);
-      console.log(`🎯 Engines ready: ${engines.join(', ')}`);
+      console.log(`✅ DuckDuckGo Puppeteer instance initialized successfully`);
+      console.log(`🎯 Engine ready: ${engines.join(', ')}`);
       
     } catch (error) {
-      console.error('❌ Failed to initialize dedicated Puppeteer instances:', error);
+      console.error('❌ Failed to initialize DuckDuckGo Puppeteer instance:', error);
       throw error;
     }
   }
@@ -391,7 +383,7 @@ export class UltimateCrawlerEngine {
   private async createDedicatedPuppeteerPage(browser: PuppeteerBrowser, options: UltimateSearchOptions): Promise<PuppeteerPage> {
     const page = await browser.newPage();
     
-    // Set user agent
+    // Set basic user agent
     if (options.rotateUserAgents !== false) {
       const userAgent = this.userAgents[Math.floor(Math.random() * this.userAgents.length)];
       await page.setUserAgent(userAgent);
@@ -399,72 +391,6 @@ export class UltimateCrawlerEngine {
     
     // Set viewport
     await page.setViewport({ width: 1366, height: 768 });
-    
-    // Enhanced stealth for Puppeteer
-    if (options.enableStealth !== false) {
-      await page.evaluateOnNewDocument(() => {
-        // Remove webdriver property
-        Object.defineProperty(navigator, 'webdriver', {
-          get: () => undefined,
-        });
-        
-        // Mock plugins
-        Object.defineProperty(navigator, 'plugins', {
-          get: () => [
-            { name: 'Chrome PDF Plugin', filename: 'internal-pdf-viewer' },
-            { name: 'Chrome PDF Viewer', filename: 'mhjfbmdgcfjbbpaeojofohoefgiehjai' },
-            { name: 'Native Client', filename: 'internal-nacl-plugin' },
-          ],
-        });
-        
-        // Mock languages
-        Object.defineProperty(navigator, 'languages', {
-          get: () => ['en-US', 'en'],
-        });
-        
-        // Mock permissions
-        const originalQuery = window.navigator.permissions.query;
-        window.navigator.permissions.query = (parameters: any) => {
-          if (parameters.name === 'notifications') {
-            return Promise.resolve({ state: 'granted', name: 'notifications', onchange: null } as any);
-          }
-          return originalQuery(parameters);
-        };
-        
-        // Override getContext to hide fingerprinting
-        const getContext = HTMLCanvasElement.prototype.getContext;
-        HTMLCanvasElement.prototype.getContext = function(type: any, attributes?: any) {
-          if (type === '2d') {
-            const context = getContext.call(this, type, attributes) as any;
-            if (context) {
-              const originalGetImageData = context.getImageData;
-              context.getImageData = function(...args: any[]) {
-                const imageData = originalGetImageData.apply(this, args);
-                // Add subtle noise to prevent canvas fingerprinting
-                for (let i = 0; i < imageData.data.length; i += 4) {
-                  imageData.data[i] += Math.floor(Math.random() * 2);
-                  imageData.data[i + 1] += Math.floor(Math.random() * 2);
-                  imageData.data[i + 2] += Math.floor(Math.random() * 2);
-                }
-                return imageData;
-              };
-            }
-            return context;
-          }
-          return getContext.call(this, type, attributes);
-        };
-      });
-    }
-    
-    // Set additional headers to appear more human
-    await page.setExtraHTTPHeaders({
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-      'Accept-Language': 'en-US,en;q=0.9',
-      'Accept-Encoding': 'gzip, deflate, br',
-      'DNT': '1',
-      'Connection': 'keep-alive',
-      'Upgrade-Insecure-Requests': '1',
-    });
     
     return page;
   }
@@ -643,36 +569,19 @@ export class UltimateCrawlerEngine {
 
   // NEW: Multi-engine search with dedicated Puppeteers running in parallel
   async searchMultipleEngines(query: string, options: UltimateSearchOptions = {}): Promise<SearchResult[]> {
-    const engines = options.searchEngines || ['duckduckgo', 'google', 'bing', 'brave', 'yandex'];
+    // For now, only use DuckDuckGo for reliability
+    const engines = ['duckduckgo'];
     const allResults: SearchResult[] = [];
     
-    console.log(`🌐 Multi-engine search across ${engines.length} dedicated Puppeteers: ${engines.join(', ')}`);
+    console.log(`🦆 DuckDuckGo-focused search (other engines disabled for stability)`);
     
-    // Search across all engines in parallel for maximum speed and success-first logic
-    const searchPromises = engines.map(async (engine) => {
-      try {
-        switch (engine) {
-          case 'duckduckgo':
-            return await this.searchDuckDuckGo(query, { ...options, maxResults: 5 });
-          case 'google':
-            return await this.searchGoogle(query, { ...options, maxResults: 5 });
-          case 'bing':
-            return await this.searchBing(query, { ...options, maxResults: 5 });
-          case 'brave':
-            return await this.searchBrave(query, { ...options, maxResults: 5 });
-          case 'yandex':
-            return await this.searchYandex(query, { ...options, maxResults: 5 });
-          default:
-            return [];
-        }
-      } catch (error) {
-        console.error(`❌ ${engine} search failed:`, error);
-        return [];
-      }
-    });
-    
-    const engineResults = await Promise.all(searchPromises);
-    engineResults.forEach(results => allResults.push(...results));
+    // Search only DuckDuckGo for now
+    try {
+      const results = await this.searchDuckDuckGo(query, { ...options, maxResults: 10 });
+      allResults.push(...results);
+    } catch (error) {
+      console.error(`❌ DuckDuckGo search failed:`, error);
+    }
     
     // Remove duplicates based on URL
     const uniqueResults = allResults.filter((result, index, self) => 
@@ -686,7 +595,7 @@ export class UltimateCrawlerEngine {
       return stats;
     }, {} as Record<string, number>);
     
-    console.log(`🎯 Multi-engine search completed: ${uniqueResults.length} unique results`);
+    console.log(`🎯 DuckDuckGo search completed: ${uniqueResults.length} unique results`);
     console.log(`📊 Engine distribution:`, engineStats);
     
     return uniqueResults;
