@@ -1,0 +1,496 @@
+[dotenv@17.2.1] injecting env (1) from .env -- tip: 🛠️  run anywhere with `dotenvx run -- yourcommand`
+🎯 HYBRID ULTIMATE CRAWLER + CRAWLEE ANALYSIS
+================================================================================
+👤 Target: Jed Burdick
+📧 Email: jed@votaryfilms.com
+🔍 Mode: Standard Analysis
+🔍 Technical Details: Quality scores, status codes, performance metrics
+🔍 Keyword Analysis: Topic extraction, named entities, relationships
+🤖 Clustering: ADVANCED ML (HDBSCAN, Spectral)
+🎲 Search Priority: SOCIAL-FIRST
+🔢 Query Count: 3 (custom limit)
+🚀 Hybrid Enhancement: Ultimate Crawler (Search) + Crawlee (Scraping) 🌟
+✅ Note: All websites including LinkedIn will be scraped with Crawlee
+================================================================================
+
+🤖 Intelligent Selector Manager initialized
+🚀 Initializing Ultimate Crawler Engine with DuckDuckGo Puppeteer...
+🦆 Launching dedicated Puppeteer for DUCKDUCKGO...
+✅ DUCKDUCKGO Puppeteer ready
+✅ DuckDuckGo Puppeteer instance initialized successfully
+🎯 Engine ready: duckduckgo
+🚀 Initializing Enhanced Crawlee Engine...
+🗂️  Created temporary storage: /Users/lukabagashvili/social-from-email/temp-storage/243bb7d5-c780-4d5e-a6ad-00bda59bf3fb
+🗂️  Using temporary storage: 243bb7d5-c780-4d5e-a6ad-00bda59bf3fb
+✅ Crawlee Engine initialized with multiple crawlers
+📁 Storage location: /Users/lukabagashvili/social-from-email/temp-storage/243bb7d5-c780-4d5e-a6ad-00bda59bf3fb
+🧹 Auto-cleanup: Enabled
+🚀 Hybrid Ultimate Crawler + Crawlee Engine initialized...
+
+🎯 Using SOCIAL-FIRST optimization (3 queries)
+🎯 Generated 15 total queries, executing 3...
+📋 Search Priority: SOCIAL-FIRST
+🤖 Using HYBRID: Ultimate Crawler (Search) + Crawlee (Scraping)
+
+🔍 Searching with Ultimate Crawler for: Jed Burdick (jed@votaryfilms.com)
+🔍 Running 3 custom search queries with Ultimate Crawler...
+   1/3: "Jed Burdick"
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Jed Burdick"" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 10 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 6 unique results
+📊 Engine distribution: { duckduckgo: 6 }
+⏳ Batch completed, waiting 2s before next batch...
+   2/3: "Jed Burdick" site:linkedin.com
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Jed Burdick" site:linkedin.com" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 10 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 6 unique results
+📊 Engine distribution: { duckduckgo: 6 }
+⏳ Batch completed, waiting 3s before next batch...
+   3/3: "Jed Burdick" site:twitter.com
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Jed Burdick" site:twitter.com" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 3 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 3 unique results
+📊 Engine distribution: { duckduckgo: 3 }
+🎯 Multi-Engine Crawler completed: 14 unique results from 3 queries
+📊 Engine distribution: { duckduckgo: 14 }
+✅ Found 14 unique search results
+
+📊 Search Results from Ultimate Crawler:
+1. Jed Burdick - Votary Films | LinkedIn [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/in/jedburdick
+   🏷️  Domain: www.linkedin.com
+   📝 "linkedin.com"
+
+2. Jed Burdick - YouTube [puppeteer/dedicated-puppeteer]
+   🌐 https://www.youtube.com/@jedburdick
+   🏷️  Domain: www.youtube.com
+   📝 "youtube.com"
+
+3. https://www.wbjournal.com › article › qa-votary-films-built-a-business-by-helping-companies-with-their-storytelling [puppeteer/dedicated-puppeteer]
+   🌐 https://www.wbjournal.com/article/qa-votary-films-built-a-business-by-helping-companies-with-their-storytelling
+   🏷️  Domain: www.wbjournal.com
+   📝 "Worcester Business Journal"
+
+4. https://www.amazon.com › stores › author › B098Z96WCY [puppeteer/dedicated-puppeteer]
+   🌐 https://www.amazon.com/stores/author/B098Z96WCY
+   🏷️  Domain: www.amazon.com
+   📝 "Amazon"
+
+5. https://www.facebook.com › public › Jed-Burdick [puppeteer/dedicated-puppeteer]
+   🌐 https://www.facebook.com/public/Jed-Burdick/
+   🏷️  Domain: www.facebook.com
+   📝 "Facebook"
+
+6. https://www.votaryfilms.com › 2022 › 01 › bringing-order-to-chaos [puppeteer/dedicated-puppeteer]
+   🌐 https://www.votaryfilms.com/2022/01/bringing-order-to-chaos/
+   🏷️  Domain: www.votaryfilms.com
+   📝 "votaryfilms.com"
+
+7. https://www.linkedin.com › today › author › jedburdick [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/today/author/jedburdick
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+8. https://www.linkedin.com › pub › dir › Jed › Burdick [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/pub/dir/Jed/Burdick
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+9. https://www.linkedin.com › posts › jedburdick_im-tired-of-self-help-gurus-and-business-activity-7192163259913830400-SL7S [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/posts/jedburdick_im-tired-of-self-help-gurus-and-business-activity-7192163259913830400-SL7S
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+10. https://www.linkedin.com › posts › jedburdick_power-network-connection-activity-7073041891457429504-N4_J [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/posts/jedburdick_power-network-connection-activity-7073041891457429504-N4_J
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+11. https://www.linkedin.com › in › jed-burdick-40544552 [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/in/jed-burdick-40544552
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+12. Votary Media (@VotaryMedia) / Twitter [puppeteer/dedicated-puppeteer]
+   🌐 https://twitter.com/VotaryMedia
+   🏷️  Domain: twitter.com
+   📝 "twitter.com"
+
+13. Jed Burdick (@starcrusade) | Twitter [puppeteer/dedicated-puppeteer]
+   🌐 https://twitter.com/starcrusade
+   🏷️  Domain: twitter.com
+   📝 "twitter.com"
+
+14. Duck.ai [puppeteer/dedicated-puppeteer]
+   🌐 https://duck.ai/
+   🏷️  Domain: duck.ai
+   📝 "More From DuckDuckGo"
+
+
+🕷️  Starting Crawlee-enhanced scraping of 14 websites...
+================================================================================
+🕷️ Starting Crawlee-powered scraping of 14 URLs...
+[32mINFO[39m [33m PuppeteerCrawler:[39m Starting the crawler.
+[32mINFO[39m [33m CheerioCrawler:[39m Starting the crawler.
+[32mINFO[39m [33m PlaywrightCrawler:[39m Starting the crawler.
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"FUuY01gZr6uK8Gw","url":"https://www.linkedin.com/pub/dir/Jed/Burdick","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"Uagka0sToMvB41U","url":"https://www.linkedin.com/in/jedburdick","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"dsRGHGQIuQupgNO","url":"https://www.linkedin.com/in/jed-burdick-40544552","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"FUuY01gZr6uK8Gw","url":"https://www.linkedin.com/pub/dir/Jed/Burdick","retryCount":2}[39m
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"FUuY01gZr6uK8Gw","url":"https://www.linkedin.com/pub/dir/Jed/Burdick","method":"GET","uniqueKey":"https://www.linkedin.com/pub/dir/Jed/Burdick"}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m The 'error' property of the crawling context is deprecated, and it is now passed as the second parameter in 'errorHandler' and 'failedRequestHandler'. Please update your code, as this property will be removed in a future version.
+❌ Cheerio failed to process https://www.linkedin.com/pub/dir/Jed/Burdick: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"dsRGHGQIuQupgNO","url":"https://www.linkedin.com/in/jed-burdick-40544552","retryCount":2}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"Uagka0sToMvB41U","url":"https://www.linkedin.com/in/jedburdick","retryCount":2}[39m
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"dsRGHGQIuQupgNO","url":"https://www.linkedin.com/in/jed-burdick-40544552","method":"GET","uniqueKey":"https://www.linkedin.com/in/jed-burdick-40544552"}[39m
+❌ Cheerio failed to process https://www.linkedin.com/in/jed-burdick-40544552: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"Uagka0sToMvB41U","url":"https://www.linkedin.com/in/jedburdick","method":"GET","uniqueKey":"https://www.linkedin.com/in/jedburdick"}[39m
+❌ Cheerio failed to process https://www.linkedin.com/in/jedburdick: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[32mINFO[39m [33m RequestQueue2(3cbfc0cf-4733-4b5c-b2bd-9393f2ac1f7d, default):[39m Queue head still returned requests that need to be processed (or that are locked by other clients)[90m {"requests":[{"id":"KUMaHEYCxXOK9zM"}],"clientKey":"AIRfmtEI5ldId4RpQ"}[39m
+❌ Error processing https://www.votaryfilms.com/2022/01/bringing-order-to-chaos/ with Playwright: TimeoutError: page.waitForLoadState: Timeout 10000ms exceeded.
+[33mWARN[39m [33m PlaywrightCrawler:[39m Reclaiming failed request back to the list or queue. page.waitForLoadState: Timeout 10000ms exceeded.
+    at EnhancedCrawleeEngine.handlePlaywrightRequest (/Users/lukabagashvili/social-from-email/dist/cli-hybrid-person-analysis.cjs:15734:20)[90m {"id":"KUMaHEYCxXOK9zM","url":"https://www.votaryfilms.com/2022/01/bringing-order-to-chaos/","retryCount":1}[39m
+[32mINFO[39m [33m PlaywrightCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m CheerioCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m CheerioCrawler:[39m Final request statistics:[90m {"requestsFinished":8,"requestsFailed":3,"retryHistogram":[8,null,3],"requestAvgFailedDurationMillis":661,"requestAvgFinishedDurationMillis":1333,"requestsFinishedPerMinute":15,"requestsFailedPerMinute":5,"requestTotalDurationMillis":12645,"requestsTotal":11,"crawlerRuntimeMillis":32393}[39m
+[32mINFO[39m [33m CheerioCrawler:[39m Error analysis:[90m {"totalErrors":3,"uniqueErrors":1,"mostCommonErrors":["3x: 999 - Internal Server Error: <html><head> (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)"]}[39m
+[32mINFO[39m [33m CheerioCrawler:[39m Finished! Total 11 requests: 8 succeeded, 3 failed.[90m {"terminal":true}[39m
+[32mINFO[39m [33m PuppeteerCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m PlaywrightCrawler:[39m Final request statistics:[90m {"requestsFinished":2,"requestsFailed":0,"retryHistogram":[1,1],"requestAvgFailedDurationMillis":null,"requestAvgFinishedDurationMillis":4070,"requestsFinishedPerMinute":4,"requestsFailedPerMinute":0,"requestTotalDurationMillis":8140,"requestsTotal":2,"crawlerRuntimeMillis":33035}[39m
+[32mINFO[39m [33m PlaywrightCrawler:[39m Finished! Total 2 requests: 2 succeeded, 0 failed.[90m {"terminal":true}[39m
+[32mINFO[39m [33m PuppeteerCrawler:[39m Final request statistics:[90m {"requestsFinished":1,"requestsFailed":0,"retryHistogram":[1],"requestAvgFailedDurationMillis":null,"requestAvgFinishedDurationMillis":8126,"requestsFinishedPerMinute":2,"requestsFailedPerMinute":0,"requestTotalDurationMillis":8126,"requestsTotal":1,"crawlerRuntimeMillis":32866}[39m
+[32mINFO[39m [33m PuppeteerCrawler:[39m Finished! Total 1 requests: 1 succeeded, 0 failed.[90m {"terminal":true}[39m
+✅ Crawlee scraping completed! Successfully scraped 11/14 URLs
+✅ Crawlee scraping completed! Successfully scraped 11/14 websites.
+
+🕷️ CRAWLEE SCRAPING ENHANCEMENT STATISTICS:
+────────────────────────────────────────────────────────────
+   🤖 CHEERIO: 8 websites
+      ⚡ Avg Load Time: 0ms
+      🔄 Avg Response Time: 0ms
+   🤖 PLAYWRIGHT: 2 websites
+      ⚡ Avg Load Time: 877ms
+      🔄 Avg Response Time: 877ms
+   🤖 PUPPETEER: 1 websites
+      ⚡ Avg Load Time: 1751ms
+      🔄 Avg Response Time: 1751ms
+   🔗 Social Links Discovered: 370
+   📧 Email Addresses Found: 1
+   📍 Physical Addresses Found: 1
+   🎯 Average Relevance: 57.7%
+   ⚡ Average Load Time: 319ms
+   📊 Content Quality Breakdown:
+      🟢 HIGH: 2 sites
+      🔴 LOW: 5 sites
+      🟡 MEDIUM: 4 sites
+   🌐 HTTP Status Codes:
+      ✅ 200: 11 sites
+   🟨 JavaScript Enabled: 3/11 sites
+   👤 Sites with Personal Info: 8/11
+   💼 Sites with Professional Info: 2/11
+   📱 Sites with Social Media: 9/11
+   ✨ Crawlee Advantages: Retry logic, session management, resource blocking
+✅ Hybrid data conversion completed! Processed 11 websites.
+
+🔍 ENHANCED PERSON ANALYSIS: jed burdick (jed@votaryfilms.com)
+================================================================================
+🤖 ADVANCED CLUSTERING MODE ENABLED - Using ML algorithms (HDBSCAN, Spectral, etc.)
+📋 LinkedIn snippet captured: "linkedin.com..."
+🔤 Extracting keywords and analyzing content...
+🧠 Extracting enhanced biographical profiles...
+  📑 Extracting biographical data from 25 sources...
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+  ✅ Extracted 25 biographical profiles
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🤖 Performing ADVANCED ML-based clustering with biographical dimensions...
+� Using: HDBSCAN, Spectral Clustering, and Ensemble methods
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/in/jedburdick
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/in/jedburdick
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+🔍 📊 Source-specific evidence extraction for: https://www.youtube.com/@jedburdick
+✅ Source evidence extracted for www.youtube.com: name, socialProfiles, email, phone, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.wbjournal.com/article/qa-votary-films-built-a-business-by-helping-companies-with-their-storytelling
+✅ Source evidence extracted for www.wbjournal.com: email, phone, socialProfiles, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.amazon.com/stores/author/B098Z96WCY
+✅ Source evidence extracted for www.amazon.com: email, phone, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.facebook.com/public/Jed-Burdick/
+✅ Source evidence extracted for www.facebook.com: email, socialProfiles, phone, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.votaryfilms.com/2022/01/bringing-order-to-chaos/
+✅ Source evidence extracted for www.votaryfilms.com: email, phone, socialProfiles, skills, education
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/today/author/jedburdick
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/today/author/jedburdick
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/pub/dir/Jed/Burdick
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/pub/dir/Jed/Burdick
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/posts/jedburdick_im-tired-of-self-help-gurus-and-business-activity-7192163259913830400-SL7S
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/posts/jedburdick_im-tired-of-self-help-gurus-and-business-activity-7192163259913830400-SL7S
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/posts/jedburdick_power-network-connection-activity-7073041891457429504-N4_J
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/posts/jedburdick_power-network-connection-activity-7073041891457429504-N4_J
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/in/jed-burdick-40544552
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/in/jed-burdick-40544552
+🧠 State-of-the-art bio extraction for jed burdick
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+🔍 📊 Source-specific evidence extraction for: https://twitter.com/VotaryMedia
+✅ Source evidence extracted for twitter.com: socialProfiles, email
+🔍 📊 Source-specific evidence extraction for: https://twitter.com/starcrusade
+✅ Source evidence extracted for twitter.com: socialProfiles, name, email
+🔍 📊 Source-specific evidence extraction for: https://duck.ai/
+✅ Source evidence extracted for duck.ai: email
+  🔗 Enriching evidence with biographical dimensions...
+  🔬 Using advanced ML clustering algorithms...
+  📊 Extracted 14 data points for clustering
+🤖 Using HDBSCAN clustering for person identification...
+  🎯 ML Clustering completed: 1 clusters found
+  📈 Silhouette Score: 0.000
+  ✅ Advanced clustering produced 1 person clusters
+  📊 Calculating enhanced confidence scores...
+  📋 Creating enhanced summary with biographical insights...
+🔄 Closing dedicated Puppeteer instances...
+🔒 Closing DUCKDUCKGO Puppeteer...
+✅ All dedicated Puppeteer instances closed successfully
+🔄 Closing Enhanced Crawlee Engine...
+✅ Crawlee Engine closed successfully
+🧹 Cleaned up temporary storage: /Users/lukabagashvili/social-from-email/temp-storage/243bb7d5-c780-4d5e-a6ad-00bda59bf3fb
+
+================================================================================
+🔍 HYBRID ULTIMATE CRAWLER + CRAWLEE ANALYSIS RESULTS
+================================================================================
+📊 Summary:
+   Total Sources Analyzed: 8
+   Persons Identified: 1
+   🟢 High Confidence (>70%): 1
+   🟡 Medium Confidence (40-70%): 0
+   🔴 Low Confidence (<40%): 0
+
+🌐 Top Source Domains:
+   1. twitter.com: 2 sources
+   2. www.youtube.com: 1 sources
+   3. www.wbjournal.com: 1 sources
+   4. www.amazon.com: 1 sources
+   5. www.facebook.com: 1 sources
+
+🔑 Keyword Analysis:
+   Top Keywords: linkedin, ›, jed, burdick, go, https://www.linkedin.com, business, linkedin’s user agreement, privacy policy,, cookie policy., clicking, continue, -, votary, |, page
+   Identified Topics: jed, burdick, -, votary, films, |, linkedin, linkedincom, clicking, continue
+   Detailed Keywords Analysis:
+      Key Phrases: jed burdick -, films | linkedin, linkedin’s user agreement, privacy policy,, cookie policy., linkedin?
+      Named Entities: jed, america, microsoft
+      Topic Categories: jed, burdick, -, votary, films, |, linkedin, linkedincom, clicking, continue
+
+🟢 PERSON 1 - Confidence: 100%
+────────────────────────────────────────────────────────────
+👤 Identity Information:
+   Name: jed burdick
+   Email: jed@votaryfilms.com
+
+📊 Supporting Sources (3):
+   1. 🔥 https://www.linkedin.com › today › author › jedburdick
+      🌐 https://www.linkedin.com/today/author/jedburdick
+      🏷️  Domain: www.linkedin.com (Relevance: 100%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "jed burdick", email: "jed@votaryfilms.com", domain: professional (votaryfilms.com)
+
+   2. 🔥 https://www.linkedin.com › pub › dir › Jed › Burdick
+      🌐 https://www.linkedin.com/pub/dir/Jed/Burdick
+      🏷️  Domain: www.linkedin.com (Relevance: 100%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "jed burdick", email: "jed@votaryfilms.com", domain: professional (votaryfilms.com)
+
+   3. 🔥 https://www.linkedin.com › in › jed-burdick-40544552
+      🌐 https://www.linkedin.com/in/jed-burdick-40544552
+      🏷️  Domain: www.linkedin.com (Relevance: 100%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "jed burdick", email: "jed@votaryfilms.com", domain: professional (votaryfilms.com)
+
+
+================================================================================
+🧠 ANALYSIS INSIGHTS
+================================================================================
+🎯 Likely Same Person: YES
+📈 Main Identity Confidence: 100%
+🔬 Clustering Method: ADVANCED CLUSTERING
+
+================================================================================
+🏆 HYBRID PERFORMANCE SUMMARY
+================================================================================
+⏱️  Total execution time: 36.08 seconds
+🔍 Search Engine: Ultimate Crawler (Multi-Engine)
+🕷️  Scraping Engine: Crawlee (Multi-Crawler)
+🌟 Hybrid advantages utilized:
+   ✅ Proven search stability from Ultimate Crawler
+   ✅ Advanced scraping capabilities from Crawlee
+   ✅ Automatic retry logic and error recovery
+   ✅ Session persistence and resource optimization
+   ✅ Multi-crawler fallback system
+🔚 Hybrid analysis completed successfully!

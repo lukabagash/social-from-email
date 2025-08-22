@@ -1,0 +1,420 @@
+[dotenv@17.2.1] injecting env (1) from .env -- tip: 📡 version env with Radar: https://dotenvx.com/radar
+🎯 HYBRID ULTIMATE CRAWLER + CRAWLEE ANALYSIS
+================================================================================
+👤 Target: Luka Bagashvili
+📧 Email: bagash_l2@denison.edu
+🔍 Mode: Standard Analysis
+🔍 Extended Info: Biographical insights, social metrics, career progression
+🤖 Clustering: ADVANCED ML (HDBSCAN, Spectral)
+🎲 Search Priority: SOCIAL-FIRST
+🔢 Query Count: 3 (custom limit)
+🚀 Hybrid Enhancement: Ultimate Crawler (Search) + Crawlee (Scraping) 🌟
+✅ Note: All websites including LinkedIn will be scraped with Crawlee
+================================================================================
+
+🤖 Intelligent Selector Manager initialized
+🚀 Initializing Ultimate Crawler Engine with DuckDuckGo Puppeteer...
+🦆 Launching dedicated Puppeteer for DUCKDUCKGO...
+✅ DUCKDUCKGO Puppeteer ready
+✅ DuckDuckGo Puppeteer instance initialized successfully
+🎯 Engine ready: duckduckgo
+🚀 Initializing Enhanced Crawlee Engine...
+🗂️  Created temporary storage: /Users/lukabagashvili/social-from-email/temp-storage/1b18d0ef-104f-4812-b180-40284b8e1087
+🗂️  Using temporary storage: 1b18d0ef-104f-4812-b180-40284b8e1087
+✅ Crawlee Engine initialized with multiple crawlers
+📁 Storage location: /Users/lukabagashvili/social-from-email/temp-storage/1b18d0ef-104f-4812-b180-40284b8e1087
+🧹 Auto-cleanup: Enabled
+🚀 Hybrid Ultimate Crawler + Crawlee Engine initialized...
+
+🎯 Using SOCIAL-FIRST optimization (3 queries)
+🎯 Generated 15 total queries, executing 3...
+📋 Search Priority: SOCIAL-FIRST
+🤖 Using HYBRID: Ultimate Crawler (Search) + Crawlee (Scraping)
+
+🔍 Searching with Ultimate Crawler for: Luka Bagashvili (bagash_l2@denison.edu)
+🔍 Running 3 custom search queries with Ultimate Crawler...
+   1/3: "Luka Bagashvili"
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Luka Bagashvili"" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 10 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 6 unique results
+📊 Engine distribution: { duckduckgo: 6 }
+⏳ Batch completed, waiting 2s before next batch...
+   2/3: "Luka Bagashvili" site:linkedin.com
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Luka Bagashvili" site:linkedin.com" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 10 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 5 unique results
+📊 Engine distribution: { duckduckgo: 5 }
+⏳ Batch completed, waiting 3s before next batch...
+   3/3: "Luka Bagashvili" site:twitter.com
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Luka Bagashvili" site:twitter.com" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 1 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 1 unique results
+📊 Engine distribution: { duckduckgo: 1 }
+🎯 Multi-Engine Crawler completed: 10 unique results from 3 queries
+📊 Engine distribution: { duckduckgo: 10 }
+✅ Found 10 unique search results
+
+📊 Search Results from Ultimate Crawler:
+1. https://www.linkedin.com › in › lukabagashvili [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/in/lukabagashvili
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+2. lukabagash (Luka Bagashvili) · GitHub [puppeteer/dedicated-puppeteer]
+   🌐 https://github.com/lukabagash
+   🏷️  Domain: github.com
+   📝 "github.com"
+
+3. https://www.facebook.com › public › Luka-Bagashvili [puppeteer/dedicated-puppeteer]
+   🌐 https://www.facebook.com/public/Luka-Bagashvili/
+   🏷️  Domain: www.facebook.com
+   📝 "Facebook"
+
+4. https://www.youtube.com › channel › UC3JT1nZWkM4e_FVzmhIwIZg › videos [puppeteer/dedicated-puppeteer]
+   🌐 https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+   🏷️  Domain: www.youtube.com
+   📝 "YouTube"
+
+5. Luka Bagashvili (@bagasvililuka) • Instagram photos and videos [puppeteer/dedicated-puppeteer]
+   🌐 https://www.instagram.com/bagasvililuka/
+   🏷️  Domain: www.instagram.com
+   📝 "instagram.com"
+
+6. https://www.linkedin.com › in › luka-bagashvili-90a939338 [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/in/luka-bagashvili-90a939338
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+7. https://www.linkedin.com › pub › dir › Luka › Bagashvili [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/pub/dir/Luka/Bagashvili
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+8. https://ge.linkedin.com › in › luka-bagashvili-638449256 [puppeteer/dedicated-puppeteer]
+   🌐 https://ge.linkedin.com/in/luka-bagashvili-638449256
+   🏷️  Domain: ge.linkedin.com
+   📝 "LinkedIn"
+
+9. https://ge.linkedin.com › in › luka-bagashvili-4825202b4 [puppeteer/dedicated-puppeteer]
+   🌐 https://ge.linkedin.com/in/luka-bagashvili-4825202b4
+   🏷️  Domain: ge.linkedin.com
+   📝 "LinkedIn"
+
+10. Duck.ai [puppeteer/dedicated-puppeteer]
+   🌐 https://duck.ai/
+   🏷️  Domain: duck.ai
+   📝 "More From DuckDuckGo"
+
+
+🕷️  Starting Crawlee-enhanced scraping of 10 websites...
+================================================================================
+🕷️ Starting Crawlee-powered scraping of 10 URLs...
+[32mINFO[39m [33m PuppeteerCrawler:[39m Starting the crawler.
+[32mINFO[39m [33m CheerioCrawler:[39m Starting the crawler.
+[32mINFO[39m [33m PlaywrightCrawler:[39m Starting the crawler.
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"nw17WXf83A4zB4f","url":"https://www.linkedin.com/in/luka-bagashvili-90a939338","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"MBZXjSwIsdJflQf","url":"https://www.linkedin.com/pub/dir/Luka/Bagashvili","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"ROI3IOKUtICBs3m","url":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"Yo3mxGo4eWF3nn3","url":"https://ge.linkedin.com/in/luka-bagashvili-638449256","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"MBZXjSwIsdJflQf","url":"https://www.linkedin.com/pub/dir/Luka/Bagashvili","retryCount":2}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"nw17WXf83A4zB4f","url":"https://www.linkedin.com/in/luka-bagashvili-90a939338","retryCount":2}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"Yo3mxGo4eWF3nn3","url":"https://ge.linkedin.com/in/luka-bagashvili-638449256","retryCount":2}[39m
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"MBZXjSwIsdJflQf","url":"https://www.linkedin.com/pub/dir/Luka/Bagashvili","method":"GET","uniqueKey":"https://www.linkedin.com/pub/dir/Luka/Bagashvili"}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m The 'error' property of the crawling context is deprecated, and it is now passed as the second parameter in 'errorHandler' and 'failedRequestHandler'. Please update your code, as this property will be removed in a future version.
+❌ Cheerio failed to process https://www.linkedin.com/pub/dir/Luka/Bagashvili: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"ROI3IOKUtICBs3m","url":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4","retryCount":2}[39m
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"nw17WXf83A4zB4f","url":"https://www.linkedin.com/in/luka-bagashvili-90a939338","method":"GET","uniqueKey":"https://www.linkedin.com/in/luka-bagashvili-90a939338"}[39m
+❌ Cheerio failed to process https://www.linkedin.com/in/luka-bagashvili-90a939338: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"Yo3mxGo4eWF3nn3","url":"https://ge.linkedin.com/in/luka-bagashvili-638449256","method":"GET","uniqueKey":"https://ge.linkedin.com/in/luka-bagashvili-638449256"}[39m
+❌ Cheerio failed to process https://ge.linkedin.com/in/luka-bagashvili-638449256: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"ROI3IOKUtICBs3m","url":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4","method":"GET","uniqueKey":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4"}[39m
+❌ Cheerio failed to process https://ge.linkedin.com/in/luka-bagashvili-4825202b4: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[32mINFO[39m [33m CheerioCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m PuppeteerCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m CheerioCrawler:[39m Final request statistics:[90m {"requestsFinished":3,"requestsFailed":4,"retryHistogram":[3,null,4],"requestAvgFailedDurationMillis":428,"requestAvgFinishedDurationMillis":1235,"requestsFinishedPerMinute":10,"requestsFailedPerMinute":13,"requestTotalDurationMillis":5416,"requestsTotal":7,"crawlerRuntimeMillis":17777}[39m
+[32mINFO[39m [33m CheerioCrawler:[39m Error analysis:[90m {"totalErrors":4,"uniqueErrors":1,"mostCommonErrors":["4x: 999 - Internal Server Error: <html><head> (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)"]}[39m
+[32mINFO[39m [33m CheerioCrawler:[39m Finished! Total 7 requests: 3 succeeded, 4 failed.[90m {"terminal":true}[39m
+[32mINFO[39m [33m PuppeteerCrawler:[39m Final request statistics:[90m {"requestsFinished":1,"requestsFailed":0,"retryHistogram":[1],"requestAvgFailedDurationMillis":null,"requestAvgFinishedDurationMillis":4298,"requestsFinishedPerMinute":3,"requestsFailedPerMinute":0,"requestTotalDurationMillis":4298,"requestsTotal":1,"crawlerRuntimeMillis":18151}[39m
+[32mINFO[39m [33m PuppeteerCrawler:[39m Finished! Total 1 requests: 1 succeeded, 0 failed.[90m {"terminal":true}[39m
+[32mINFO[39m [33m PlaywrightCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m PlaywrightCrawler:[39m Final request statistics:[90m {"requestsFinished":2,"requestsFailed":0,"retryHistogram":[2],"requestAvgFailedDurationMillis":null,"requestAvgFinishedDurationMillis":5572,"requestsFinishedPerMinute":6,"requestsFailedPerMinute":0,"requestTotalDurationMillis":11144,"requestsTotal":2,"crawlerRuntimeMillis":18466}[39m
+[32mINFO[39m [33m PlaywrightCrawler:[39m Finished! Total 2 requests: 2 succeeded, 0 failed.[90m {"terminal":true}[39m
+✅ Crawlee scraping completed! Successfully scraped 6/10 URLs
+✅ Crawlee scraping completed! Successfully scraped 6/10 websites.
+
+🕷️ CRAWLEE SCRAPING ENHANCEMENT STATISTICS:
+────────────────────────────────────────────────────────────
+   🤖 CHEERIO: 3 websites
+   🤖 PUPPETEER: 1 websites
+   🤖 PLAYWRIGHT: 2 websites
+   🔗 Social Links Discovered: 204
+   📧 Email Addresses Found: 1
+   🎯 Average Relevance: 40.0%
+   ⚡ Average Load Time: 1111ms
+   ✨ Crawlee Advantages: Retry logic, session management, resource blocking
+✅ Hybrid data conversion completed! Processed 6 websites.
+
+🔍 ENHANCED PERSON ANALYSIS: luka bagashvili (bagash_l2@denison.edu)
+================================================================================
+🤖 ADVANCED CLUSTERING MODE ENABLED - Using ML algorithms (HDBSCAN, Spectral, etc.)
+📋 LinkedIn snippet captured: "LinkedIn..."
+🔤 Extracting keywords and analyzing content...
+🧠 Extracting enhanced biographical profiles...
+  📑 Extracting biographical data from 16 sources...
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+  ✅ Extracted 16 biographical profiles
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🤖 Performing ADVANCED ML-based clustering with biographical dimensions...
+� Using: HDBSCAN, Spectral Clustering, and Ensemble methods
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/in/lukabagashvili
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/in/lukabagashvili
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+🔍 📊 Source-specific evidence extraction for: https://github.com/lukabagash
+✅ Source evidence extracted for github.com: socialProfiles, email, skills, name, education
+🔍 📊 Source-specific evidence extraction for: https://www.facebook.com/public/Luka-Bagashvili/
+✅ Source evidence extracted for www.facebook.com: email, socialProfiles, phone, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+✅ Source evidence extracted for www.youtube.com: socialProfiles, email, phone, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.instagram.com/bagasvililuka/
+✅ Source evidence extracted for www.instagram.com: socialProfiles, name, email, phone, skills, education
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/in/luka-bagashvili-90a939338
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/in/luka-bagashvili-90a939338
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/pub/dir/Luka/Bagashvili
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/pub/dir/Luka/Bagashvili
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://ge.linkedin.com/in/luka-bagashvili-638449256
+🔍 🧠 Advanced search result evidence extraction for: https://ge.linkedin.com/in/luka-bagashvili-638449256
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://ge.linkedin.com/in/luka-bagashvili-4825202b4
+🔍 🧠 Advanced search result evidence extraction for: https://ge.linkedin.com/in/luka-bagashvili-4825202b4
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+🔍 📊 Source-specific evidence extraction for: https://duck.ai/
+✅ Source evidence extracted for duck.ai: email
+  🔗 Enriching evidence with biographical dimensions...
+  🔬 Using advanced ML clustering algorithms...
+  📊 Extracted 10 data points for clustering
+🤖 Using HDBSCAN clustering for person identification...
+  🎯 ML Clustering completed: 0 clusters found
+  📈 Silhouette Score: 0.000
+  ✅ Advanced clustering produced 0 person clusters
+  📊 Calculating enhanced confidence scores...
+  📋 Creating enhanced summary with biographical insights...
+🔄 Closing dedicated Puppeteer instances...
+🔒 Closing DUCKDUCKGO Puppeteer...
+✅ All dedicated Puppeteer instances closed successfully
+🔄 Closing Enhanced Crawlee Engine...
+✅ Crawlee Engine closed successfully
+🧹 Cleaned up temporary storage: /Users/lukabagashvili/social-from-email/temp-storage/1b18d0ef-104f-4812-b180-40284b8e1087
+
+================================================================================
+🔍 HYBRID ULTIMATE CRAWLER + CRAWLEE ANALYSIS RESULTS
+================================================================================
+📊 Summary:
+   Total Sources Analyzed: 5
+   Persons Identified: 0
+   🟢 High Confidence (>70%): 0
+   🟡 Medium Confidence (40-70%): 0
+   🔴 Low Confidence (<40%): 0
+
+🌐 Top Source Domains:
+   1. github.com: 1 sources
+   2. www.facebook.com: 1 sources
+   3. www.youtube.com: 1 sources
+   4. www.instagram.com: 1 sources
+   5. duck.ai: 1 sources
+
+🧠 Biographical Intelligence Summary:
+   Career Stage: mid_career
+   Professional Level: entry
+   Education Level: unknown
+   Thought Leadership: emerging
+   Digital Savviness: medium
+   Geographic Mobility: regional
+   Achievements Found: 0
+   Education Institutions: 0
+   Social Presence Score: 0/10
+   Biographical Confidence: 0.8000000000000002%
+
+🌐 Site Discovery Results:
+   Discovered Sites: www.linkedin.com, github.com, www.facebook.com, www.youtube.com, www.instagram.com, ge.linkedin.com, duck.ai
+   Searched Platforms: linkedin.com, crunchbase.com, twitter.com, github.com, orcid.org, scholar.google.com, angel.co, apollo.io, facebook.com, youtube.com, medium.com, opencorporates.com, find-and-update.company-information.service.gov.uk, researchgate.net, pubmed.ncbi.nlm.nih.gov, stackoverflow.com, wellfound.com, zoominfo.com, xing.com, contactout.com, instagram.com, reddit.com, gitlab.com, behance.net, dribbble.com, substack.com, corporationwiki.com, academia.edu, semanticscholar.org, jstor.org, arxiv.org, upwork.com, toptal.com, pipl.com, kaggle.com, hackerrank.com, leetcode.com, codepen.io, artstation.com, producthunt.com, news.ycombinator.com, indiehackers.com, glassdoor.com, indeed.com, dice.com, reddit.com/r/, quora.com, stackexchange.com, prnewswire.com, businesswire.com, meetup.com, wordpress.com, webflow.com, amazon.com/sp, tiktok.com, pinterest.com, tumblr.com, discord.com, t.me, deviantart.com, about.me, linktr.ee, carrd.co, notion.so, fiverr.com, freelancer.com, guru.com, 99designs.com, whitepages.com, truepeoplesearch.com, peekyou.com, familytreenow.com, idcrawl.com, classmates.com, replit.com, observablehq.com, glitch.com, bitbucket.org, sourceforge.net, vimeo.com, soundcloud.com, open.spotify.com, bandcamp.com, twitch.tv, patreon.com, ko-fi.com, etsy.com, flickr.com, 500px.com, unsplash.com, pexels.com, vk.com, weibo.com, mastodon.social, monster.com, careerbuilder.com, ziprecruiter.com, simplyhired.com, discord.gg, slack.com, einpresswire.com, eventbrite.com, shapr.co, bumble.com/bizz, opportunity.com, steamcommunity.com, discord.com, blogger.com, ghost.org, wix.com, squarespace.com, ebay.com, myshopify.com, snapchat.com, wa.me, signal.org, spokeo.com, beenverified.com, searchbug.com, zabasearch.com, qq.com, wechat.com, ok.ru, mewe.com, gab.com, parler.com, truthsocial.com, gettr.com, rumble.com, bitchute.com, tinder.com, bumble.com, match.com, eharmony.com, okcupid.com, pof.com, zoosk.com, xbox.com, playstation.com, epicgames.com, mercari.com, poshmark.com, depop.com
+   LinkedIn Preview: "LinkedIn"
+
+================================================================================
+🧠 ANALYSIS INSIGHTS
+================================================================================
+🎯 Likely Same Person: NO
+📈 Main Identity Confidence: 0%
+🔬 Clustering Method: ADVANCED CLUSTERING
+
+💡 Recommendations:
+   1. Low confidence - consider searching with additional terms
+
+================================================================================
+🏆 HYBRID PERFORMANCE SUMMARY
+================================================================================
+⏱️  Total execution time: 20.94 seconds
+🔍 Search Engine: Ultimate Crawler (Multi-Engine)
+🕷️  Scraping Engine: Crawlee (Multi-Crawler)
+🌟 Hybrid advantages utilized:
+   ✅ Proven search stability from Ultimate Crawler
+   ✅ Advanced scraping capabilities from Crawlee
+   ✅ Automatic retry logic and error recovery
+   ✅ Session persistence and resource optimization
+   ✅ Multi-crawler fallback system
+🔚 Hybrid analysis completed successfully!

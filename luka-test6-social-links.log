@@ -1,0 +1,1426 @@
+[dotenv@17.2.1] injecting env (1) from .env -- tip: 📡 version env with Radar: https://dotenvx.com/radar
+🎯 HYBRID ULTIMATE CRAWLER + CRAWLEE ANALYSIS
+================================================================================
+👤 Target: Luka Bagashvili
+📧 Email: bagash_l2@denison.edu
+🔍 Mode: Standard Analysis
+🔍 Social Links: Comprehensive social media links extraction and analysis
+🤖 Clustering: Basic Rule-Based
+🎲 Search Priority: SOCIAL-FIRST
+🔢 Query Count: 3 (custom limit)
+🚀 Hybrid Enhancement: Ultimate Crawler (Search) + Crawlee (Scraping) 🌟
+✅ Note: All websites including LinkedIn will be scraped with Crawlee
+================================================================================
+
+🤖 Intelligent Selector Manager initialized
+🚀 Initializing Ultimate Crawler Engine with DuckDuckGo Puppeteer...
+🦆 Launching dedicated Puppeteer for DUCKDUCKGO...
+✅ DUCKDUCKGO Puppeteer ready
+✅ DuckDuckGo Puppeteer instance initialized successfully
+🎯 Engine ready: duckduckgo
+🚀 Initializing Enhanced Crawlee Engine...
+🗂️  Created temporary storage: /Users/lukabagashvili/social-from-email/temp-storage/9c192800-027d-49f5-88ff-1695010a7228
+🗂️  Using temporary storage: 9c192800-027d-49f5-88ff-1695010a7228
+✅ Crawlee Engine initialized with multiple crawlers
+📁 Storage location: /Users/lukabagashvili/social-from-email/temp-storage/9c192800-027d-49f5-88ff-1695010a7228
+🧹 Auto-cleanup: Enabled
+🚀 Hybrid Ultimate Crawler + Crawlee Engine initialized...
+
+🎯 Using SOCIAL-FIRST optimization (3 queries)
+🎯 Generated 15 total queries, executing 3...
+📋 Search Priority: SOCIAL-FIRST
+🤖 Using HYBRID: Ultimate Crawler (Search) + Crawlee (Scraping)
+
+🔍 Searching with Ultimate Crawler for: Luka Bagashvili (bagash_l2@denison.edu)
+🔍 Running 3 custom search queries with Ultimate Crawler...
+   1/3: "Luka Bagashvili"
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Luka Bagashvili"" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 10 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 6 unique results
+📊 Engine distribution: { duckduckgo: 6 }
+⏳ Batch completed, waiting 2s before next batch...
+   2/3: "Luka Bagashvili" site:linkedin.com
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Luka Bagashvili" site:linkedin.com" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 10 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 5 unique results
+📊 Engine distribution: { duckduckgo: 5 }
+⏳ Batch completed, waiting 2s before next batch...
+   3/3: "Luka Bagashvili" site:twitter.com
+🦆 DuckDuckGo-focused search (other engines disabled for stability)
+🔍 Searching DuckDuckGo for: ""Luka Bagashvili" site:twitter.com" using dedicated Puppeteer
+⚠️ Using basic semantic selector for duckduckgo:search-results: div, article, section
+✅ Found results using intelligent selector: div, article, section
+✅ Found 1 results using dedicated Puppeteer on DUCKDUCKGO
+🎯 DuckDuckGo search completed: 1 unique results
+📊 Engine distribution: { duckduckgo: 1 }
+🎯 Multi-Engine Crawler completed: 10 unique results from 3 queries
+📊 Engine distribution: { duckduckgo: 10 }
+✅ Found 10 unique search results
+
+📊 Search Results from Ultimate Crawler:
+1. https://www.linkedin.com › in › lukabagashvili [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/in/lukabagashvili
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+2. lukabagash (Luka Bagashvili) · GitHub [puppeteer/dedicated-puppeteer]
+   🌐 https://github.com/lukabagash
+   🏷️  Domain: github.com
+   📝 "github.com"
+
+3. https://www.facebook.com › public › Luka-Bagashvili [puppeteer/dedicated-puppeteer]
+   🌐 https://www.facebook.com/public/Luka-Bagashvili/
+   🏷️  Domain: www.facebook.com
+   📝 "Facebook"
+
+4. https://www.youtube.com › channel › UC3JT1nZWkM4e_FVzmhIwIZg › videos [puppeteer/dedicated-puppeteer]
+   🌐 https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+   🏷️  Domain: www.youtube.com
+   📝 "YouTube"
+
+5. Luka Bagashvili (@bagasvililuka) • Instagram photos and videos [puppeteer/dedicated-puppeteer]
+   🌐 https://www.instagram.com/bagasvililuka/
+   🏷️  Domain: www.instagram.com
+   📝 "instagram.com"
+
+6. https://www.linkedin.com › in › luka-bagashvili-90a939338 [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/in/luka-bagashvili-90a939338
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+7. https://www.linkedin.com › pub › dir › Luka › Bagashvili [puppeteer/dedicated-puppeteer]
+   🌐 https://www.linkedin.com/pub/dir/Luka/Bagashvili
+   🏷️  Domain: www.linkedin.com
+   📝 "LinkedIn"
+
+8. https://ge.linkedin.com › in › luka-bagashvili-638449256 [puppeteer/dedicated-puppeteer]
+   🌐 https://ge.linkedin.com/in/luka-bagashvili-638449256
+   🏷️  Domain: ge.linkedin.com
+   📝 "LinkedIn"
+
+9. https://ge.linkedin.com › in › luka-bagashvili-4825202b4 [puppeteer/dedicated-puppeteer]
+   🌐 https://ge.linkedin.com/in/luka-bagashvili-4825202b4
+   🏷️  Domain: ge.linkedin.com
+   📝 "LinkedIn"
+
+10. Duck.ai [puppeteer/dedicated-puppeteer]
+   🌐 https://duck.ai/
+   🏷️  Domain: duck.ai
+   📝 "More From DuckDuckGo"
+
+
+🕷️  Starting Crawlee-enhanced scraping of 10 websites...
+================================================================================
+🕷️ Starting Crawlee-powered scraping of 10 URLs...
+[32mINFO[39m [33m PuppeteerCrawler:[39m Starting the crawler.
+[32mINFO[39m [33m CheerioCrawler:[39m Starting the crawler.
+[32mINFO[39m [33m PlaywrightCrawler:[39m Starting the crawler.
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"MBZXjSwIsdJflQf","url":"https://www.linkedin.com/pub/dir/Luka/Bagashvili","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"ROI3IOKUtICBs3m","url":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"Yo3mxGo4eWF3nn3","url":"https://ge.linkedin.com/in/luka-bagashvili-638449256","retryCount":1}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"MBZXjSwIsdJflQf","url":"https://www.linkedin.com/pub/dir/Luka/Bagashvili","retryCount":2}[39m
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"MBZXjSwIsdJflQf","url":"https://www.linkedin.com/pub/dir/Luka/Bagashvili","method":"GET","uniqueKey":"https://www.linkedin.com/pub/dir/Luka/Bagashvili"}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m The 'error' property of the crawling context is deprecated, and it is now passed as the second parameter in 'errorHandler' and 'failedRequestHandler'. Please update your code, as this property will be removed in a future version.
+❌ Cheerio failed to process https://www.linkedin.com/pub/dir/Luka/Bagashvili: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"ROI3IOKUtICBs3m","url":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4","retryCount":2}[39m
+[33mWARN[39m [33m CheerioCrawler:[39m Reclaiming failed request back to the list or queue. 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[90m {"id":"Yo3mxGo4eWF3nn3","url":"https://ge.linkedin.com/in/luka-bagashvili-638449256","retryCount":2}[39m
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"ROI3IOKUtICBs3m","url":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4","method":"GET","uniqueKey":"https://ge.linkedin.com/in/luka-bagashvili-4825202b4"}[39m
+❌ Cheerio failed to process https://ge.linkedin.com/in/luka-bagashvili-4825202b4: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[31mERROR[39m[33m CheerioCrawler:[39m Request failed and reached maximum retries. Error: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+    at CheerioCrawler._parseResponse (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:305:28)
+    at async CheerioCrawler._runRequestHandler (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/cheerio/internals/cheerio-crawler.js:153:9)
+    at async wrap (/Users/lukabagashvili/social-from-email/node_modules/@apify/timeout/cjs/index.cjs:54:21)[90m {"id":"Yo3mxGo4eWF3nn3","url":"https://ge.linkedin.com/in/luka-bagashvili-638449256","method":"GET","uniqueKey":"https://ge.linkedin.com/in/luka-bagashvili-638449256"}[39m
+❌ Cheerio failed to process https://ge.linkedin.com/in/luka-bagashvili-638449256: 999 - Internal Server Error: <html><head>
+<script type="text/javascript">
+window.onload = function() {
+  // Parse the tracking co
+[32mINFO[39m [33m PuppeteerCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m PlaywrightCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m PuppeteerCrawler:[39m Final request statistics:[90m {"requestsFinished":1,"requestsFailed":0,"retryHistogram":[1],"requestAvgFailedDurationMillis":null,"requestAvgFinishedDurationMillis":10644,"requestsFinishedPerMinute":3,"requestsFailedPerMinute":0,"requestTotalDurationMillis":10644,"requestsTotal":1,"crawlerRuntimeMillis":21727}[39m
+[32mINFO[39m [33m PuppeteerCrawler:[39m Finished! Total 1 requests: 1 succeeded, 0 failed.[90m {"terminal":true}[39m
+[32mINFO[39m [33m PlaywrightCrawler:[39m Final request statistics:[90m {"requestsFinished":2,"requestsFailed":0,"retryHistogram":[2],"requestAvgFailedDurationMillis":null,"requestAvgFinishedDurationMillis":6182,"requestsFinishedPerMinute":5,"requestsFailedPerMinute":0,"requestTotalDurationMillis":12363,"requestsTotal":2,"crawlerRuntimeMillis":21956}[39m
+[32mINFO[39m [33m PlaywrightCrawler:[39m Finished! Total 2 requests: 2 succeeded, 0 failed.[90m {"terminal":true}[39m
+[32mINFO[39m [33m CheerioCrawler:[39m All requests from the queue have been processed, the crawler will shut down.
+[32mINFO[39m [33m CheerioCrawler:[39m Final request statistics:[90m {"requestsFinished":4,"requestsFailed":3,"retryHistogram":[4,null,3],"requestAvgFailedDurationMillis":340,"requestAvgFinishedDurationMillis":1372,"requestsFinishedPerMinute":11,"requestsFailedPerMinute":8,"requestTotalDurationMillis":6505,"requestsTotal":7,"crawlerRuntimeMillis":21731}[39m
+[32mINFO[39m [33m CheerioCrawler:[39m Error analysis:[90m {"totalErrors":3,"uniqueErrors":1,"mostCommonErrors":["3x: 999 - Internal Server Error: <html><head> (/Users/lukabagashvili/social-from-email/node_modules/@crawlee/http/internals/http-crawler.js:496:19)"]}[39m
+[32mINFO[39m [33m CheerioCrawler:[39m Finished! Total 7 requests: 4 succeeded, 3 failed.[90m {"terminal":true}[39m
+✅ Crawlee scraping completed! Successfully scraped 7/10 URLs
+✅ Crawlee scraping completed! Successfully scraped 7/10 websites.
+
+🕷️ CRAWLEE SCRAPING ENHANCEMENT STATISTICS:
+────────────────────────────────────────────────────────────
+   🤖 CHEERIO: 4 websites
+   🤖 PLAYWRIGHT: 2 websites
+   🤖 PUPPETEER: 1 websites
+   🔗 Social Links Discovered: 208
+   📧 Email Addresses Found: 0
+   🎯 Average Relevance: 45.0%
+   ⚡ Average Load Time: 2059ms
+   ✨ Crawlee Advantages: Retry logic, session management, resource blocking
+✅ Hybrid data conversion completed! Processed 7 websites.
+
+🔍 ENHANCED PERSON ANALYSIS: luka bagashvili (bagash_l2@denison.edu)
+================================================================================
+📊 BASIC CLUSTERING MODE - Using rule-based clustering
+📋 LinkedIn snippet captured: "LinkedIn..."
+🔤 Extracting keywords and analyzing content...
+🧠 Extracting enhanced biographical profiles...
+  📑 Extracting biographical data from 17 sources...
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+  ✅ Extracted 17 biographical profiles
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.95
+📊 Performing basic rule-based clustering with biographical dimensions...
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/in/lukabagashvili
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/in/lukabagashvili
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+🔍 📊 Source-specific evidence extraction for: https://github.com/lukabagash
+✅ Source evidence extracted for github.com: socialProfiles, email, skills, name, education
+🔍 📊 Source-specific evidence extraction for: https://www.facebook.com/public/Luka-Bagashvili/
+✅ Source evidence extracted for www.facebook.com: email, socialProfiles, phone, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+✅ Source evidence extracted for www.youtube.com: socialProfiles, email, phone, skills, education
+🔍 📊 Source-specific evidence extraction for: https://www.instagram.com/bagasvililuka/
+✅ Source evidence extracted for www.instagram.com: socialProfiles, name, email, phone, skills, education
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/in/luka-bagashvili-90a939338
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/in/luka-bagashvili-90a939338
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://www.linkedin.com/pub/dir/Luka/Bagashvili
+🔍 🧠 Advanced search result evidence extraction for: https://www.linkedin.com/pub/dir/Luka/Bagashvili
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://ge.linkedin.com/in/luka-bagashvili-638449256
+🔍 🧠 Advanced search result evidence extraction for: https://ge.linkedin.com/in/luka-bagashvili-638449256
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+⏭️  Skipping LinkedIn scraping, using snippet: https://ge.linkedin.com/in/luka-bagashvili-4825202b4
+🔍 🧠 Advanced search result evidence extraction for: https://ge.linkedin.com/in/luka-bagashvili-4825202b4
+🧠 State-of-the-art bio extraction for luka bagashvili
+🔍 Validating and resolving entities...
+✅ Entity resolution complete. Confidence: 0.80
+⚠️  Advanced extraction yielded minimal results for search result, applying basic fallback...
+✅ Advanced search result evidence: name, email
+🔍 📊 Source-specific evidence extraction for: https://duck.ai/
+✅ Source evidence extracted for duck.ai: email
+  🔗 Enriching evidence with biographical dimensions...
+  🧮 Clustering with biographical dimensions...
+  📊 Calculating enhanced confidence scores...
+  📋 Creating enhanced summary with biographical insights...
+🔄 Closing dedicated Puppeteer instances...
+🔒 Closing DUCKDUCKGO Puppeteer...
+✅ All dedicated Puppeteer instances closed successfully
+🔄 Closing Enhanced Crawlee Engine...
+✅ Crawlee Engine closed successfully
+🧹 Cleaned up temporary storage: /Users/lukabagashvili/social-from-email/temp-storage/9c192800-027d-49f5-88ff-1695010a7228
+
+================================================================================
+🔍 HYBRID ULTIMATE CRAWLER + CRAWLEE ANALYSIS RESULTS
+================================================================================
+📊 Summary:
+   Total Sources Analyzed: 5
+   Persons Identified: 1
+   🟢 High Confidence (>70%): 1
+   🟡 Medium Confidence (40-70%): 0
+   🔴 Low Confidence (<40%): 0
+
+🌐 Top Source Domains:
+   1. github.com: 1 sources
+   2. www.facebook.com: 1 sources
+   3. www.youtube.com: 1 sources
+   4. www.instagram.com: 1 sources
+   5. duck.ai: 1 sources
+
+🟢 PERSON 1 - Confidence: 100%
+────────────────────────────────────────────────────────────
+👤 Identity Information:
+   Name: luka bagashvili
+   Email: bagash_l2@denison.edu
+   Phone: (1755839901
+
+🔗 Social Profiles:
+   GitHub: https://github.com/lukabagash (@lukabagash)
+   github: https://github.com/lukabagash#start-of-content (@lukabagash)
+   github: https://github.com/features/copilot (@features)
+   github: https://github.com/features/spark (@features)
+   github: https://github.com/features/models (@features)
+   github: https://github.com/security/advanced-security (@security)
+   github: https://github.com/features/actions (@features)
+   github: https://github.com/features/codespaces (@features)
+   github: https://github.com/features/issues (@features)
+   github: https://github.com/features/code-review (@features)
+   github: https://github.com/features/discussions (@features)
+   github: https://github.com/features/code-search (@features)
+   github: https://github.com/why-github (@why-github)
+   github: https://github.com/features (@features)
+   github: https://docs.github.com/
+   github: https://skills.github.com/
+   github: https://github.blog/
+   github: https://github.com/enterprise (@enterprise)
+   github: https://github.com/team (@team)
+   github: https://github.com/enterprise/startups (@enterprise)
+   github: https://github.com/solutions/industry/nonprofits (@solutions)
+   github: https://github.com/solutions/use-case/devsecops (@solutions)
+   github: https://github.com/solutions/use-case/devops (@solutions)
+   github: https://github.com/solutions/use-case/ci-cd (@solutions)
+   github: https://github.com/solutions/use-case (@solutions)
+   github: https://github.com/solutions/industry/healthcare (@solutions)
+   github: https://github.com/solutions/industry/financial-services (@solutions)
+   github: https://github.com/solutions/industry/manufacturing (@solutions)
+   github: https://github.com/solutions/industry/government (@solutions)
+   github: https://github.com/solutions/industry (@solutions)
+   github: https://github.com/solutions (@solutions)
+   github: https://github.com/resources/articles/ai (@resources)
+   github: https://github.com/resources/articles/devops (@resources)
+   github: https://github.com/resources/articles/security (@resources)
+   github: https://github.com/resources/articles/software-development (@resources)
+   github: https://github.com/resources/articles (@resources)
+   github: https://resources.github.com/learn/pathways (@learn)
+   github: https://resources.github.com/
+   github: https://github.com/resources/whitepapers (@resources)
+   github: https://github.com/customer-stories (@customer-stories)
+   github: https://partner.github.com/
+   github: https://github.com/solutions/executive-insights (@solutions)
+   github: https://github.com/sponsors (@sponsors)
+   github: https://github.com/readme (@readme)
+   github: https://github.com/topics (@topics)
+   github: https://github.com/trending (@trending)
+   github: https://github.com/collections (@collections)
+   github: https://github.com/features/copilot/copilot-business (@features)
+   github: https://github.com/premium-support (@premium-support)
+   github: https://github.com/pricing (@pricing)
+   github: https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax (@search-github)
+   github: https://github.com/lukabagash?tab=repositories (@lukabagash)
+   github: https://github.com/lukabagash?tab=projects (@lukabagash)
+   github: https://github.com/lukabagash?tab=packages (@lukabagash)
+   github: https://github.com/lukabagash?tab=stars (@lukabagash)
+   github: https://github.com/lukabagash?tab=followers (@lukabagash)
+   github: https://github.com/lukabagash?tab=following (@lukabagash)
+   github: https://github.com/lukabagash?tab=achievements (@lukabagash)
+   github: https://github.com/lukabagash?achievement=pull-shark&tab=achievements (@lukabagash)
+   github: https://docs.github.com/articles/blocking-a-user-from-your-personal-account (@articles)
+   github: https://docs.github.com/articles/reporting-abuse-or-spam (@articles)
+   github: https://github.com/contact/report-abuse?report=lukabagash+%28user%29 (@contact)
+   github: https://github.com/lukabagash/Advising-App-Server (@lukabagash)
+   github: https://github.com/lukabagash/Advising-App-UI (@lukabagash)
+   github: https://github.com/lukabagash/Quadcopter-PyMavlink (@lukabagash)
+   github: https://github.com/lukabagash/Recipe-Project (@lukabagash)
+   github: https://github.com/lukabagash/SecretSharing (@lukabagash)
+   github: https://github.com/Denison-CS-349-Fall-2024/FluFlighters (@Denison-CS-349-Fall-2024)
+   github: https://github.com/Denison-CS-349-Fall-2024/FluFlighters/stargazers (@Denison-CS-349-Fall-2024)
+   github: https://www.githubstatus.com/
+   github: https://github.com/contact (@contact)
+   github: https://docs.github.com/site-policy/github-terms/github-terms-of-service (@site-policy)
+   github: https://github.com/security (@security)
+   github: https://support.github.com/?tags=dotcom-footer
+   Facebook: https://www.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://www.facebook.com/
+   facebook: https://www.facebook.com/recover/initiate?lwv=110&ars=royal_blue_bar (@recover)
+   facebook: https://es-la.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://fr-fr.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://zh-cn.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://ar-ar.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://pt-br.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://it-it.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://ko-kr.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://de-de.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://hi-in.facebook.com/public/Luka-Bagashvili/ (@public)
+   facebook: https://www.facebook.com/reg/ (@reg)
+   facebook: https://www.facebook.com/lite/ (@lite)
+   facebook: https://www.facebook.com/watch/ (@watch)
+   facebook: https://www.facebook.com/votinginformationcenter/?entry_point=c2l0ZQ%3D%3D (@votinginformationcenter)
+   facebook: https://www.facebook.com/ad_campaign/landing.php?placement=pflo&campaign_id=402047449186&nav_source=unknown&extra_1=auto (@ad_campaign)
+   facebook: https://www.facebook.com/pages/create/?ref_type=site_footer (@pages)
+   facebook: https://www.facebook.com/settings (@settings)
+   facebook: https://www.facebook.com/allactivity?privacy_source=activity_log_top_menu (@allactivity)
+   YouTube: https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos (@channel)
+   youtube: https://www.youtube.com/t/contact_us/ (@t)
+   youtube: https://www.youtube.com/creators/ (@creators)
+   youtube: https://www.youtube.com/ads/ (@ads)
+   youtube: https://www.youtube.com/new (@new)
+   youtube: https://tv.youtube.com/learn/nflsundayticket (@learn)
+   Instagram: https://www.instagram.com/bagasvililuka/ (@bagasvililuka)
+   instagram: https://www.instagram.com/
+   instagram: https://www.instagram.com/accounts/emailsignup/ (@accounts)
+   instagram: https://www.instagram.com/accounts/meta_verified/?entrypoint=web_footer (@accounts)
+
+💼 Skills/Expertise: git, ai
+
+📝 Name Variations Found: luka bagashvili, Luka Bagashvili
+
+📊 Supporting Sources (10):
+   1. 🔥 https://www.linkedin.com › in › lukabagashvili
+      🌐 https://www.linkedin.com/in/lukabagashvili
+      🏷️  Domain: www.linkedin.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "luka bagashvili", email: "bagash_l2@denison.edu", domain: academic (.edu)
+
+   2. 🔥 lukabagash (Luka Bagashvili) · GitHub
+      🌐 https://github.com/lukabagash
+      🏷️  Domain: github.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "github.com"
+      📋 Evidence: name: "luka bagashvili", email: "bagash_l2@denison.edu", domain: academic (.edu), social: GitHub (lukabagash), social: github (lukabagash), social: github (features), social: github (features), social: github (features), social: github (security), social: github (features), social: github (features), social: github (features), social: github (features), social: github (features), social: github (features), social: github (why-github), social: github (features), social: github (username N/A), social: github (username N/A), social: github (username N/A), social: github (enterprise), social: github (team), social: github (enterprise), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (solutions), social: github (resources), social: github (resources), social: github (resources), social: github (resources), social: github (resources), social: github (learn), social: github (username N/A), social: github (resources), social: github (customer-stories), social: github (username N/A), social: github (solutions), social: github (sponsors), social: github (readme), social: github (topics), social: github (trending), social: github (collections), social: github (features), social: github (premium-support), social: github (pricing), social: github (search-github), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (articles), social: github (articles), social: github (contact), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (lukabagash), social: github (Denison-CS-349-Fall-2024), social: github (Denison-CS-349-Fall-2024), social: github (username N/A), social: github (contact), social: github (site-policy), social: github (security), social: github (username N/A), skills: [git, ai]
+
+   3. 🔥 https://www.facebook.com › public › Luka-Bagashvili
+      🌐 https://www.facebook.com/public/Luka-Bagashvili/
+      🏷️  Domain: www.facebook.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "Facebook"
+      📋 Evidence: email: "bagash_l2@denison.edu", domain: academic (.edu), phone: "(1755839901", social: Facebook (public), social: facebook (username N/A), social: facebook (recover), social: facebook (public), social: facebook (public), social: facebook (public), social: facebook (public), social: facebook (public), social: facebook (public), social: facebook (public), social: facebook (public), social: facebook (public), social: facebook (reg), social: facebook (lite), social: facebook (watch), social: facebook (votinginformationcenter), social: facebook (ad_campaign), social: facebook (pages), social: facebook (settings), social: facebook (allactivity)
+
+   4. 🔥 https://www.youtube.com › channel › UC3JT1nZWkM4e_FVzmhIwIZg › videos
+      🌐 https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+      🏷️  Domain: www.youtube.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "YouTube"
+      📋 Evidence: email: "bagash_l2@denison.edu", domain: academic (.edu), phone: "222.2025082", social: YouTube (channel), social: youtube (t), social: youtube (creators), social: youtube (ads), social: youtube (new), social: youtube (learn)
+
+   5. 🔥 Luka Bagashvili (@bagasvililuka) • Instagram photos and videos
+      🌐 https://www.instagram.com/bagasvililuka/
+      🏷️  Domain: www.instagram.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "instagram.com"
+      📋 Evidence: name: "Luka Bagashvili", email: "bagash_l2@denison.edu", domain: academic (.edu), phone: "7541274957", social: Instagram (bagasvililuka), social: instagram (username N/A), social: instagram (accounts), social: instagram (accounts)
+
+   6. 🔥 https://www.linkedin.com › in › luka-bagashvili-90a939338
+      🌐 https://www.linkedin.com/in/luka-bagashvili-90a939338
+      🏷️  Domain: www.linkedin.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "luka bagashvili", email: "bagash_l2@denison.edu", domain: academic (.edu)
+
+   7. 🔥 https://www.linkedin.com › pub › dir › Luka › Bagashvili
+      🌐 https://www.linkedin.com/pub/dir/Luka/Bagashvili
+      🏷️  Domain: www.linkedin.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "luka bagashvili", email: "bagash_l2@denison.edu", domain: academic (.edu)
+
+   8. 🔥 https://ge.linkedin.com › in › luka-bagashvili-638449256
+      🌐 https://ge.linkedin.com/in/luka-bagashvili-638449256
+      🏷️  Domain: ge.linkedin.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "luka bagashvili", email: "bagash_l2@denison.edu", domain: academic (.edu)
+
+   9. 🔥 https://ge.linkedin.com › in › luka-bagashvili-4825202b4
+      🌐 https://ge.linkedin.com/in/luka-bagashvili-4825202b4
+      🏷️  Domain: ge.linkedin.com (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "LinkedIn"
+      📋 Evidence: name: "luka bagashvili", email: "bagash_l2@denison.edu", domain: academic (.edu)
+
+   10. 🔥 Duck.ai
+      🌐 https://duck.ai/
+      🏷️  Domain: duck.ai (Relevance: 80%)
+      🤖 Enhanced with: Hybrid Ultimate Crawler + Crawlee Scraping
+      📝 "More From DuckDuckGo"
+      📋 Evidence: email: "bagash_l2@denison.edu", domain: academic (.edu)
+
+
+================================================================================
+🧠 ANALYSIS INSIGHTS
+================================================================================
+🎯 Likely Same Person: YES
+📈 Main Identity Confidence: 100%
+🔬 Clustering Method: BASIC
+
+================================================================================
+🔗 SOCIAL MEDIA LINKS SUMMARY
+================================================================================
+📊 Overview:
+   Total Social Links Found: 104
+   🟢 High Confidence (>70%): 104
+   🟡 Medium Confidence (40-70%): 0
+   🔴 Low Confidence (<40%): 0
+   🌐 Unique Platforms: 4
+
+📱 Platform Breakdown:
+   github: 74 links
+   facebook: 20 links
+   youtube: 6 links
+   instagram: 4 links
+
+🎯 RECOMMENDED SOCIAL LINKS (Consolidated & Ranked):
+────────────────────────────────────────────────────────────────────────────────
+1. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+2. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash#start-of-content
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+3. 🟢 GITHUB
+   🌐 URL: https://github.com/features/copilot
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+4. 🟢 GITHUB
+   🌐 URL: https://github.com/features/spark
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+5. 🟢 GITHUB
+   🌐 URL: https://github.com/features/models
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+6. 🟢 GITHUB
+   🌐 URL: https://github.com/security/advanced-security
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @security
+
+7. 🟢 GITHUB
+   🌐 URL: https://github.com/features/actions
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+8. 🟢 GITHUB
+   🌐 URL: https://github.com/features/codespaces
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+9. 🟢 GITHUB
+   🌐 URL: https://github.com/features/issues
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+10. 🟢 GITHUB
+   🌐 URL: https://github.com/features/code-review
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+11. 🟢 GITHUB
+   🌐 URL: https://github.com/features/discussions
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+12. 🟢 GITHUB
+   🌐 URL: https://github.com/features/code-search
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+13. 🟢 GITHUB
+   🌐 URL: https://github.com/why-github
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @why-github
+
+14. 🟢 GITHUB
+   🌐 URL: https://github.com/features
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+15. 🟢 GITHUB
+   🌐 URL: https://docs.github.com/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+16. 🟢 GITHUB
+   🌐 URL: https://skills.github.com/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+17. 🟢 GITHUB
+   🌐 URL: https://github.blog/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+18. 🟢 GITHUB
+   🌐 URL: https://github.com/enterprise
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @enterprise
+
+19. 🟢 GITHUB
+   🌐 URL: https://github.com/team
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @team
+
+20. 🟢 GITHUB
+   🌐 URL: https://github.com/enterprise/startups
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @enterprise
+
+21. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/industry/nonprofits
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+22. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/use-case/devsecops
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+23. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/use-case/devops
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+24. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/use-case/ci-cd
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+25. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/use-case
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+26. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/industry/healthcare
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+27. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/industry/financial-services
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+28. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/industry/manufacturing
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+29. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/industry/government
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+30. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/industry
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+31. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+32. 🟢 GITHUB
+   🌐 URL: https://github.com/resources/articles/ai
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @resources
+
+33. 🟢 GITHUB
+   🌐 URL: https://github.com/resources/articles/devops
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @resources
+
+34. 🟢 GITHUB
+   🌐 URL: https://github.com/resources/articles/security
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @resources
+
+35. 🟢 GITHUB
+   🌐 URL: https://github.com/resources/articles/software-development
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @resources
+
+36. 🟢 GITHUB
+   🌐 URL: https://github.com/resources/articles
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @resources
+
+37. 🟢 GITHUB
+   🌐 URL: https://resources.github.com/learn/pathways
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @learn
+
+38. 🟢 GITHUB
+   🌐 URL: https://resources.github.com/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+39. 🟢 GITHUB
+   🌐 URL: https://github.com/resources/whitepapers
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @resources
+
+40. 🟢 GITHUB
+   🌐 URL: https://github.com/customer-stories
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @customer-stories
+
+41. 🟢 GITHUB
+   🌐 URL: https://partner.github.com/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+42. 🟢 GITHUB
+   🌐 URL: https://github.com/solutions/executive-insights
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @solutions
+
+43. 🟢 GITHUB
+   🌐 URL: https://github.com/sponsors
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @sponsors
+
+44. 🟢 GITHUB
+   🌐 URL: https://github.com/readme
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @readme
+
+45. 🟢 GITHUB
+   🌐 URL: https://github.com/topics
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @topics
+
+46. 🟢 GITHUB
+   🌐 URL: https://github.com/trending
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @trending
+
+47. 🟢 GITHUB
+   🌐 URL: https://github.com/collections
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @collections
+
+48. 🟢 GITHUB
+   🌐 URL: https://github.com/features/copilot/copilot-business
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @features
+
+49. 🟢 GITHUB
+   🌐 URL: https://github.com/premium-support
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @premium-support
+
+50. 🟢 GITHUB
+   🌐 URL: https://github.com/pricing
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @pricing
+
+51. 🟢 GITHUB
+   🌐 URL: https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @search-github
+
+52. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?tab=repositories
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+53. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?tab=projects
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+54. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?tab=packages
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+55. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?tab=stars
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+56. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?tab=followers
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+57. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?tab=following
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+58. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?tab=achievements
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+59. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash?achievement=pull-shark&tab=achievements
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+60. 🟢 GITHUB
+   🌐 URL: https://docs.github.com/articles/blocking-a-user-from-your-personal-account
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @articles
+
+61. 🟢 GITHUB
+   🌐 URL: https://docs.github.com/articles/reporting-abuse-or-spam
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @articles
+
+62. 🟢 GITHUB
+   🌐 URL: https://github.com/contact/report-abuse?report=lukabagash+%28user%29
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @contact
+
+63. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash/Advising-App-Server
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+64. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash/Advising-App-UI
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+65. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash/Quadcopter-PyMavlink
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+66. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash/Recipe-Project
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+67. 🟢 GITHUB
+   🌐 URL: https://github.com/lukabagash/SecretSharing
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lukabagash
+
+68. 🟢 GITHUB
+   🌐 URL: https://github.com/Denison-CS-349-Fall-2024/FluFlighters
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @Denison-CS-349-Fall-2024
+
+69. 🟢 GITHUB
+   🌐 URL: https://github.com/Denison-CS-349-Fall-2024/FluFlighters/stargazers
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @Denison-CS-349-Fall-2024
+
+70. 🟢 GITHUB
+   🌐 URL: https://www.githubstatus.com/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+71. 🟢 GITHUB
+   🌐 URL: https://github.com/contact
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @contact
+
+72. 🟢 GITHUB
+   🌐 URL: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @site-policy
+
+73. 🟢 GITHUB
+   🌐 URL: https://github.com/security
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @security
+
+74. 🟢 GITHUB
+   🌐 URL: https://support.github.com/?tags=dotcom-footer
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+75. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+76. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+77. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/recover/initiate?lwv=110&ars=royal_blue_bar
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @recover
+
+78. 🟢 FACEBOOK
+   🌐 URL: https://es-la.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+79. 🟢 FACEBOOK
+   🌐 URL: https://fr-fr.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+80. 🟢 FACEBOOK
+   🌐 URL: https://zh-cn.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+81. 🟢 FACEBOOK
+   🌐 URL: https://ar-ar.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+82. 🟢 FACEBOOK
+   🌐 URL: https://pt-br.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+83. 🟢 FACEBOOK
+   🌐 URL: https://it-it.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+84. 🟢 FACEBOOK
+   🌐 URL: https://ko-kr.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+85. 🟢 FACEBOOK
+   🌐 URL: https://de-de.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+86. 🟢 FACEBOOK
+   🌐 URL: https://hi-in.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @public
+
+87. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/reg/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @reg
+
+88. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/lite/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @lite
+
+89. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/watch/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @watch
+
+90. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/votinginformationcenter/?entry_point=c2l0ZQ%3D%3D
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @votinginformationcenter
+
+91. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/ad_campaign/landing.php?placement=pflo&campaign_id=402047449186&nav_source=unknown&extra_1=auto
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @ad_campaign
+
+92. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/pages/create/?ref_type=site_footer
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @pages
+
+93. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/settings
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @settings
+
+94. 🟢 FACEBOOK
+   🌐 URL: https://www.facebook.com/allactivity?privacy_source=activity_log_top_menu
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @allactivity
+
+95. 🟢 YOUTUBE
+   🌐 URL: https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @channel
+
+96. 🟢 YOUTUBE
+   🌐 URL: https://www.youtube.com/t/contact_us/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @t
+
+97. 🟢 YOUTUBE
+   🌐 URL: https://www.youtube.com/creators/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @creators
+
+98. 🟢 YOUTUBE
+   🌐 URL: https://www.youtube.com/ads/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @ads
+
+99. 🟢 YOUTUBE
+   🌐 URL: https://www.youtube.com/new
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @new
+
+100. 🟢 YOUTUBE
+   🌐 URL: https://tv.youtube.com/learn/nflsundayticket
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @learn
+
+101. 🟢 INSTAGRAM
+   🌐 URL: https://www.instagram.com/bagasvililuka/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @bagasvililuka
+
+102. 🟢 INSTAGRAM
+   🌐 URL: https://www.instagram.com/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+
+103. 🟢 INSTAGRAM
+   🌐 URL: https://www.instagram.com/accounts/emailsignup/
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @accounts
+
+104. 🟢 INSTAGRAM
+   🌐 URL: https://www.instagram.com/accounts/meta_verified/?entrypoint=web_footer
+   📊 Confidence: 100% | Relevance: 80%
+   👤 Person: person_1 | Sources: 10
+   🏷️  Username: @accounts
+
+
+🟢 HIGH CONFIDENCE LINKS (104):
+────────────────────────────────────────────────────────────
+   1. GitHub: https://github.com/lukabagash
+      Confidence: 100% | person_1 | 10 sources
+   2. github: https://github.com/lukabagash#start-of-content
+      Confidence: 100% | person_1 | 10 sources
+   3. github: https://github.com/features/copilot
+      Confidence: 100% | person_1 | 10 sources
+   4. github: https://github.com/features/spark
+      Confidence: 100% | person_1 | 10 sources
+   5. github: https://github.com/features/models
+      Confidence: 100% | person_1 | 10 sources
+   6. github: https://github.com/security/advanced-security
+      Confidence: 100% | person_1 | 10 sources
+   7. github: https://github.com/features/actions
+      Confidence: 100% | person_1 | 10 sources
+   8. github: https://github.com/features/codespaces
+      Confidence: 100% | person_1 | 10 sources
+   9. github: https://github.com/features/issues
+      Confidence: 100% | person_1 | 10 sources
+   10. github: https://github.com/features/code-review
+      Confidence: 100% | person_1 | 10 sources
+   11. github: https://github.com/features/discussions
+      Confidence: 100% | person_1 | 10 sources
+   12. github: https://github.com/features/code-search
+      Confidence: 100% | person_1 | 10 sources
+   13. github: https://github.com/why-github
+      Confidence: 100% | person_1 | 10 sources
+   14. github: https://github.com/features
+      Confidence: 100% | person_1 | 10 sources
+   15. github: https://docs.github.com/
+      Confidence: 100% | person_1 | 10 sources
+   16. github: https://skills.github.com/
+      Confidence: 100% | person_1 | 10 sources
+   17. github: https://github.blog/
+      Confidence: 100% | person_1 | 10 sources
+   18. github: https://github.com/enterprise
+      Confidence: 100% | person_1 | 10 sources
+   19. github: https://github.com/team
+      Confidence: 100% | person_1 | 10 sources
+   20. github: https://github.com/enterprise/startups
+      Confidence: 100% | person_1 | 10 sources
+   21. github: https://github.com/solutions/industry/nonprofits
+      Confidence: 100% | person_1 | 10 sources
+   22. github: https://github.com/solutions/use-case/devsecops
+      Confidence: 100% | person_1 | 10 sources
+   23. github: https://github.com/solutions/use-case/devops
+      Confidence: 100% | person_1 | 10 sources
+   24. github: https://github.com/solutions/use-case/ci-cd
+      Confidence: 100% | person_1 | 10 sources
+   25. github: https://github.com/solutions/use-case
+      Confidence: 100% | person_1 | 10 sources
+   26. github: https://github.com/solutions/industry/healthcare
+      Confidence: 100% | person_1 | 10 sources
+   27. github: https://github.com/solutions/industry/financial-services
+      Confidence: 100% | person_1 | 10 sources
+   28. github: https://github.com/solutions/industry/manufacturing
+      Confidence: 100% | person_1 | 10 sources
+   29. github: https://github.com/solutions/industry/government
+      Confidence: 100% | person_1 | 10 sources
+   30. github: https://github.com/solutions/industry
+      Confidence: 100% | person_1 | 10 sources
+   31. github: https://github.com/solutions
+      Confidence: 100% | person_1 | 10 sources
+   32. github: https://github.com/resources/articles/ai
+      Confidence: 100% | person_1 | 10 sources
+   33. github: https://github.com/resources/articles/devops
+      Confidence: 100% | person_1 | 10 sources
+   34. github: https://github.com/resources/articles/security
+      Confidence: 100% | person_1 | 10 sources
+   35. github: https://github.com/resources/articles/software-development
+      Confidence: 100% | person_1 | 10 sources
+   36. github: https://github.com/resources/articles
+      Confidence: 100% | person_1 | 10 sources
+   37. github: https://resources.github.com/learn/pathways
+      Confidence: 100% | person_1 | 10 sources
+   38. github: https://resources.github.com/
+      Confidence: 100% | person_1 | 10 sources
+   39. github: https://github.com/resources/whitepapers
+      Confidence: 100% | person_1 | 10 sources
+   40. github: https://github.com/customer-stories
+      Confidence: 100% | person_1 | 10 sources
+   41. github: https://partner.github.com/
+      Confidence: 100% | person_1 | 10 sources
+   42. github: https://github.com/solutions/executive-insights
+      Confidence: 100% | person_1 | 10 sources
+   43. github: https://github.com/sponsors
+      Confidence: 100% | person_1 | 10 sources
+   44. github: https://github.com/readme
+      Confidence: 100% | person_1 | 10 sources
+   45. github: https://github.com/topics
+      Confidence: 100% | person_1 | 10 sources
+   46. github: https://github.com/trending
+      Confidence: 100% | person_1 | 10 sources
+   47. github: https://github.com/collections
+      Confidence: 100% | person_1 | 10 sources
+   48. github: https://github.com/features/copilot/copilot-business
+      Confidence: 100% | person_1 | 10 sources
+   49. github: https://github.com/premium-support
+      Confidence: 100% | person_1 | 10 sources
+   50. github: https://github.com/pricing
+      Confidence: 100% | person_1 | 10 sources
+   51. github: https://docs.github.com/search-github/github-code-search/understanding-github-code-search-syntax
+      Confidence: 100% | person_1 | 10 sources
+   52. github: https://github.com/lukabagash?tab=repositories
+      Confidence: 100% | person_1 | 10 sources
+   53. github: https://github.com/lukabagash?tab=projects
+      Confidence: 100% | person_1 | 10 sources
+   54. github: https://github.com/lukabagash?tab=packages
+      Confidence: 100% | person_1 | 10 sources
+   55. github: https://github.com/lukabagash?tab=stars
+      Confidence: 100% | person_1 | 10 sources
+   56. github: https://github.com/lukabagash?tab=followers
+      Confidence: 100% | person_1 | 10 sources
+   57. github: https://github.com/lukabagash?tab=following
+      Confidence: 100% | person_1 | 10 sources
+   58. github: https://github.com/lukabagash?tab=achievements
+      Confidence: 100% | person_1 | 10 sources
+   59. github: https://github.com/lukabagash?achievement=pull-shark&tab=achievements
+      Confidence: 100% | person_1 | 10 sources
+   60. github: https://docs.github.com/articles/blocking-a-user-from-your-personal-account
+      Confidence: 100% | person_1 | 10 sources
+   61. github: https://docs.github.com/articles/reporting-abuse-or-spam
+      Confidence: 100% | person_1 | 10 sources
+   62. github: https://github.com/contact/report-abuse?report=lukabagash+%28user%29
+      Confidence: 100% | person_1 | 10 sources
+   63. github: https://github.com/lukabagash/Advising-App-Server
+      Confidence: 100% | person_1 | 10 sources
+   64. github: https://github.com/lukabagash/Advising-App-UI
+      Confidence: 100% | person_1 | 10 sources
+   65. github: https://github.com/lukabagash/Quadcopter-PyMavlink
+      Confidence: 100% | person_1 | 10 sources
+   66. github: https://github.com/lukabagash/Recipe-Project
+      Confidence: 100% | person_1 | 10 sources
+   67. github: https://github.com/lukabagash/SecretSharing
+      Confidence: 100% | person_1 | 10 sources
+   68. github: https://github.com/Denison-CS-349-Fall-2024/FluFlighters
+      Confidence: 100% | person_1 | 10 sources
+   69. github: https://github.com/Denison-CS-349-Fall-2024/FluFlighters/stargazers
+      Confidence: 100% | person_1 | 10 sources
+   70. github: https://www.githubstatus.com/
+      Confidence: 100% | person_1 | 10 sources
+   71. github: https://github.com/contact
+      Confidence: 100% | person_1 | 10 sources
+   72. github: https://docs.github.com/site-policy/github-terms/github-terms-of-service
+      Confidence: 100% | person_1 | 10 sources
+   73. github: https://github.com/security
+      Confidence: 100% | person_1 | 10 sources
+   74. github: https://support.github.com/?tags=dotcom-footer
+      Confidence: 100% | person_1 | 10 sources
+   75. Facebook: https://www.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   76. facebook: https://www.facebook.com/
+      Confidence: 100% | person_1 | 10 sources
+   77. facebook: https://www.facebook.com/recover/initiate?lwv=110&ars=royal_blue_bar
+      Confidence: 100% | person_1 | 10 sources
+   78. facebook: https://es-la.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   79. facebook: https://fr-fr.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   80. facebook: https://zh-cn.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   81. facebook: https://ar-ar.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   82. facebook: https://pt-br.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   83. facebook: https://it-it.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   84. facebook: https://ko-kr.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   85. facebook: https://de-de.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   86. facebook: https://hi-in.facebook.com/public/Luka-Bagashvili/
+      Confidence: 100% | person_1 | 10 sources
+   87. facebook: https://www.facebook.com/reg/
+      Confidence: 100% | person_1 | 10 sources
+   88. facebook: https://www.facebook.com/lite/
+      Confidence: 100% | person_1 | 10 sources
+   89. facebook: https://www.facebook.com/watch/
+      Confidence: 100% | person_1 | 10 sources
+   90. facebook: https://www.facebook.com/votinginformationcenter/?entry_point=c2l0ZQ%3D%3D
+      Confidence: 100% | person_1 | 10 sources
+   91. facebook: https://www.facebook.com/ad_campaign/landing.php?placement=pflo&campaign_id=402047449186&nav_source=unknown&extra_1=auto
+      Confidence: 100% | person_1 | 10 sources
+   92. facebook: https://www.facebook.com/pages/create/?ref_type=site_footer
+      Confidence: 100% | person_1 | 10 sources
+   93. facebook: https://www.facebook.com/settings
+      Confidence: 100% | person_1 | 10 sources
+   94. facebook: https://www.facebook.com/allactivity?privacy_source=activity_log_top_menu
+      Confidence: 100% | person_1 | 10 sources
+   95. YouTube: https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+      Confidence: 100% | person_1 | 10 sources
+   96. youtube: https://www.youtube.com/t/contact_us/
+      Confidence: 100% | person_1 | 10 sources
+   97. youtube: https://www.youtube.com/creators/
+      Confidence: 100% | person_1 | 10 sources
+   98. youtube: https://www.youtube.com/ads/
+      Confidence: 100% | person_1 | 10 sources
+   99. youtube: https://www.youtube.com/new
+      Confidence: 100% | person_1 | 10 sources
+   100. youtube: https://tv.youtube.com/learn/nflsundayticket
+      Confidence: 100% | person_1 | 10 sources
+   101. Instagram: https://www.instagram.com/bagasvililuka/
+      Confidence: 100% | person_1 | 10 sources
+   102. instagram: https://www.instagram.com/
+      Confidence: 100% | person_1 | 10 sources
+   103. instagram: https://www.instagram.com/accounts/emailsignup/
+      Confidence: 100% | person_1 | 10 sources
+   104. instagram: https://www.instagram.com/accounts/meta_verified/?entrypoint=web_footer
+      Confidence: 100% | person_1 | 10 sources
+
+💡 Recommendation: Focus on 🟢 High Confidence links for reliable social media presence.
+
+🏆 BEST SOCIAL LINKS (One per platform):
+────────────────────────────────────────────────────────────
+1. 🟢 GITHUB: https://github.com/lukabagash
+   📊 Confidence: 100% | Relevance: 80%
+   🏷️  @lukabagash
+2. 🟢 FACEBOOK: https://www.facebook.com/public/Luka-Bagashvili/
+   📊 Confidence: 100% | Relevance: 80%
+   🏷️  @public
+3. 🟢 YOUTUBE: https://www.youtube.com/channel/UC3JT1nZWkM4e_FVzmhIwIZg/videos
+   📊 Confidence: 100% | Relevance: 80%
+   🏷️  @channel
+4. 🟢 INSTAGRAM: https://www.instagram.com/bagasvililuka/
+   📊 Confidence: 100% | Relevance: 80%
+   🏷️  @bagasvililuka
+
+================================================================================
+🏆 HYBRID PERFORMANCE SUMMARY
+================================================================================
+⏱️  Total execution time: 24.33 seconds
+🔍 Search Engine: Ultimate Crawler (Multi-Engine)
+🕷️  Scraping Engine: Crawlee (Multi-Crawler)
+🌟 Hybrid advantages utilized:
+   ✅ Proven search stability from Ultimate Crawler
+   ✅ Advanced scraping capabilities from Crawlee
+   ✅ Automatic retry logic and error recovery
+   ✅ Session persistence and resource optimization
+   ✅ Multi-crawler fallback system
+   ✅ Comprehensive social media link extraction and analysis
+🔚 Hybrid analysis completed successfully!
