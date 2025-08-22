@@ -488,58 +488,6 @@ export class IntelligentSelectorManager {
   }
 
   /**
-   * Get fallback selector from maintained libraries
-   */
-  private getFallbackSelector(engine: SearchEngine, purpose: PurposeKey): string | null {
-    if (engine === 'google') {
-      switch (purpose) {
-        case 'search-results':
-          return GeneralSelector.block;
-        case 'result-title':
-          return OrganicSearchSelector.title;
-        case 'result-link':
-          return OrganicSearchSelector.link;
-        case 'result-description':
-          return OrganicSearchSelector.description;
-        default:
-          return null;
-      }
-    }
-    return null;
-  }
-
-  /**
-   * Get legacy hardcoded selectors as last resort
-   */
-  private getLegacySelector(engine: SearchEngine, purpose: PurposeKey): string | null {
-    const legacySelectors = {
-      google: {
-        'search-results': '.g, .tF2Cxc, .rc, #search .g',
-        'result-title': 'h3, .r a h3, .LC20lb',
-        'result-link': '.r a, .yuRUbf a',
-        'result-description': '.st, .VwiC3b',
-        'result-snippet': '.st, .VwiC3b'
-      },
-      duckduckgo: {
-        'search-results': '.results .result, .result, .web-result',
-        'result-title': '.result__title a, .result__a',
-        'result-link': '.result__title a, .result__a',
-        'result-description': '.result__snippet',
-        'result-snippet': '.result__snippet'
-      },
-      bing: {
-        'search-results': '.b_algo, .b_searchResult, .b_ans',
-        'result-title': '.b_title a, h2 a',
-        'result-link': '.b_title a, h2 a',
-        'result-description': '.b_caption, .b_snippet',
-        'result-snippet': '.b_caption, .b_snippet'
-      }
-    } as const;
-
-    return legacySelectors[engine]?.[purpose] || null;
-  }
-
-  /**
    * Basic fallback for when everything else fails
    */
   private getBasicFallback(purpose: PurposeKey): string {
