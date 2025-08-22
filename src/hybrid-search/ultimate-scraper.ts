@@ -1,5 +1,6 @@
 import puppeteer, { Browser as PuppeteerBrowser, Page as PuppeteerPage } from 'puppeteer';
 import * as dotenv from 'dotenv';
+import { IntelligentSelectorManager } from '../selector-automation/intelligent-selector-manager';
 
 dotenv.config();
 
@@ -49,6 +50,7 @@ export class UltimateCrawlerEngine {
   private dedicatedPuppeteers: DedicatedPuppeteerPool = {};
   private failureTrackers: EngineFailureTracker = {};
   private sessionIndex = 0;
+  private selectorManager = new IntelligentSelectorManager();
   private userAgents: string[] = [
     'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
@@ -236,18 +238,16 @@ export class UltimateCrawlerEngine {
     }
   }
 
-  private getResultSelector(engine: 'duckduckgo' | 'google' | 'bing'): string {
-    switch (engine) {
-      case 'duckduckgo':
-        // Multiple fallback selectors for DuckDuckGo's various page layouts
-        return '[data-testid="result"], .react-results--main .result, .results .result, .web-result, .result--url-above-snippet, h2.result__title, [data-domain]';
-      case 'google':
-        // Updated Google selectors for 2025
-        return '.g, .tF2Cxc, .hlcw0c, .kvH3mc, .LC20lb, .yuRUbf, [data-sokoban-container], .MjjYud';
-      case 'bing':
-        return '.b_algo, .b_ans';
-      default:
-        return '[data-testid="result"], .result';
+  /**
+   * Get intelligent selector for search results using IntelligentSelectorManager
+   */
+  private async getIntelligentResultSelector(page: PuppeteerPage, engine: 'duckduckgo' | 'google' | 'bing'): Promise<string> {
+    try {
+      return await this.selectorManager.getSelector(page, engine, 'search-results');
+    } catch (error) {
+      console.error(`❌ Error getting intelligent selector for ${engine}:`, error);
+      // Fallback to basic semantic selector
+      return '[data-testid*="result"], .result, article, div';
     }
   }
 
@@ -422,24 +422,17 @@ export class UltimateCrawlerEngine {
       // Navigate directly to search results
       await page.goto(searchUrl, { waitUntil: 'networkidle2', timeout: options.timeout });
       
-      // Wait for search results to load with multiple selector fallbacks
-      const resultSelector = this.getResultSelector(searchEngine);
-      const selectors = resultSelector.split(', ');
+      // Use intelligent selector - single call, no loops needed!
+      const intelligentSelector = await this.getIntelligentResultSelector(page, searchEngine);
       
       let foundSelector = null;
-      for (const selector of selectors) {
-        try {
-          await page.waitForSelector(selector.trim(), { timeout: 5000 });
-          foundSelector = selector.trim();
-          console.log(`✅ Found results using selector: ${foundSelector}`);
-          break;
-        } catch (error) {
-          console.log(`⚠️ Selector failed: ${selector.trim()}`);
-          continue;
-        }
-      }
-      
-      if (!foundSelector) {
+      try {
+        await page.waitForSelector(intelligentSelector, { timeout: 5000 });
+        foundSelector = intelligentSelector;
+        console.log(`✅ Found results using intelligent selector: ${foundSelector}`);
+      } catch (error) {
+        console.log(`⚠️ Intelligent selector failed: ${intelligentSelector}`);
+        
         // Final fallback - wait for any search result-like element
         try {
           await page.waitForSelector('a[href*="http"]', { timeout: 10000 });
