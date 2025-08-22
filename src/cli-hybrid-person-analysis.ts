@@ -4,6 +4,7 @@ import { EnhancedCrawleeEngine, type CrawleeScrapedData } from "./crawlee/enhanc
 import { PersonAnalyzer, type PersonAnalysisResult, type PersonCluster } from "./person-analysis/enhanced-analyzer";
 import { SiteDiscoveryEngine } from "./site-discovery/site-finder";
 import { type ScrapedData } from "./web-scraper/general-scraper";
+import { SocialLinkExtractor } from "./utils/social-link-extractor";
 
 interface PersonSearchInput {
   firstName: string;
@@ -617,7 +618,7 @@ async function main() {
   if (args.length < 3) {
     console.error("❌ Error: All three fields are required!");
     console.error("\n📋 Usage: node dist/cli-hybrid-person-analysis.js <firstName> <lastName> <email> [queryCount] [options]");
-    console.error("📋 Example: node dist/cli-hybrid-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first --advanced-clustering --extended --technical --keywords");
+    console.error("📋 Example: node dist/cli-hybrid-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first --advanced-clustering --extended --technical --keywords --social-links");
     console.error("\n📝 Description:");
     console.error("   HYBRID tool combining the proven Ultimate Crawler Engine for search with");
     console.error("   Crawlee's advanced scraping capabilities for the best of both worlds.");
@@ -630,6 +631,8 @@ async function main() {
     console.error("   • --extended: Show all biographical insights, career progression, social metrics");
     console.error("   • --technical: Show detailed technical metrics, quality scores, status codes");
     console.error("   • --keywords: Show detailed keyword analysis and topic extraction");
+    console.error("   • --social-links: Extract and display comprehensive social media links summary");
+    console.error("   • --export-social=FILE: Export social links to JSON file (requires --social-links)");
     console.error("   • --advanced-clustering: Use ML-based clustering algorithms (HDBSCAN, Spectral, etc.)");
     console.error("   • --priority=MODE: Search optimization mode");
     console.error("     - social-first: Prioritize social media platforms (LinkedIn, Twitter, etc.) - DEFAULT");
@@ -652,6 +655,8 @@ async function main() {
   let showExtended = false;
   let showTechnical = false;
   let showKeywords = false;
+  let showSocialLinks = false;
+  let exportSocialFile: string | undefined;
   let priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first';
   
   // Check for queryCount and flags
@@ -667,6 +672,11 @@ async function main() {
       showTechnical = true;
     } else if (arg === '--keywords') {
       showKeywords = true;
+    } else if (arg === '--social-links') {
+      showSocialLinks = true;
+    } else if (arg.startsWith('--export-social=')) {
+      exportSocialFile = arg.split('=')[1];
+      showSocialLinks = true; // Auto-enable social links when export is requested
     } else if (arg === '--advanced-clustering') {
       useAdvancedClustering = true;
     } else if (arg.startsWith('--priority=')) {
@@ -714,6 +724,8 @@ async function main() {
   if (showExtended) console.log(`🔍 Extended Info: Biographical insights, social metrics, career progression`);
   if (showTechnical) console.log(`🔍 Technical Details: Quality scores, status codes, performance metrics`);
   if (showKeywords) console.log(`🔍 Keyword Analysis: Topic extraction, named entities, relationships`);
+  if (showSocialLinks) console.log(`🔍 Social Links: Comprehensive social media links extraction and analysis`);
+  if (exportSocialFile) console.log(`🔍 Export Social: ${exportSocialFile}`);
   console.log(`🤖 Clustering: ${useAdvancedClustering ? 'ADVANCED ML (HDBSCAN, Spectral)' : 'Basic Rule-Based'}`);
   console.log(`🎲 Search Priority: ${priority.toUpperCase()}`);
   if (queryCount) {
@@ -733,6 +745,31 @@ async function main() {
     // Print comprehensive analysis
     printAnalysisResult(analysisData.result, showExtended, showTechnical, showKeywords);
     
+    // Extract and display social links if requested
+    if (showSocialLinks) {
+      const socialSummary = SocialLinkExtractor.extractSocialLinks(analysisData.result);
+      SocialLinkExtractor.printSocialLinkSummary(socialSummary, showExtended);
+      
+      // Export to JSON if file path provided
+      if (exportSocialFile) {
+        SocialLinkExtractor.exportToJSON(socialSummary, exportSocialFile);
+      }
+      
+      // Show best links per platform
+      const bestLinks = SocialLinkExtractor.getBestLinksPerPlatform(socialSummary);
+      if (bestLinks.length > 0) {
+        console.log(`\n🏆 BEST SOCIAL LINKS (One per platform):`);
+        console.log(`${'─'.repeat(60)}`);
+        bestLinks.forEach((link, index) => {
+          const confidenceIcon = link.confidence > 70 ? '🟢' : link.confidence > 40 ? '🟡' : '🔴';
+          const verifiedIcon = link.verified ? ' ✅' : '';
+          console.log(`${index + 1}. ${confidenceIcon} ${link.platform.toUpperCase()}${verifiedIcon}: ${link.url}`);
+          console.log(`   📊 Confidence: ${link.confidence}% | Relevance: ${link.relevanceScore}%`);
+          if (link.username) console.log(`   🏷️  @${link.username}`);
+        });
+      }
+    }
+    
     console.log(`\n${'='.repeat(80)}`);
     console.log(`🏆 HYBRID PERFORMANCE SUMMARY`);
     console.log(`${'='.repeat(80)}`);
@@ -745,6 +782,9 @@ async function main() {
     console.log(`   ✅ Automatic retry logic and error recovery`);
     console.log(`   ✅ Session persistence and resource optimization`);
     console.log(`   ✅ Multi-crawler fallback system`);
+    if (showSocialLinks) {
+      console.log(`   ✅ Comprehensive social media link extraction and analysis`);
+    }
     console.log(`🔚 Hybrid analysis completed successfully!`);
     
   } catch (error) {
