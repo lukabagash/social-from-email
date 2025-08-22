@@ -36,6 +36,14 @@
     "gravatar"
   ],
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lukabagash/social-from-email.git"
+  },
+  "homepage": "https://github.com/lukabagash/social-from-email#readme",
+  "bugs": {
+    "url": "https://github.com/lukabagash/social-from-email/issues"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
