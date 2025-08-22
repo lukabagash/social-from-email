@@ -1,576 +1,566 @@
-# 🔍 Social From Email
-## Advanced OSINT Tool for Person Intelligence Gathering
+# Social From Email
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Node.js CI](https://img.shields.io/badge/Node.js-18%2B-green.svg)](https://nodejs.org/)
-[![OSINT](https://img.shields.io/badge/OSINT-Intelligence-blue.svg)](https://en.wikipedia.org/wiki/Open-source_intelligence)
+🔍 **A comprehensive Node.js library for discovering social profiles and analyzing online presence from email addresses.**
 
-A powerful, enterprise-grade OSINT tool that combines **Ultimate Crawler** and **Crawlee** technologies to perform comprehensive person intelligence gathering from email addresses and basic information.
+Transform email addresses into rich social intelligence using advanced web scraping, machine learning clustering, and multi-engine search capabilities.
 
----
+[![npm version](https://badge.fury.io/js/social-from-email.svg)](https://badge.fury.io/js/social-from-email)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](https://opensource.org/licenses/ISC)
+[![Node.js CI](https://github.com/lukabagash/social-from-email/workflows/Node.js%20CI/badge.svg)](https://github.com/lukabagash/social-from-email/actions)
 
-## 🎯 **What This Tool Does**
+## 🚀 Features
 
-Social From Email is a sophisticated reconnaissance tool that:
+- **🔍 Multi-Engine Search**: DuckDuckGo, Google, Bing, Brave, and Yandex support
+- **🕷️ Advanced Web Scraping**: Powered by Crawlee with retry logic and session management
+- **🤖 ML-Powered Clustering**: HDBSCAN and Spectral clustering for person identification
+- **📊 Social Media Detection**: LinkedIn, Twitter, Facebook, GitHub, and more
+- **🎯 Intelligent Querying**: Priority-based search strategies (social-first, professional, comprehensive)
+- **📈 Confidence Scoring**: AI-driven relevance and confidence metrics
+- **🌐 Professional Discovery**: Company affiliations, job titles, and career progression
+- **📱 Contact Information**: Phone numbers, alternative emails, and social handles
+- **🔗 Link Extraction**: Comprehensive social media link discovery and validation
 
-- **Discovers Social Media Profiles** across 70+ platforms (LinkedIn, Twitter, Facebook, Instagram, YouTube, etc.)
-- **Extracts Professional Information** including company affiliations, job titles, and career history  
-- **Performs Identity Resolution** using advanced ML clustering algorithms
-- **Analyzes Content & Keywords** for behavioral and interest profiling
-- **Validates Email Addresses** and finds associated accounts
-- **Generates Intelligence Reports** with confidence scoring and evidence tracking
+## 📦 Installation
 
----
-
-## 🚀 **Quick Start**
-
-### Installation
-```bash
-git clone https://github.com/yourusername/social-from-email
-cd social-from-email
-npm install
-```
-
-### Basic Usage
-```bash
-# Basic person lookup
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john.doe@company.com" 3
-
-# Social media intelligence
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john.doe@company.com" 3 --social-links
-
-# Complete professional analysis
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john.doe@company.com" 3 --extended --keywords
-```
-
----
-
-## 🏗️ **Architecture & Technology**
-
-### **Hybrid Search Engine**
-- **Ultimate Crawler**: Multi-engine search aggregation (Google, Bing, DuckDuckGo)
-- **Crawlee Framework**: Enterprise-grade web scraping with retry logic
-- **Multi-Crawler Support**: Cheerio (fast), Playwright (JS-heavy), Puppeteer (specific compatibility)
-
-### **Intelligence Processing**
-- **ML Clustering**: HDBSCAN + Spectral clustering for person disambiguation
-- **NLP Analysis**: Advanced keyword extraction and entity recognition
-- **Evidence Correlation**: Cross-platform data validation and confidence scoring
-
----
-
-## 📊 **CLI Flags & Features**
-
-### **🎯 Core Flags**
-
-#### `--advanced-clustering`
-**Purpose**: Enhanced person disambiguation using machine learning  
-**Algorithm**: HDBSCAN + Spectral clustering with TF-IDF vectorization  
-**Performance**: ~25-30 seconds (fastest configuration)  
-**Use Cases**: Multiple people with same name, high-accuracy requirements
-
-```bash
-node cli-hybrid-person-analysis.cjs "John" "Smith" "john@company.com" 3 --advanced-clustering
-```
-
-**Expected Results:**
-- 95%+ confidence person identification
-- Superior entity resolution for common names
-- Optimized processing (33% faster than basic mode)
-- ML-validated data correlation
-
-#### `--social-links`
-**Purpose**: Comprehensive social media intelligence gathering  
-**Coverage**: 70+ social platforms with confidence scoring  
-**Performance**: ~30-35 seconds  
-**Use Cases**: Social media investigations, influence mapping, background checks
-
-```bash
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john@company.com" 3 --social-links
-```
-
-**Expected Results:**
-```
-📱 Platform Discovery:
-   - Facebook: 15-25 profile variations
-   - LinkedIn: 2-5 professional profiles  
-   - Twitter: 1-3 accounts (personal/business)
-   - YouTube: 1-2 channels
-   - Instagram: 1-3 profiles
-   - GitHub: Professional repositories (if applicable)
-
-🎯 Data Quality:
-   - 100% confidence for primary profiles
-   - Username extraction (@handles)
-   - Platform-specific validation
-   - Smart deduplication
-```
-
-#### `--extended`
-**Purpose**: Comprehensive biographical and professional analysis  
-**Scope**: Career progression, education, skills, geographic data  
-**Performance**: ~45-50 seconds  
-**Use Cases**: Background investigations, recruitment intelligence, research
-
-```bash
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john@company.com" 3 --extended
-```
-
-**Expected Results:**
-- **Professional History**: Job titles, companies, tenure analysis
-- **Educational Background**: Universities, degrees, certifications
-- **Geographic Intelligence**: Location history, current residence
-- **Skills Assessment**: Technical and professional competencies
-- **Network Analysis**: Professional connections and affiliations
-
-#### `--keywords`
-**Purpose**: Advanced content analysis and topic extraction  
-**Technology**: NLP-based semantic analysis with entity recognition  
-**Performance**: ~40-45 seconds  
-**Use Cases**: Interest profiling, content intelligence, relationship mapping
-
-```bash
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john@company.com" 3 --keywords
-```
-
-**Expected Results:**
-- **Topic Categories**: Automated content classification
-- **Named Entities**: Person, organization, location extraction  
-- **Interest Analysis**: Hobby and professional interest identification
-- **Semantic Relationships**: Connection discovery between concepts
-
-#### `--technical`
-**Purpose**: Performance monitoring and system optimization  
-**Metrics**: Crawler statistics, response times, success rates  
-**Performance**: Standard execution + detailed logging  
-**Use Cases**: Enterprise monitoring, quality assurance, troubleshooting
-
-```bash
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john@company.com" 3 --technical
-```
-
-**Expected Results:**
-```
-🔧 Performance Metrics:
-   - Execution Time: Detailed breakdown per phase
-   - Success Rate: 78% average (11/14 URLs successfully scraped)
-   - Error Analysis: Detailed failure logging with recovery attempts
-   - Resource Usage: Memory, CPU, network utilization
-   - Quality Assessment: Content quality breakdown (LOW/MEDIUM/HIGH)
-```
-
-#### `--export-social`
-**Purpose**: Structured data export for integration and reporting  
-**Formats**: JSON, CSV with platform-specific formatting  
-**Performance**: Standard execution + export processing  
-**Use Cases**: Data integration, CRM imports, compliance documentation
-
-```bash
-node cli-hybrid-person-analysis.cjs "John" "Doe" "john@company.com" 3 --export-social
-```
-
----
-
-### **🔄 Strategic Flag Combinations**
-
-#### **Professional Intelligence** (`--extended --keywords`)
-**Best For**: Executive screening, recruitment, business intelligence  
-**Execution Time**: ~50-60 seconds  
-**Data Depth**: Comprehensive professional and personal profiling
-
-#### **Social Intelligence** (`--social-links --export-social`)
-**Best For**: Social media investigations, influence analysis  
-**Execution Time**: ~35-40 seconds  
-**Output**: Complete social presence mapping + exportable data
-
-#### **High-Precision Analysis** (`--advanced-clustering --technical`)
-**Best For**: Research applications, mission-critical investigations  
-**Execution Time**: ~30-35 seconds  
-**Quality**: Maximum accuracy with performance monitoring
-
-#### **Complete Intelligence** (All Flags)
-**Best For**: Comprehensive investigations, threat assessment  
-**Execution Time**: ~70-85 seconds  
-**Scope**: 360-degree person intelligence with full technical metrics
-
----
-
-## 📈 **Performance Benchmarks**
-
-### **Real-World Test Results**
-
-| Configuration | Execution Time | Social Links Found | Confidence | Use Case |
-|---------------|----------------|-------------------|------------|----------|
-| **Basic Mode** | 35-38s | N/A | 95% | Quick verification |
-| **Advanced Clustering** | 25-30s | N/A | 98% | Fast + accurate |
-| **Social Links** | 30-35s | 60-70 links | 100% | Social intelligence |
-| **Extended Analysis** | 45-50s | N/A | 95% | Background research |
-| **Complete Analysis** | 70-85s | 70+ links | 98% | Full investigation |
-
-### **Data Quality Metrics**
-- **Sources Analyzed**: 7-8 per search
-- **Success Rate**: 78% URL processing success
-- **Error Recovery**: Automatic retry with fallback crawlers
-- **Memory Usage**: 500MB - 1.2GB depending on configuration
-- **Platform Coverage**: 70+ social media platforms
-
----
-
-## 🛡️ **Technical Implementation**
-
-### **Search Engine Integration**
-```javascript
-// Multi-engine search with failover
-const searchEngines = ['google', 'bing', 'duckduckgo'];
-const results = await ultimateCrawler.search(query, engines);
-```
-
-### **Advanced Clustering Algorithm**
-```javascript
-// ML-based person disambiguation
-const clusters = await hdbscanClusterer.clusterProfiles(profiles, {
-  algorithm: 'spectral',
-  vectorization: 'tfidf',
-  confidence_threshold: 0.95
-});
-```
-
-### **Social Media Intelligence**
-```javascript
-// Platform-specific extraction with validation
-const socialIntelligence = await socialExtractor.analyzePlatforms(profiles, {
-  platforms: ['linkedin', 'twitter', 'facebook', 'youtube'],
-  extract_usernames: true,
-  confidence_scoring: true,
-  smart_deduplication: true
-});
-```
-
-### **Error Handling & Reliability**
-- **Retry Logic**: Automatic retry for failed requests (3 attempts)
-- **Multi-Crawler Fallback**: Cheerio → Playwright → Puppeteer progression
-- **Session Management**: Persistent browser sessions with resource optimization
-- **Memory Management**: Automatic cleanup and resource deallocation
-
----
-
-## 📦 **NPM Package Usage**
-
-### **Installation**
 ```bash
 npm install social-from-email
-# or
-yarn add social-from-email
 ```
 
-### **Quick Start - JavaScript/TypeScript**
+## 🎯 Quick Start
 
-#### **Simple Social Media Lookup**
-```javascript
-import { findSocialProfiles } from 'social-from-email';
-
-const profiles = await findSocialProfiles('John', 'Doe', 'john@company.com');
-console.log(profiles);
-
-// Output:
-[
-  {
-    platform: 'linkedin',
-    url: 'https://linkedin.com/in/johndoe',
-    username: 'johndoe',
-    confidence: 95,
-    relevance: 88
-  },
-  {
-    platform: 'twitter', 
-    url: 'https://twitter.com/johndoe',
-    username: 'johndoe',
-    confidence: 87,
-    relevance: 82
-  }
-]
-```
-
-#### **Professional Background Check**
-```javascript
-import { findProfessionalInfo } from 'social-from-email';
-
-const professional = await findProfessionalInfo('Jane', 'Smith', 'jane@tech.com');
-console.log(professional);
-
-// Output:
-{
-  jobTitle: 'Senior Software Engineer',
-  company: 'Tech Corp',
-  industry: 'Technology',
-  skills: ['JavaScript', 'Python', 'React', 'Node.js'],
-  education: [
-    {
-      institution: 'MIT',
-      degree: 'Computer Science',
-      field: 'Software Engineering'
-    }
-  ],
-  experience: [
-    {
-      title: 'Software Engineer',
-      company: 'StartupXYZ',
-      duration: '2 years'
-    }
-  ]
-}
-```
-
-#### **Complete Intelligence Analysis**
-```javascript
-import { analyzePersonIntelligence } from 'social-from-email';
-
-const result = await analyzePersonIntelligence('John', 'Doe', 'john@company.com', {
-  socialLinks: true,
-  extended: true,
-  keywords: true,
-  advancedClustering: true
-});
-
-console.log(result.identity);     // Basic identity info
-console.log(result.social);      // Social media profiles
-console.log(result.professional); // Professional background
-console.log(result.content);     // Content analysis
-console.log(result.sources);     // Raw data sources
-```
-
-### **Advanced Usage Examples**
-
-#### **Class-Based Approach**
-```javascript
-import { PersonIntelligence } from 'social-from-email';
-
-const analyzer = new PersonIntelligence();
-
-// Custom configuration
-const result = await analyzer.analyze('John', 'Doe', 'john@company.com', {
-  socialLinks: true,
-  extended: true,
-  technical: true,
-  queryLimit: 5,
-  timeout: 60
-});
-
-// Access detailed results
-console.log(`Found ${result.social.totalFound} social profiles`);
-console.log(`Analysis took ${result.technical?.executionTime} seconds`);
-console.log(`Confidence: ${result.identity.confidence}%`);
-```
-
-#### **Quick Identity Verification**
-```javascript
-import { verifyIdentity } from 'social-from-email';
-
-const verification = await verifyIdentity('John', 'Doe', 'john@company.com');
-
-if (verification.verified) {
-  console.log(`Identity verified with ${verification.confidence}% confidence`);
-  console.log(`Based on ${verification.sources} sources`);
-} else {
-  console.log('Identity could not be verified');
-}
-```
-
-### **TypeScript Support**
+### Basic Usage
 
 ```typescript
-import { 
-  analyzePersonIntelligence,
-  PersonIntelligenceOptions,
-  PersonIntelligenceResult,
-  SocialProfile 
-} from 'social-from-email';
+import { quickSearch, comprehensiveSearch } from 'social-from-email';
 
-const options: PersonIntelligenceOptions = {
-  socialLinks: true,
-  extended: true,
-  advancedClustering: true,
-  queryLimit: 3
-};
+// Quick search with basic features
+const basicResult = await quickSearch('John', 'Doe', 'john@example.com', 5);
+console.log('Found profiles:', basicResult.profiles.length);
 
-const result: PersonIntelligenceResult = await analyzePersonIntelligence(
-  'John',
-  'Doe', 
-  'john@company.com',
-  options
+// Comprehensive search with all features  
+const fullResult = await comprehensiveSearch('Jane', 'Smith', 'jane@company.com', 10);
+console.log('Analysis:', fullResult.analysis);
+console.log('Social links:', fullResult.socialLinks);
+```
+
+### 🌟 Recommended: Extended Analysis for Link Discovery
+
+**`performExtendedAnalysis`** is currently the **recommended function** for gathering comprehensive social media links and biographical insights:
+
+```typescript
+import { performExtendedAnalysis } from 'social-from-email';
+
+const result = await performExtendedAnalysis(
+  'John',        // firstName
+  'Doe',         // lastName  
+  'john@example.com', // email
+  5              // queryCount (required)
 );
 
-// Type-safe access to results
-const socialProfiles: SocialProfile[] = result.social.profiles;
-const linkedinProfile = result.social.bestProfiles['linkedin'];
+// Access discovered links via supporting sources
+result.supportingSources.forEach(source => {
+  console.log('Found link:', source.url);
+  console.log('Domain:', source.domain);
+  console.log('Evidence:', source.evidence);
+});
 
-if (linkedinProfile) {
-  console.log(`LinkedIn: ${linkedinProfile.url} (${linkedinProfile.confidence}% confidence)`);
-}
+// Rich biographical analysis included
+console.log('Career Stage:', result.biographicalAnalysis?.careerStage);
+console.log('Digital Presence:', result.biographicalAnalysis?.digitalPresence);
 ```
 
-### **Configuration Options**
+**Key Benefits:**
+- ✅ **Comprehensive link discovery** via `result.supportingSources`
+- ✅ **Biographical intelligence** with career insights
+- ✅ **Evidence-based results** with relevance scoring
+- ✅ **All social platforms** automatically detected
 
-```javascript
-const options = {
-  // Enable ML-based clustering for better accuracy
-  advancedClustering: true,
-  
-  // Include biographical and professional analysis  
-  extended: true,
-  
-  // Perform keyword and content analysis
-  keywords: true,
-  
-  // Extract social media links with confidence scoring
-  socialLinks: true,
-  
-  // Include technical performance metrics
-  technical: true,
-  
-  // Export data in structured format
-  exportSocial: true,
-  
-  // Number of search queries (default: 3)
-  queryLimit: 5,
-  
-  // Request timeout in seconds (default: 30)
-  timeout: 60,
-  
-  // Enable verbose logging
-  verbose: true
-};
-```
+💡 **Links are found in:** `result.supportingSources[].url` and `result.personEvidence.socialProfiles[]`
 
-### **Error Handling**
+🔍 **For detailed usage examples, check the `examples/` folder**
 
-```javascript
-import { analyzePersonIntelligence } from 'social-from-email';
+### Advanced Examples
 
-try {
-  const result = await analyzePersonIntelligence('John', 'Doe', 'john@company.com', {
-    socialLinks: true,
-    timeout: 30
-  });
-  
-  console.log('Analysis completed successfully');
-  console.log(`Found ${result.social.totalFound} social profiles`);
-  
-} catch (error) {
-  console.error('Analysis failed:', error.message);
-  
-  // Handle specific error types
-  if (error.message.includes('timeout')) {
-    console.log('Try increasing the timeout value');
-  } else if (error.message.includes('network')) {
-    console.log('Check your internet connection');
+```typescript
+import { searchAndAnalyzePerson, extractSocialLinks } from 'social-from-email';
+
+// Fully configurable search
+const result = await searchAndAnalyzePerson(
+  { 
+    firstName: 'John', 
+    lastName: 'Doe', 
+    email: 'john@example.com' 
+  },
+  { 
+    queryCount: 15,  // REQUIRED parameter
+    enableAdvancedClustering: true,
+    enableKeywordExtraction: true 
   }
-}
+);
+
+// Extract just social links
+const socialLinks = await extractSocialLinks('Alice', 'Johnson', 'alice@company.com', 8);
+console.log('Social profiles found:', socialLinks.length);
 ```
 
-### **Real-World Use Cases**
+### Advanced Configuration
 
-#### **Lead Qualification System**
-```javascript
-import { findSocialProfiles, findProfessionalInfo } from 'social-from-email';
+```typescript
+import { searchAndAnalyzePerson } from 'social-from-email';
 
-async function qualifyLead(firstName, lastName, email) {
-  try {
-    // Get social presence
-    const social = await findSocialProfiles(firstName, lastName, email);
-    
-    // Get professional background
-    const professional = await findProfessionalInfo(firstName, lastName, email);
-    
-    // Calculate lead score
-    const socialScore = social.length * 10;
-    const professionalScore = professional.jobTitle ? 20 : 0;
-    const totalScore = socialScore + professionalScore;
-    
-    return {
-      leadScore: totalScore,
-      socialPresence: social.length,
-      jobTitle: professional.jobTitle,
-      company: professional.company,
-      platforms: social.map(p => p.platform)
-    };
-    
-  } catch (error) {
-    return { error: error.message };
-  }
-}
-
-// Usage
-const leadData = await qualifyLead('John', 'Doe', 'john@startup.com');
-console.log(`Lead Score: ${leadData.leadScore}`);
-```
-
-#### **Background Check Service**
-```javascript
-import { analyzePersonIntelligence } from 'social-from-email';
-
-async function performBackgroundCheck(firstName, lastName, email) {
-  const result = await analyzePersonIntelligence(firstName, lastName, email, {
-    extended: true,
-    socialLinks: true,
-    keywords: true,
-    technical: true
-  });
-  
-  return {
-    identity: {
-      name: result.identity.name,
-      confidence: result.identity.confidence,
-      aliases: result.identity.aliases
+async function customSearch() {
+  const result = await searchAndAnalyzePerson(
+    {
+      firstName: 'Alex',
+      lastName: 'Johnson',
+      email: 'alex.j@startup.io'
     },
-    professional: {
-      currentRole: result.professional.jobTitle,
-      company: result.professional.company,
-      experience: result.professional.experience.length,
-      skills: result.professional.skills.slice(0, 5) // Top 5 skills
+    {
+      // Search Options
+      queryCount: 20,                    // Number of queries (REQUIRED)
+      detailed: true,
+      priority: 'professional',
+      useAdvancedClustering: true
     },
-    digital_footprint: {
-      socialPlatforms: result.social.platforms,
-      totalProfiles: result.social.totalFound,
-      presenceScore: result.social.presenceScore
-    },
-    verification: {
-      sourcesAnalyzed: result.sources.length,
-      processingTime: result.technical?.executionTime,
-      dataQuality: result.technical?.successRate
+    {
+      // Analysis Options
+      includeExtended: true,
+      includeTechnical: true,
+      includeKeywords: true,
+      includeSocialLinks: true
     }
+  );
+  
+  return result;
+}
+```
+
+## 📚 API Reference
+
+### Core Functions
+
+#### `performExtendedAnalysis(firstName, lastName, email, queryCount)` 🌟 **RECOMMENDED**
+**Best function for comprehensive link discovery and biographical analysis.**
+
+**Parameters:**
+- `firstName` (string): Person's first name
+- `lastName` (string): Person's last name  
+- `email` (string): Person's email address
+- `queryCount` (number): Number of search queries to execute (REQUIRED)
+
+**Returns:** `Promise<ExtendedAnalysisResult>`
+
+**Key Features:**
+- Comprehensive social media link discovery
+- Biographical intelligence with career insights
+- Supporting sources with evidence (`result.supportingSources[].url`)
+- Professional analysis and digital presence assessment
+
+#### `quickSearch(firstName, lastName, email, queryCount)`
+Fast social profile discovery with default settings.
+
+**Parameters:**
+- `firstName` (string): Person's first name
+- `lastName` (string): Person's last name  
+- `email` (string): Person's email address
+- `queryCount` (number): Number of search queries to execute (REQUIRED)
+
+**Returns:** `Promise<PersonSearchResult>`
+
+#### `comprehensiveSearch(firstName, lastName, email, queryCount)`
+Complete analysis with all features enabled including ML clustering and keyword extraction.
+
+**Parameters:**
+- `firstName` (string): Person's first name
+- `lastName` (string): Person's last name  
+- `email` (string): Person's email address
+- `queryCount` (number): Number of search queries to execute (REQUIRED)
+
+**Returns:** `Promise<PersonSearchResult>`
+
+#### `searchAndAnalyzePerson(person, searchOptions, analysisOptions?)`
+Fully configurable search and analysis function.
+
+**Parameters:**
+- `person` (PersonSearchInput): Person details
+- `searchOptions` (SearchOptions): Search configuration (queryCount is REQUIRED)
+- `analysisOptions` (AnalysisOptions, optional): Analysis configuration
+
+### Configuration Options
+
+#### SearchOptions
+```typescript
+interface SearchOptions {
+  queryCount?: number;           // Number of search queries (default: all)
+  detailed?: boolean;            // Enhanced search depth (default: false)
+  priority?: 'social-first' |    // Search strategy (default: 'social-first')
+            'professional' | 
+            'comprehensive';
+  useAdvancedClustering?: boolean; // ML clustering (default: false)
+}
+```
+
+#### AnalysisOptions
+```typescript
+interface AnalysisOptions {
+  includeExtended?: boolean;     // Biographical insights (default: false)
+  includeTechnical?: boolean;    // Technical metrics (default: false)  
+  includeKeywords?: boolean;     // Keyword analysis (default: false)
+  includeSocialLinks?: boolean;  // Social media extraction (default: false)
+}
+```
+
+### Response Format
+
+#### PersonSearchResult
+```typescript
+interface PersonSearchResult {
+  analysis: PersonAnalysisResult;    // Main analysis results
+  socialLinks?: SocialLinkSummary;   // Social media links (if requested)
+  crawleeData: CrawleeScrapedData[]; // Raw scraped data
+  executionTime: number;             // Execution time in milliseconds
+  metadata: {
+    searchEngine: string;            // Search engine used
+    scrapingEngine: string;          // Scraping engine used
+    options: SearchOptions & AnalysisOptions;
+    queriesExecuted: number;         // Number of queries executed
+    uniqueResults: number;           // Unique search results found
+    scrapedSuccessfully: number;     // Successfully scraped pages
   };
 }
 ```
 
-### **Performance Optimization Tips**
-
-```javascript
-// For fastest results - identity verification
-const quickCheck = await verifyIdentity('John', 'Doe', 'john@company.com');
-
-// For social media focus - optimize query limit
-const socialProfiles = await findSocialProfiles('John', 'Doe', 'john@company.com');
-
-// For comprehensive analysis - use all flags but increase timeout
-const fullAnalysis = await analyzePersonIntelligence('John', 'Doe', 'john@company.com', {
-  socialLinks: true,
-  extended: true,
-  keywords: true,
-  advancedClustering: true,
-  queryLimit: 5,
-  timeout: 90 // Increase for complex analysis
-});
+#### ExtendedAnalysisResult 🌟 **For performExtendedAnalysis**
+```typescript
+interface ExtendedAnalysisResult {
+  personConfidence: number;              // Overall confidence score (0-100)
+  totalSources: number;                  // Total sources analyzed
+  supportingSources: SupportingSource[]; // 🔗 Links found here (source.url)
+  
+  // Biographical insights
+  biographicalAnalysis: {
+    careerStage: string;                 // Career phase (entry, mid, senior)
+    seniorityLevel: string;              // Professional seniority
+    educationLevel: string;              // Education background
+    thoughtLeadership: string;           // Leadership assessment
+    digitalPresence: string;             // Online presence level
+    geographicMobility: string;          // Location patterns
+    industryExpertise: string[];         // Expertise areas
+  } | null;
+  
+  biographicalIntelligenceSummary: {
+    careerStage?: string;
+    professionalLevel?: string;
+    educationLevel?: string;
+    achievementsCount?: number;
+    socialPresenceScore?: number;
+    biographicalConfidence?: number;
+  } | null;
+  
+  personEvidence: PersonEvidence;        // Detailed person data
+  metadata: {
+    searchEngine: string;
+    scrapingEngine: string;
+    queriesExecuted: number;
+    executionTime: number;
+    enhancementMethod?: string;
+  };
+}
 ```
 
+#### SupportingSource 🔗 **Where links are found**
+```typescript
+interface SupportingSource {
+  index: number;
+  title: string;
+  url: string;                           // 🎯 The discovered link/URL
+  domain: string;
+  relevanceScore: number;
+  enhancementMethod: string;
+  snippet: string;
+  evidence: {                            // Evidence found on this source
+    [key: string]: string | string[];
+  };
+}
+```
+
+#### PersonAnalysisResult
+```typescript
+interface PersonAnalysisResult {
+  identifiedPersons: PersonCluster[];  // Identified person clusters
+  mainPersonConfidence: number;        // Main identity confidence (0-100)
+  alternativePersons: PersonCluster[]; // Alternative identities
+  summary: {
+    totalSources: number;
+    highConfidenceSources: number;
+    topDomains: DomainCount[];
+    keywordAnalysis?: ExtractedKeywords;
+  };
+}
+```
+
+#### PersonCluster
+```typescript
+interface PersonCluster {
+  confidence: number;              // Confidence score (0-100)
+  personEvidence: PersonEvidence; // Collected evidence
+  sources: SourceEvidence[];      // Supporting sources
+}
+```
+
+#### PersonEvidence
+```typescript
+interface PersonEvidence {
+  name?: string;
+  email?: string;
+  location?: string;
+  title?: string;
+  company?: string;
+  phone?: string;
+  socialProfiles?: SocialProfile[];
+  websites?: string[];
+  affiliations?: string[];
+  skills?: string[];
+  education?: string[];
+  achievements?: string[];
+  careerProgression?: string[];
+  industryExpertise?: string[];
+  publications?: string[];
+  languages?: string[];
+}
+```
+
+## 📁 Examples
+
+Detailed usage examples are available in the `examples/` folder:
+
+### `examples/extended-analysis.ts` 🌟 **RECOMMENDED**
+Complete example using `performExtendedAnalysis` for comprehensive link discovery and biographical analysis. Shows how to:
+- Extract all discovered links from `result.supportingSources`
+- Access social profiles by platform
+- Display biographical intelligence insights
+- Organize links by domain and relevance
+
+Run the example:
+```bash
+npx tsx examples/extended-analysis.ts
+```
+
+**Key Learning Points:**
+- Links are found in `result.supportingSources[].url`
+- Social profiles organized by platform in `result.personEvidence.socialProfiles`
+- Evidence details available in `source.evidence` for each supporting source
+- Biographical analysis provides career stage, digital presence, and professional insights
+
+## 🎛️ CLI Usage
+
+The package also includes a powerful command-line interface:
+
+```bash
+# Install globally for CLI access
+npm install -g social-from-email
+
+# Basic usage (requires 4 parameters: firstName, lastName, email, queryCount)
+hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
+
+# Advanced usage with options
+hybrid-person-analysis "Jane" "Smith" "jane@company.com" 15 \
+  --detailed \
+  --priority=social-first \
+  --advanced-clustering \
+  --extended \
+  --social-links \
+  --export-social=jane-social-links.json
+```
+
+### CLI Options
+
+- `--detailed`: Enhanced search with more comprehensive analysis
+- `--extended`: Show biographical insights, career progression, social metrics
+- `--technical`: Show detailed technical metrics, quality scores, status codes  
+- `--keywords`: Show detailed keyword analysis and topic extraction
+- `--social-links`: Extract and display comprehensive social media links
+- `--export-social=FILE`: Export social links to JSON file
+- `--advanced-clustering`: Use ML-based clustering algorithms (HDBSCAN, Spectral)
+- `--priority=MODE`: Search optimization mode
+  - `social-first`: Prioritize social media platforms (default)
+  - `professional`: Focus on professional/business platforms
+  - `comprehensive`: Use all available search patterns
+
+## 🔧 Advanced Usage
+
+### Social Links Extraction
+
+```typescript
+import { extractSocialLinks, exportSocialLinksToFile } from 'social-from-email';
+
+async function getSocialProfiles() {
+  // Extract only social links
+  const socialSummary = await extractSocialLinks(
+    'Mark',
+    'Wilson', 
+    'mark.wilson@design-agency.com'
+  );
+  
+  console.log('Total social links found:', socialSummary.totalSocialLinks);
+  console.log('High confidence links:', socialSummary.highConfidenceLinks);
+  console.log('Platform breakdown:', socialSummary.platformBreakdown);
+  
+  // Export to JSON file
+  exportSocialLinksToFile(socialSummary, './mark-wilson-social.json');
+}
+```
+
+### Validation
+
+```typescript
+import { validateEmail, validatePersonInput } from 'social-from-email';
+
+// Validate email format
+const isValid = validateEmail('test@example.com'); // true
+
+// Validate person input
+const validation = validatePersonInput({
+  firstName: 'J',
+  lastName: 'D', 
+  email: 'invalid-email'
+});
+
+if (!validation.valid) {
+  console.log('Errors:', validation.errors);
+  // ['First name must be at least 2 characters long', 
+  //  'Last name must be at least 2 characters long',
+  //  'Email must be a valid email address']
+}
+```
+
+### Using Individual Components
+
+```typescript
+import { 
+  UltimateCrawlerEngine,
+  EnhancedCrawleeEngine,
+  PersonAnalyzer,
+  SiteDiscoveryEngine
+} from 'social-from-email';
+
+async function customWorkflow() {
+  // Initialize individual components
+  const crawler = new UltimateCrawlerEngine();
+  const scraper = new EnhancedCrawleeEngine();
+  const analyzer = new PersonAnalyzer('John', 'Doe', 'john@example.com');
+  
+  await crawler.initialize();
+  await scraper.initialize();
+  
+  // Custom search workflow
+  const searchResults = await crawler.searchPerson('John', 'Doe', 'john@example.com');
+  const scrapedData = await scraper.scrapeUrls(searchResults.map(r => r.url));
+  const analysis = await analyzer.analyzePersons(searchResults, scrapedData);
+  
+  // Cleanup
+  await crawler.close();
+  await scraper.close();
+  
+  return analysis;
+}
+```
+
+## 🏗️ Architecture
+
+### Hybrid Engine Approach
+
+The library uses a **hybrid architecture** that combines the strengths of multiple technologies:
+
+1. **Ultimate Crawler Engine**: Multi-engine search across DuckDuckGo, Google, Bing, Brave, and Yandex
+2. **Crawlee Scraping**: Advanced web scraping with retry logic, session management, and resource optimization
+3. **ML-Powered Analysis**: HDBSCAN and Spectral clustering for intelligent person identification
+4. **Intelligent Querying**: Priority-based search strategies optimized for different use cases
+
+### Search Strategies
+
+- **Social-First**: Prioritizes social media platforms for personal branding and social presence discovery
+- **Professional**: Focuses on business profiles, LinkedIn, company websites, and professional networks  
+- **Comprehensive**: Combines both approaches with news, interviews, and general web presence
+
+### Clustering & Analysis
+
+- **Rule-Based Clustering**: Fast, deterministic clustering based on name, email, and domain matching
+- **ML Clustering**: Advanced HDBSCAN and Spectral clustering for complex identity resolution
+- **Confidence Scoring**: AI-driven confidence metrics based on source reliability and evidence strength
+
+## 🛠️ Development
+
+### Building the Project
+
+```bash
+# Install dependencies
+npm install
+
+# Build TypeScript
+npm run build
+
+# Run tests
+npm test
+
+# Development mode
+npm run dev
+```
+
+### Project Structure
+
+```
+src/
+├── api.ts                          # Main API exports
+├── index.ts                        # Library exports
+├── cli-hybrid-person-analysis.ts   # CLI interface
+├── hybrid-search/                  # Multi-engine search
+├── crawlee/                        # Advanced web scraping
+├── person-analysis/                # ML-powered analysis
+├── advanced-clustering/            # HDBSCAN & Spectral clustering
+├── advanced-nlp/                   # Keyword & entity extraction
+├── utils/                          # Utility functions
+└── web-scraper/                    # General scraping utilities
+```
+
+## 📋 Requirements
+
+- **Node.js**: 18.0.0 or higher
+- **TypeScript**: 5.0+ (for development)
+- **Dependencies**: See package.json for complete list
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
+
+## 📄 License
+
+ISC License - see the [LICENSE](LICENSE) file for details.
+
+## 🔗 Links
+
+- [GitHub Repository](https://github.com/lukabagash/social-from-email)
+- [npm Package](https://www.npmjs.com/package/social-from-email)
+- [Issues & Bug Reports](https://github.com/lukabagash/social-from-email/issues)
+
+## ⚡ Performance
+
+- **Average Search Time**: 10-30 seconds depending on query complexity
+- **Supported Engines**: 5 search engines with automatic fallback
+- **Concurrent Scraping**: Up to 3 concurrent requests with intelligent rate limiting  
+- **Memory Efficient**: Streaming processing and automatic cleanup
+- **Retry Logic**: Intelligent retry with exponential backoff
+
+## 🎯 Use Cases
+
+- **Lead Generation**: Discover social profiles for sales prospects
+- **Background Research**: Gather professional information for recruiting
+- **Social Intelligence**: Analyze online presence and digital footprint
+- **Contact Enrichment**: Enhance existing contact databases with social data
+- **Competitive Analysis**: Research competitors and industry professionals
+- **OSINT Investigations**: Open-source intelligence gathering
+- **Marketing Research**: Understand target audience social behavior
+
 ---
 
-## 📜 **License**
-
-MIT License - See [LICENSE](LICENSE) file for details.
-
-**Enterprise Readiness Score: 95/100** ⭐⭐⭐⭐⭐
-
----
-
-**Developed with ❤️ for the OSINT community**
+**Happy Social Hunting!** 🚀
