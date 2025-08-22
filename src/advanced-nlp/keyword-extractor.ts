@@ -1,5 +1,9 @@
 import * as natural from 'natural';
+import { createRequire } from 'module';
+const require = createRequire(import.meta.url);
 const keywordExtractor = require('keyword-extractor');
+// Fix for ES module compatibility
+const naturalLib = require('natural');
 import nlp from 'compromise';
 
 export interface ExtractedKeywords {
@@ -48,8 +52,8 @@ export interface ExtractedKeywords {
 
 export class AdvancedInfoExtractor {
   private stemmer = natural.PorterStemmer;
-  private tokenizer = new natural.WordTokenizer();
-  private sentiment = new natural.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
+  private tokenizer = new naturalLib.WordTokenizer();
+  private sentiment = new naturalLib.SentimentAnalyzer('English', natural.PorterStemmer, 'afinn');
 
   public extractKeywordInfo(
     title: string,
