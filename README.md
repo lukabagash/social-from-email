@@ -24,6 +24,7 @@ Transform email addresses into rich social intelligence using advanced web scrap
 
 ```bash
 npm install social-from-email
+npx playwright install --with-deps
 ```
 
 ## 🎯 Quick Start
