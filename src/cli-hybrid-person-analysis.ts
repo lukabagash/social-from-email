@@ -169,12 +169,11 @@ function printCrawleeScrapingStats(scrapedData: CrawleeScrapedData[]) {
 
 async function searchAndAnalyzePersonHybrid(
   person: PersonSearchInput, 
-  queryCount: number | undefined = undefined, 
+  queryCount?: number, 
   detailed: boolean = false, 
-  priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first'
-): Promise<PersonAnalysisResult> {
-  
-  // Use the proven Ultimate Crawler for search
+  priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first',
+  useAdvancedClustering: boolean = false
+): Promise<PersonAnalysisResult> {  // Use the proven Ultimate Crawler for search
   const ultimateScraper = new UltimateCrawlerEngine();
   
   // Use Crawlee for enhanced scraping
@@ -347,7 +346,7 @@ async function searchAndAnalyzePersonHybrid(
     
     // Create person analyzer and perform analysis
     const analyzer = new PersonAnalyzer(person.firstName, person.lastName, person.email);
-    const analysisResult = analyzer.analyzePersons(uniqueSearchResults, scrapedData);
+    const analysisResult = await analyzer.analyzePersons(uniqueSearchResults, scrapedData, useAdvancedClustering);
     
     return analysisResult;
     
@@ -363,8 +362,8 @@ async function main() {
   // Require all three parameters
   if (args.length < 3) {
     console.error("❌ Error: All three fields are required!");
-    console.error("\n📋 Usage: node dist/cli-hybrid-person-analysis.js <firstName> <lastName> <email> [queryCount] [--detailed] [--priority=MODE]");
-    console.error("📋 Example: node dist/cli-hybrid-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first");
+    console.error("\n📋 Usage: node dist/cli-hybrid-person-analysis.js <firstName> <lastName> <email> [queryCount] [--detailed] [--priority=MODE] [--advanced-clustering]");
+    console.error("📋 Example: node dist/cli-hybrid-person-analysis.js Jed Burdick jed@votaryfilms.com 15 --detailed --priority=social-first --advanced-clustering");
     console.error("\n📝 Description:");
     console.error("   HYBRID tool combining the proven Ultimate Crawler Engine for search with");
     console.error("   Crawlee's advanced scraping capabilities for the best of both worlds.");
@@ -373,6 +372,7 @@ async function main() {
     console.error("   • email: Person's email address (required, must be valid format)");
     console.error("   • queryCount: Number of search queries to execute (optional, default: all generated queries)");
     console.error("   • --detailed: Enhanced search with more comprehensive analysis (optional)");
+    console.error("   • --advanced-clustering: Use ML-based clustering algorithms (HDBSCAN, Spectral, etc.) (optional)");
     console.error("   • --priority=MODE: Search optimization mode (optional)");
     console.error("     - social-first: Prioritize social media platforms (LinkedIn, Twitter, etc.) - DEFAULT");
     console.error("     - professional: Focus on professional/business platforms");
@@ -393,11 +393,15 @@ async function main() {
   let detailed = false;
   let priority: 'social-first' | 'professional' | 'comprehensive' = 'social-first';
   
-  // Check for queryCount, --detailed flag, and --priority flag
+  // Check for queryCount, --detailed flag, --priority flag, and --advanced-clustering flag
+  let useAdvancedClustering = false;
+  
   for (let i = 3; i < args.length; i++) {
     const arg = args[i];
     if (arg === '--detailed') {
       detailed = true;
+    } else if (arg === '--advanced-clustering') {
+      useAdvancedClustering = true;
     } else if (arg.startsWith('--priority=')) {
       const priorityValue = arg.split('=')[1] as 'social-first' | 'professional' | 'comprehensive';
       if (['social-first', 'professional', 'comprehensive'].includes(priorityValue)) {
@@ -440,6 +444,7 @@ async function main() {
   console.log(`👤 Target: ${person.firstName} ${person.lastName}`);
   console.log(`📧 Email: ${person.email}`);
   console.log(`🔍 Mode: ${detailed ? 'Detailed Analysis' : 'Standard Analysis'}`);
+  console.log(`🤖 Clustering: ${useAdvancedClustering ? 'ADVANCED ML (HDBSCAN, Spectral)' : 'Basic Rule-Based'}`);
   console.log(`🎲 Search Priority: ${priority.toUpperCase()}`);
   if (queryCount) {
     console.log(`🔢 Query Count: ${queryCount} (custom limit)`);
@@ -452,7 +457,7 @@ async function main() {
 
   try {
     const startTime = Date.now();
-    const result = await searchAndAnalyzePersonHybrid(person, queryCount, detailed, priority);
+    const result = await searchAndAnalyzePersonHybrid(person, queryCount, detailed, priority, useAdvancedClustering);
     const totalTime = Date.now() - startTime;
     
     // Print comprehensive analysis
