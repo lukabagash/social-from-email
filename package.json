@@ -35,6 +35,11 @@
     "osint",
     "gravatar"
   ],
+  "author": {
+    "name": "Luka Bagashvili",
+    "email": "bagash.dev@gmail.com",
+    "url": "https://github.com/lukabagash"
+  },
   "license": "ISC",
   "repository": {
     "type": "git",
