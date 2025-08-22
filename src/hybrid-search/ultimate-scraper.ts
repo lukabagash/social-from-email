@@ -11,7 +11,7 @@ export interface SearchResult {
   domain: string;
   scrapeMethod?: 'playwright' | 'puppeteer';
   browserEngine?: 'chromium' | 'firefox' | 'webkit';
-  searchEngine?: 'duckduckgo' | 'google' | 'bing';
+  searchEngine?: 'duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex';
 }
 
 export interface UltimateSearchOptions {
@@ -24,7 +24,7 @@ export interface UltimateSearchOptions {
   enableStealth?: boolean;
   parallelSessions?: number;
   fallbackEngine?: boolean;
-  searchEngines?: ('duckduckgo' | 'google' | 'bing')[];
+  searchEngines?: ('duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex')[];
   multiEngineMode?: boolean;
   useHttpSearch?: boolean; // NEW: Enable HTTP-based search for speed
   autoRestartBrowser?: boolean; // NEW: Auto-restart browser on failures
@@ -36,6 +36,8 @@ export interface DedicatedPuppeteerPool {
   duckduckgo?: PuppeteerBrowser;
   google?: PuppeteerBrowser;
   bing?: PuppeteerBrowser;
+  brave?: PuppeteerBrowser;
+  yandex?: PuppeteerBrowser;
 }
 
 export interface EngineFailureTracker {
@@ -64,7 +66,7 @@ export class UltimateCrawlerEngine {
     console.log('🚀 Initializing Ultimate Crawler Engine with Dedicated Puppeteers...');
     
     // Initialize failure trackers for each engine
-    const engines = options.searchEngines || ['duckduckgo', 'google', 'bing'];
+    const engines = options.searchEngines || ['duckduckgo', 'google', 'bing', 'brave', 'yandex'];
     
     for (const engine of engines) {
       this.failureTrackers[engine] = {
@@ -223,7 +225,7 @@ export class UltimateCrawlerEngine {
     }
   }
 
-  private constructSearchUrl(query: string, engine: 'duckduckgo' | 'google' | 'bing'): string {
+  private constructSearchUrl(query: string, engine: 'duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex'): string {
     const encodedQuery = encodeURIComponent(query);
     
     switch (engine) {
@@ -233,6 +235,12 @@ export class UltimateCrawlerEngine {
         return `https://www.google.com/search?q=${encodedQuery}&hl=en`;
       case 'bing':
         return `https://www.bing.com/search?q=${encodedQuery}&ensearch=1`;
+      case 'brave':
+        // Brave Search uses a clean, simple URL structure
+        return `https://search.brave.com/search?q=${encodedQuery}&source=web`;
+      case 'yandex':
+        // Yandex Search with English interface and web results
+        return `https://yandex.com/search/?text=${encodedQuery}&lr=213&lang=en`;
       default:
         return `https://duckduckgo.com/?q=${encodedQuery}&ia=web`;
     }
@@ -241,7 +249,7 @@ export class UltimateCrawlerEngine {
   /**
    * Get intelligent selector for search results using IntelligentSelectorManager
    */
-  private async getIntelligentResultSelector(page: PuppeteerPage, engine: 'duckduckgo' | 'google' | 'bing'): Promise<string> {
+  private async getIntelligentResultSelector(page: PuppeteerPage, engine: 'duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex'): Promise<string> {
     try {
       return await this.selectorManager.getSelector(page, engine, 'search-results');
     } catch (error) {
@@ -251,7 +259,7 @@ export class UltimateCrawlerEngine {
     }
   }
 
-  private getDedicatedBrowser(engine: 'duckduckgo' | 'google' | 'bing'): PuppeteerBrowser | null {
+  private getDedicatedBrowser(engine: 'duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex'): PuppeteerBrowser | null {
     return this.dedicatedPuppeteers[engine] || null;
   }
 
@@ -324,6 +332,56 @@ export class UltimateCrawlerEngine {
       if (retryBrowser && retryBrowser !== browser) {
         console.log('🔄 Retrying with restarted Bing browser...');
         return await this.searchWithDedicatedPuppeteer(retryBrowser, 'bing', query, options);
+      }
+      
+      throw error;
+    }
+  }
+
+  async searchBrave(query: string, options: UltimateSearchOptions = {}): Promise<SearchResult[]> {
+    console.log(`🔍 Searching Brave for: "${query}" using dedicated Puppeteer`);
+    
+    const browser = this.getDedicatedBrowser('brave');
+    if (!browser) {
+      throw new Error('Brave Puppeteer instance not available');
+    }
+    
+    try {
+      return await this.searchWithDedicatedPuppeteer(browser, 'brave', query, options);
+    } catch (error) {
+      console.error(`❌ Brave search failed, handling failure...`);
+      await this.handleEngineFailure('brave', error as Error, options);
+      
+      // Try again with potentially restarted browser
+      const retryBrowser = this.getDedicatedBrowser('brave');
+      if (retryBrowser && retryBrowser !== browser) {
+        console.log('🔄 Retrying with restarted Brave browser...');
+        return await this.searchWithDedicatedPuppeteer(retryBrowser, 'brave', query, options);
+      }
+      
+      throw error;
+    }
+  }
+
+  async searchYandex(query: string, options: UltimateSearchOptions = {}): Promise<SearchResult[]> {
+    console.log(`🔍 Searching Yandex for: "${query}" using dedicated Puppeteer`);
+    
+    const browser = this.getDedicatedBrowser('yandex');
+    if (!browser) {
+      throw new Error('Yandex Puppeteer instance not available');
+    }
+    
+    try {
+      return await this.searchWithDedicatedPuppeteer(browser, 'yandex', query, options);
+    } catch (error) {
+      console.error(`❌ Yandex search failed, handling failure...`);
+      await this.handleEngineFailure('yandex', error as Error, options);
+      
+      // Try again with potentially restarted browser
+      const retryBrowser = this.getDedicatedBrowser('yandex');
+      if (retryBrowser && retryBrowser !== browser) {
+        console.log('🔄 Retrying with restarted Yandex browser...');
+        return await this.searchWithDedicatedPuppeteer(retryBrowser, 'yandex', query, options);
       }
       
       throw error;
@@ -411,7 +469,7 @@ export class UltimateCrawlerEngine {
     return page;
   }
 
-  private async searchWithDedicatedPuppeteer(browser: PuppeteerBrowser, searchEngine: 'duckduckgo' | 'google' | 'bing', query: string, options: UltimateSearchOptions): Promise<SearchResult[]> {
+  private async searchWithDedicatedPuppeteer(browser: PuppeteerBrowser, searchEngine: 'duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex', query: string, options: UltimateSearchOptions): Promise<SearchResult[]> {
     const page = await this.createDedicatedPuppeteerPage(browser, options);
     const results: SearchResult[] = [];
 
@@ -513,6 +571,20 @@ export class UltimateCrawlerEngine {
               titleElement = resultContainer.querySelector('h2 a') ||
                            resultContainer.querySelector('.b_title a');
               snippetSelectors = ['.b_caption p', '.b_snippet', '.b_descript'];
+            } else if (engine === 'brave') {
+              titleElement = resultContainer.querySelector('.snippet-title a') ||
+                           resultContainer.querySelector('.title a') ||
+                           resultContainer.querySelector('h3 a') ||
+                           resultContainer.querySelector('h2 a') ||
+                           resultContainer.querySelector('a[href*="http"]:not([href*="brave.com"])');
+              snippetSelectors = ['.snippet-description', '.description', '.snippet-content', 'p', 'span'];
+            } else if (engine === 'yandex') {
+              titleElement = resultContainer.querySelector('.organic__url') ||
+                           resultContainer.querySelector('.organic__title-wrapper a') ||
+                           resultContainer.querySelector('.Link') ||
+                           resultContainer.querySelector('h3 a') ||
+                           resultContainer.querySelector('a[href*="http"]:not([href*="yandex"])');
+              snippetSelectors = ['.organic__text', '.text-container', '.snippet', '.organic__content-wrapper', 'p', 'span'];
             }
             
             const title = titleElement?.textContent?.trim() || '';
@@ -532,7 +604,11 @@ export class UltimateCrawlerEngine {
             
             const domain = url ? new URL(url).hostname : '';
             
-            if (title && url && url.startsWith('http') && !url.includes('duckduckgo.com')) {
+            // Filter out search engine's own URLs
+            const excludeDomains = ['duckduckgo.com', 'google.com', 'bing.com', 'search.brave.com', 'yandex.com'];
+            const isExcluded = excludeDomains.some(excludeDomain => url.includes(excludeDomain));
+            
+            if (title && url && url.startsWith('http') && !isExcluded) {
               results.push({ title, url, snippet, domain });
             }
           } catch (error) {
@@ -567,7 +643,7 @@ export class UltimateCrawlerEngine {
 
   // NEW: Multi-engine search with dedicated Puppeteers running in parallel
   async searchMultipleEngines(query: string, options: UltimateSearchOptions = {}): Promise<SearchResult[]> {
-    const engines = options.searchEngines || ['duckduckgo', 'google', 'bing'];
+    const engines = options.searchEngines || ['duckduckgo', 'google', 'bing', 'brave', 'yandex'];
     const allResults: SearchResult[] = [];
     
     console.log(`🌐 Multi-engine search across ${engines.length} dedicated Puppeteers: ${engines.join(', ')}`);
@@ -582,6 +658,10 @@ export class UltimateCrawlerEngine {
             return await this.searchGoogle(query, { ...options, maxResults: 5 });
           case 'bing':
             return await this.searchBing(query, { ...options, maxResults: 5 });
+          case 'brave':
+            return await this.searchBrave(query, { ...options, maxResults: 5 });
+          case 'yandex':
+            return await this.searchYandex(query, { ...options, maxResults: 5 });
           default:
             return [];
         }
@@ -697,7 +777,7 @@ export class UltimateCrawlerEngine {
   }
 
   // HTTP-based search for maximum speed (NEW)
-  async searchWithHttp(query: string, searchEngine: 'duckduckgo' | 'google' | 'bing' = 'duckduckgo', options: UltimateSearchOptions = {}): Promise<SearchResult[]> {
+  async searchWithHttp(query: string, searchEngine: 'duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex' = 'duckduckgo', options: UltimateSearchOptions = {}): Promise<SearchResult[]> {
     console.log(`🚀 HTTP Search for: "${query}" on ${searchEngine.toUpperCase()} (Ultra Fast)`);
     
     try {
@@ -732,7 +812,7 @@ export class UltimateCrawlerEngine {
     }
   }
 
-  private parseHtmlResults(html: string, searchEngine: 'duckduckgo' | 'google' | 'bing', options: UltimateSearchOptions): SearchResult[] {
+  private parseHtmlResults(html: string, searchEngine: 'duckduckgo' | 'google' | 'bing' | 'brave' | 'yandex', options: UltimateSearchOptions): SearchResult[] {
     const results: SearchResult[] = [];
     
     try {
