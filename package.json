@@ -13,7 +13,7 @@
     }
   },
   "bin": {
-    "hybrid-person-analysis": "./dist/cli-hybrid-person-analysis.cjs"
+    "hybrid-person-analysis": "./dist/cli-hybrid-person-analysis.js"
   },
   "scripts": {
     "build": "tsup src/index.ts src/cli-hybrid-person-analysis.ts --dts --format esm,cjs",
