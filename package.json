@@ -1,6 +1,6 @@
 {
   "name": "social-from-email",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Given an email, return best-effort social profile URLs if publicly discoverable (Gravatar + heuristics).",
   "type": "module",
   "main": "dist/index.js",
