@@ -87,7 +87,10 @@ export class UltimateCrawlerEngine {
             '--no-sandbox',
             '--disable-setuid-sandbox',
             '--disable-dev-shm-usage',
-            '--disable-gpu'
+            '--disable-accelerated-2d-canvas',
+            '--disable-gpu',
+            '--disable-web-security',
+            '--disable-blink-features=AutomationControlled'
           ]
         });
         
