@@ -27,6 +27,20 @@ npm install social-from-email
 npx playwright install --with-deps
 ```
 
+### 🚀 CLI Quick Start
+
+For command-line usage:
+
+```bash
+# Install and run with npx (no global installation needed)
+npm install social-from-email
+npx hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
+
+# OR install globally
+npm install -g social-from-email
+hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
+```
+
 ## 🎯 Quick Start
 
 ### Basic Usage
@@ -355,17 +369,43 @@ npx tsx examples/extended-analysis.ts
 
 ## 🎛️ CLI Usage
 
-The package also includes a powerful command-line interface:
+The package includes a powerful command-line interface with multiple installation options:
 
+### Installation & Usage Options
+
+#### Option 1: Using npx (Recommended - No Global Installation)
 ```bash
-# Install globally for CLI access
+# Install the package locally
+npm install social-from-email
+
+# Run with npx (no global installation needed)
+npx hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
+```
+
+#### Option 2: Global Installation
+```bash
+# Install globally for direct CLI access
 npm install -g social-from-email
 
-# Basic usage (requires 4 parameters: firstName, lastName, email, queryCount)
+# Run directly
 hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
+```
+
+#### Option 3: Direct Node Execution
+```bash
+# Install locally and run directly
+npm install social-from-email
+node node_modules/social-from-email/dist/cli-hybrid-person-analysis.js "John" "Doe" "john.doe@company.com" 10
+```
+
+### Basic Usage Examples
+
+```bash
+# Basic usage (requires 4 parameters: firstName, lastName, email, queryCount)
+npx hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
 
 # Advanced usage with options
-hybrid-person-analysis "Jane" "Smith" "jane@company.com" 15 \
+npx hybrid-person-analysis "Jane" "Smith" "jane@company.com" 15 \
   --detailed \
   --priority=social-first \
   --advanced-clustering \
@@ -373,6 +413,19 @@ hybrid-person-analysis "Jane" "Smith" "jane@company.com" 15 \
   --social-links \
   --export-social=jane-social-links.json
 ```
+
+💡 **Note**: Replace `npx hybrid-person-analysis` with `hybrid-person-analysis` if you installed globally.
+
+### Required Parameters
+
+All CLI commands require exactly 4 parameters in this order:
+
+1. **firstName** (string): Person's first name (e.g., "John")
+2. **lastName** (string): Person's last name (e.g., "Doe") 
+3. **email** (string): Person's email address (e.g., "john.doe@company.com")
+4. **queryCount** (number): Number of search queries to execute (e.g., 10)
+
+**Example**: `npx hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10`
 
 ### CLI Options
 
@@ -387,6 +440,46 @@ hybrid-person-analysis "Jane" "Smith" "jane@company.com" 15 \
   - `social-first`: Prioritize social media platforms (default)
   - `professional`: Focus on professional/business platforms
   - `comprehensive`: Use all available search patterns
+
+### CLI Troubleshooting
+
+If you encounter issues with the CLI:
+
+#### Getting Help
+```bash
+# To see all available options and usage:
+npx hybrid-person-analysis
+# (Running without parameters shows help message)
+```
+
+#### Command Not Found
+```bash
+# If "hybrid-person-analysis: command not found"
+# Use npx instead (works without global installation):
+npx hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
+
+# Or install globally:
+npm install -g social-from-email
+```
+
+#### Permission Issues
+```bash
+# On macOS/Linux, if you get permission errors with global install:
+sudo npm install -g social-from-email
+
+# Or use npx to avoid global installation:
+npm install social-from-email
+npx hybrid-person-analysis "John" "Doe" "john.doe@company.com" 10
+```
+
+#### Missing Dependencies
+```bash
+# If you get browser-related errors:
+npx playwright install --with-deps
+
+# Or install chromium specifically:
+npx playwright install chromium
+```
 
 ## 🔧 Advanced Usage
 
